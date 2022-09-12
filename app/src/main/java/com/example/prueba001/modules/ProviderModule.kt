@@ -31,7 +31,7 @@ class ProviderModule {
 
     @Singleton
     @Provides
-    fun providerNewsProvider(retrofit: Retrofit): HeroProvider =
+    fun providerHeroProvider(retrofit: Retrofit): HeroProvider =
         retrofit.create(HeroProvider::class.java)
 
 }
