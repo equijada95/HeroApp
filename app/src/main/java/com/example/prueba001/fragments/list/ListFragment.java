@@ -1,6 +1,8 @@
 package com.example.prueba001.fragments.list;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,10 @@ import com.example.prueba001.databinding.FragmentListBinding;
 import com.example.prueba001.fragments.list.adapter.ListFragmentAdapter;
 import com.example.prueba001.fragments.list.adapter.OnHeroClickCallback;
 import com.example.prueba001.model.HeroModel;
+import com.example.prueba001.utils.ListUtils;
 import com.example.prueba001.viewModels.ListScreenViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -26,6 +30,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class ListFragment extends Fragment implements OnHeroClickCallback {
 
     private FragmentListBinding binding;
+
+    private ListFragmentAdapter adapter;
+    private List<HeroModel> originalHeros = new ArrayList<>();
+    private List<HeroModel> actualHeros = new ArrayList<>();
 
     @Nullable
     @Override
@@ -44,18 +52,59 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
             @Override
             public void onChanged(List<HeroModel> heroModels) {
                 // TODO Ocultar algun tipo de spinner o cargando
+                setOriginalHeros(heroModels);
+                setEditTextListener();
                 setAdapter(heroModels);
             }
         });
     }
 
+    public void setOriginalHeros(List<HeroModel> originalHeros) {
+        this.originalHeros = originalHeros;
+    }
+
     private void setAdapter(List<HeroModel> heroModels) {
-        ListFragmentAdapter adapter = new ListFragmentAdapter(this, getContext());
-        adapter.setHeroList(heroModels);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        binding.rvHeros.setLayoutManager(layoutManager);
-        adapter.setHeroList(heroModels);
-        binding.rvHeros.setAdapter(adapter);
+        if (heroModels == null || heroModels.isEmpty()) return;
+        this.actualHeros = heroModels;
+        if (adapter != null) {
+            adapter.setHeroList(heroModels);
+            adapter.notifyDataSetChanged();
+        } else {
+            adapter = new ListFragmentAdapter(this, getContext());
+            adapter.setHeroList(heroModels);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            binding.rvHeros.setLayoutManager(layoutManager);
+            adapter.setHeroList(heroModels);
+            binding.rvHeros.setAdapter(adapter);
+        }
+    }
+
+    private void setEditTextListener() {
+        binding.etLocationSearcher.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                setAdapter(filterHeros(charSequence.toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    private List<HeroModel> filterHeros(String search) {
+        return ListUtils.filter(originalHeros, new ListUtils.Predicate<HeroModel>() {
+            @Override
+            public boolean evaluate(HeroModel element) {
+                return search.contains(element.getName());
+            }
+        });
     }
 
     @Override
