@@ -102,7 +102,7 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
         return ListUtils.filter(originalHeros, new ListUtils.Predicate<HeroModel>() {
             @Override
             public boolean evaluate(HeroModel element) {
-                return search.contains(element.getName());
+                return element.getName().contains(search);
             }
         });
     }
