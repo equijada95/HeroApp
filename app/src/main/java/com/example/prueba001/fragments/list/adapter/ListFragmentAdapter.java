@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.prueba001.R;
 import com.example.prueba001.databinding.FragmentHeroListItemBinding;
 import com.example.prueba001.model.HeroModel;
 
@@ -69,17 +70,20 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             binding.tvName.setText(hero.getName());
 
-            binding.tvIntelligence.setText("Intelligence: "+ hero.getPowerstats().getIntelligence());
+            if (hero.getPowerstats() != null) {
 
-            binding.tvStrenght.setText("Strenght: "+ hero.getPowerstats().getStrength());
+                binding.tvIntelligence.setText(context.getString(R.string.hero_alignment) + hero.getPowerstats().getIntelligence());
 
-            binding.tvSpeed.setText("Speed: "+ hero.getPowerstats().getSpeed());
+                binding.tvStrenght.setText(context.getString(R.string.hero_strength) + hero.getPowerstats().getStrength());
 
-            binding.tvDurability.setText("Durability: " + hero.getPowerstats().getDurability());
+                binding.tvSpeed.setText(context.getString(R.string.hero_speed) + hero.getPowerstats().getSpeed());
 
-            binding.tvPower.setText("Power: " + hero.getPowerstats().getPower());
+                binding.tvDurability.setText(context.getString(R.string.hero_durability) + hero.getPowerstats().getDurability());
 
-            binding.tvCombat.setText("Combat: " + hero.getPowerstats().getCombat());
+                binding.tvPower.setText(context.getString(R.string.hero_power) + hero.getPowerstats().getPower());
+
+                binding.tvCombat.setText(context.getString(R.string.hero_combat) + hero.getPowerstats().getCombat());
+            }
 
             binding.container.setOnClickListener(new View.OnClickListener() {
                 @Override
