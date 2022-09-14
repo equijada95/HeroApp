@@ -4,15 +4,15 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="12dp"
+    android:elevation="@dimen/elevation_cardview"
     app:cardUseCompatPadding="true"
     android:clipToPadding="false"
-    android:layout_margin="10dp">
+    android:layout_margin="@dimen/margin_cardview">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="7dp">
+        android:padding="@dimen/padding_constraint">
 
         <ImageView
             android:id="@+id/iv_hero"
