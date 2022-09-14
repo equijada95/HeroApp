@@ -1,6 +1,8 @@
 package com.example.prueba001
 
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prueba001.databinding.ActivityMainBinding
 import com.example.prueba001.fragments.detail.DetailFragment
@@ -13,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var actionBar: ActionBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +27,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openDetail(hero: HeroModel) {
+        actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
         val transaction = supportFragmentManager.beginTransaction()
         val fr = DetailFragment.newInstance(hero)
         transaction.add(binding.container.id, fr)
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -36,4 +42,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+        supportFragmentManager.popBackStack()
+        return true
+    }
 }
