@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.prueba001.MainActivity;
 import com.example.prueba001.databinding.FragmentListBinding;
 import com.example.prueba001.fragments.list.adapter.ListFragmentAdapter;
 import com.example.prueba001.fragments.list.adapter.OnHeroClickCallback;
@@ -109,6 +110,7 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
 
     @Override
     public void onHeroClick(@NonNull HeroModel hero) {
-
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.openDetail(hero);
     }
 }
