@@ -1,6 +1,5 @@
 package com.example.prueba001
 
-import android.R
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prueba001.databinding.ActivityMainBinding
@@ -25,10 +24,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openDetail(hero: HeroModel) {
-        val ft = supportFragmentManager.beginTransaction()
+        val transaction = supportFragmentManager.beginTransaction()
         val fr = DetailFragment.newInstance(hero)
-        ft.add(binding.container.id, fr)
-        ft.commit()
+        transaction.add(binding.container.id, fr)
+        transaction.commit()
     }
 
     private fun inflateView() {
