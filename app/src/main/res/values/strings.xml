@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Prueba001</string>
+    <string name="hero_intelligence">Intelligence: </string>
+    <string name="hero_strength">Strength: </string>
+    <string name="hero_speed">Speed: </string>
+    <string name="hero_durability">Durability: </string>
+    <string name="hero_power">Power: </string>
+    <string name="hero_combat">Combat: </string>
+
+    <string name="hero_appearance">Appearance</string>
+    <string name="hero_gender">Gender: </string>
+    <string name="hero_race">Race: </string>
+    <string name="hero_heigth">Height: </string>
+    <string name="hero_weight">Weight: </string>
+    <string name="hero_eye_color">Eye color: </string>
+    <string name="hero_hair_color">Hair color: </string>
+
+
+    <string name="hero_biography">Biography</string>
+    <string name="hero_full_name">Full name: </string>
+    <string name="hero_alter_egos">Alter egos: </string>
+    <string name="hero_aliases">Aliases: </string>
+    <string name="hero_place_birth">Place of birth: </string>
+    <string name="hero_first_appearance">First Appearance: </string>
+    <string name="hero_publisher">Publisher: </string>
+    <string name="hero_alignment">Alignment: </string>
 </resources>
