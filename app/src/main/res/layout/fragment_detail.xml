@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:gravity="center"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/title_size"
                     android:textStyle="bold"
                     app:layout_constraintTop_toBottomOf="@id/iv_hero" />
 
@@ -98,12 +98,22 @@
                 android:padding="@dimen/padding_constraint">
 
                 <TextView
-                    android:id="@+id/tv_gender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:gravity="center"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textSize="@dimen/title_size"
+                    android:textStyle="bold"
+                    android:text="@string/hero_appearance"
+                    android:id="@+id/tv_appearance"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@id/tv_appearance" />
 
                 <TextView
                     android:id="@+id/tv_race"
@@ -158,12 +168,23 @@
                 android:padding="@dimen/padding_constraint">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/title_size"
+                    android:textStyle="bold"
+                    android:text="@string/hero_biography"
+                    android:id="@+id/tv_biography"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
                     android:id="@+id/tv_full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:gravity="center"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_biography" />
 
                 <TextView
                     android:id="@+id/tv_alter_egos"
