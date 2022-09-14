@@ -6,9 +6,10 @@ import com.example.prueba001.model.images.ImagesModel
 import com.example.prueba001.model.stats.StatsModel
 
 data class HeroModel(
-    var images: ImagesModel,
+    var images: ImagesModel?,
     var name: String,
-    var powerstats: StatsModel,
-    var appearance: AppearanceModel,
-    var biography: BiographyModel
+    var powerstats: StatsModel?,
+    var appearance: AppearanceModel?,
+    var biography: BiographyModel?,
+    var isFavorite: Boolean = false
 )
