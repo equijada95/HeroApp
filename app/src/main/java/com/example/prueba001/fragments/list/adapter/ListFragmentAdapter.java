@@ -87,6 +87,8 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             if (hero.isFavorite()) {
                 binding.ivFav.setVisibility(View.VISIBLE);
+            } else {
+                binding.ivFav.setVisibility(View.GONE);
             }
 
             binding.container.setOnClickListener(new View.OnClickListener() {
