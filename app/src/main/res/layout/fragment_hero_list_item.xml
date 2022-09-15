@@ -72,6 +72,16 @@
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/tv_power" />
 
+        <ImageView
+            android:id="@+id/iv_fav"
+            android:layout_width="@dimen/icon_fav_dimen"
+            android:layout_height="@dimen/icon_fav_dimen"
+            android:src="@drawable/ic_fav"
+            app:layout_constraintTop_toBottomOf="@id/tv_combat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
