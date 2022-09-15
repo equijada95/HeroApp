@@ -58,6 +58,7 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
             public void onChanged(List<HeroModel> heroModels) {
                 // TODO Ocultar algun tipo de spinner o cargando
                 setOriginalHeros(heroModels);
+                setFavorites();
                 setEditTextListener();
                 setAdapter(heroModels);
             }
@@ -76,6 +77,16 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
                 favHeros = heroModels;
             }
         });
+    }
+
+    private void setFavorites() {
+        for (HeroModel heroModel: originalHeros) {
+            for (HeroDbModel heroDbModel: favHeros) {
+                if (heroModel.getId() == heroDbModel.getId()) {
+                    heroModel.setFavorite(true);
+                }
+            }
+        }
     }
 
     private void setAdapter(List<HeroModel> heroModels) {
