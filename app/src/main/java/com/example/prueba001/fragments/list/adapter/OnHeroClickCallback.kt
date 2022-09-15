@@ -6,4 +6,6 @@ interface OnHeroClickCallback {
 
     fun onHeroClick(hero: HeroModel)
 
+    fun onFavChanged(hero: HeroModel)
+
 }

@@ -34,6 +34,8 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
 
     private FragmentListBinding binding;
 
+    private DataBaseViewModel dataBaseViewModel;
+
     private ListFragmentAdapter adapter;
     private List<HeroModel> originalHeros = new ArrayList<>();
     private List<HeroModel> actualHeros = new ArrayList<>();
@@ -74,8 +76,8 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     }
 
     private void getFavHeros() {
-        DataBaseViewModel viewModel = new ViewModelProvider(this).get(DataBaseViewModel.class);
-        viewModel.getAllFavs().observe(getActivity(), new Observer<List<HeroDbModel>>() {
+        dataBaseViewModel = new ViewModelProvider(this).get(DataBaseViewModel.class);
+        dataBaseViewModel.getAllFavs().observe(getActivity(), new Observer<List<HeroDbModel>>() {
             @Override
             public void onChanged(List<HeroDbModel> heroModels) {
                 favHeros = heroModels;
@@ -142,6 +144,17 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     @Override
     public void onHeroClick(@NonNull HeroModel hero) {
         MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity == null) return;
         mainActivity.openDetail(hero);
+    }
+
+    @Override
+    public void onFavChanged(@NonNull HeroModel hero) {
+        if (hero.isFavorite()) {
+            dataBaseViewModel.deleteHero(new HeroDbModel(hero.getId()));
+            hero.setFavorite(false);
+        } else {
+            dataBaseViewModel.insertHero(new HeroDbModel(hero.getId()));
+        }
     }
 }
