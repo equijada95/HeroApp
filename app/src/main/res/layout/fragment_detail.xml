@@ -232,6 +232,14 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <ImageView
+            android:id="@+id/iv_fav"
+            android:layout_width="@dimen/icon_fav_dimen"
+            android:layout_height="@dimen/icon_fav_dimen"
+            app:layout_constraintTop_toBottomOf="@id/cv_biography"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
