@@ -6,6 +6,7 @@ import com.example.prueba001.model.images.ImagesModel
 import com.example.prueba001.model.stats.StatsModel
 
 data class HeroModel(
+    var id: Int,
     var images: ImagesModel?,
     var name: String,
     var powerstats: StatsModel?,
