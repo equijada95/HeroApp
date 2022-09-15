@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 interface DataBaseRepository {
 
-    suspend fun getHerosFromDataBase(): LiveData<List<HeroDbModel?>?>?
+    fun getHerosFromDataBase(): LiveData<List<HeroDbModel?>?>?
     suspend fun insertHero(hero: HeroDbModel)
     suspend fun deleteHero(hero: HeroDbModel)
 
@@ -17,7 +17,7 @@ class DataBaseRepositoryImpl @Inject constructor(
     private val dao: HeroDao
 ) : DataBaseRepository {
 
-    override suspend fun getHerosFromDataBase(): LiveData<List<HeroDbModel?>?>? = dao.getAll()
+    override fun getHerosFromDataBase(): LiveData<List<HeroDbModel?>?>? = dao.getAll()
 
     override suspend fun insertHero(hero: HeroDbModel) {
         dao.insert(hero)
