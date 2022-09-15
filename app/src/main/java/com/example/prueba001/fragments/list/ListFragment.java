@@ -57,12 +57,12 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
 
     private void generateView() {
         getFavHeros();
-        // TODO Mostrar algun tipo de spinner o cargando
+        binding.progressBar.setVisibility(View.VISIBLE);
         ListScreenViewModel viewModel = new ViewModelProvider(this).get(ListScreenViewModel.class);
         viewModel.getHeros().observe(getActivity(), new Observer<List<HeroModel>>() {
             @Override
             public void onChanged(List<HeroModel> heroModels) {
-                // TODO Ocultar algun tipo de spinner o cargando
+                binding.progressBar.setVisibility(View.GONE);
                 setOriginalHeros(heroModels);
                 setFavorites();
                 setEditTextListener();
