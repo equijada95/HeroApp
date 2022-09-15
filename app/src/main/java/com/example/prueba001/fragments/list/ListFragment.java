@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.prueba001.MainActivity;
+import com.example.prueba001.bbdd.models.HeroDbModel;
+import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel;
 import com.example.prueba001.databinding.FragmentListBinding;
 import com.example.prueba001.fragments.list.adapter.ListFragmentAdapter;
 import com.example.prueba001.fragments.list.adapter.OnHeroClickCallback;
@@ -35,6 +37,7 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     private ListFragmentAdapter adapter;
     private List<HeroModel> originalHeros = new ArrayList<>();
     private List<HeroModel> actualHeros = new ArrayList<>();
+    private List<HeroDbModel> favHeros = new ArrayList<>();
 
     @Nullable
     @Override
@@ -47,6 +50,7 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getActivity() == null) return;
+        getFavHeros();
         // TODO Mostrar algun tipo de spinner o cargando
         ListScreenViewModel viewModel = new ViewModelProvider(this).get(ListScreenViewModel.class);
         viewModel.getHeros().observe(getActivity(), new Observer<List<HeroModel>>() {
@@ -60,8 +64,18 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
         });
     }
 
-    public void setOriginalHeros(List<HeroModel> originalHeros) {
+    private void setOriginalHeros(List<HeroModel> originalHeros) {
         this.originalHeros = originalHeros;
+    }
+
+    private void getFavHeros() {
+        DataBaseViewModel viewModel = new ViewModelProvider(this).get(DataBaseViewModel.class);
+        viewModel.getAllFavs().observe(getActivity(), new Observer<List<HeroDbModel>>() {
+            @Override
+            public void onChanged(List<HeroDbModel> heroModels) {
+                favHeros = heroModels;
+            }
+        });
     }
 
     private void setAdapter(List<HeroModel> heroModels) {
