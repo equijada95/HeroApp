@@ -85,6 +85,10 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 binding.tvCombat.setText(context.getString(R.string.hero_combat) + hero.getPowerstats().getCombat());
             }
 
+            if (hero.isFavorite()) {
+                binding.ivFav.setVisibility(View.VISIBLE);
+            }
+
             binding.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
