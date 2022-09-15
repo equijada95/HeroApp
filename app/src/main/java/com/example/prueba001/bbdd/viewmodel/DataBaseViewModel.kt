@@ -1,7 +1,6 @@
 package com.example.prueba001.bbdd.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.prueba001.bbdd.models.HeroDbModel
@@ -15,8 +14,6 @@ import javax.inject.Inject
 class DataBaseViewModel @Inject constructor(
     private val repository: DataBaseRepository
 ) : ViewModel() {
-
-    private val _heroList = MutableLiveData<List<HeroDbModel>>()
 
     fun getAllFavs() : LiveData<List<HeroDbModel?>?>? {
         return repository.getHerosFromDataBase()
