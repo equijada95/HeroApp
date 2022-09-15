@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.prueba001.MainActivity;
+import com.example.prueba001.R;
 import com.example.prueba001.bbdd.models.HeroDbModel;
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel;
 import com.example.prueba001.databinding.FragmentListBinding;
@@ -98,7 +100,9 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     }
 
     private void setAdapter(List<HeroModel> heroModels) {
-        if (heroModels == null || heroModels.isEmpty()) return;
+        if (heroModels == null || heroModels.isEmpty()) {
+            Toast.makeText(getContext(), getContext().getString(R.string.error_list), Toast.LENGTH_SHORT).show();
+        }
         this.actualHeros = heroModels;
         if (adapter != null) {
             adapter.setHeroList(heroModels);
