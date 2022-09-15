@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Prueba001</string>
+    <string name="error_list">Error: No heroes found </string>
+
     <string name="hero_intelligence">Intelligence: </string>
     <string name="hero_strength">Strength: </string>
     <string name="hero_speed">Speed: </string>
