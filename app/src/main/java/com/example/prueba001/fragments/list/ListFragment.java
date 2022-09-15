@@ -50,6 +50,10 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getActivity() == null) return;
+        generateView();
+    }
+
+    private void generateView() {
         getFavHeros();
         // TODO Mostrar algun tipo de spinner o cargando
         ListScreenViewModel viewModel = new ViewModelProvider(this).get(ListScreenViewModel.class);
@@ -75,6 +79,8 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
             @Override
             public void onChanged(List<HeroDbModel> heroModels) {
                 favHeros = heroModels;
+                setFavorites();
+                setAdapter(originalHeros);
             }
         });
     }
