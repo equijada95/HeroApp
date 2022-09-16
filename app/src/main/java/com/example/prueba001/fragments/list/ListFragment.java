@@ -154,11 +154,12 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
 
     @Override
     public void onFavChanged(@NonNull HeroModel hero) {
+        if (hero == null) return;
         if (hero.isFavorite()) {
-            dataBaseViewModel.deleteHero(new HeroDbModel(hero.getId()));
+            dataBaseViewModel.deleteHero(HeroDbModel.generateModel(hero));
             hero.setFavorite(false);
         } else {
-            dataBaseViewModel.insertHero(new HeroDbModel(hero.getId()));
+            dataBaseViewModel.insertHero(HeroDbModel.generateModel(hero));
         }
     }
 }
