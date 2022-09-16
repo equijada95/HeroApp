@@ -72,4 +72,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
     implementation 'androidx.room:room-ktx:2.4.3'
     kapt "androidx.room:room-compiler:2.4.3"
+
+    // SwipeRefreshLayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
 }
