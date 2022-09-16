@@ -115,11 +115,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private void setFav() {
         if (hero.isFavorite()) {
-            viewModel.deleteHero(new HeroDbModel(hero.getId()));
+            viewModel.deleteHero(HeroDbModel.generateModel(hero));
             hero.setFavorite(false);
             binding.ivFav.setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.ic_unfav));
         } else {
-            viewModel.insertHero(new HeroDbModel(hero.getId()));
+            viewModel.insertHero(HeroDbModel.generateModel(hero));
             hero.setFavorite(true);
             binding.ivFav.setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.ic_fav));
         }

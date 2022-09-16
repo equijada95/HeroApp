@@ -7,7 +7,7 @@ import com.example.prueba001.model.images.ImagesModel
 
 @Entity
 data class ImagesDbModel(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val idImages: Int,
     @ColumnInfo val xs : String,
     @ColumnInfo val sm : String,
     @ColumnInfo val md: String,

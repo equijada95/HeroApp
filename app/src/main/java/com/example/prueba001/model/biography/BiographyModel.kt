@@ -1,6 +1,7 @@
 package com.example.prueba001.model.biography
 
 import com.example.prueba001.bbdd.models.biography.BiographyDbModel
+import com.example.prueba001.utils.StringUtils
 
 data class BiographyModel(
     var fullName: String,
@@ -19,7 +20,7 @@ data class BiographyModel(
                 return BiographyModel(
                     it.fullName,
                     it.alterEgos,
-                    it.aliases,
+                    StringUtils.getListFromString(it.aliases),
                     it.placeOfBirth,
                     it.firstAppearance,
                     it.publisher,

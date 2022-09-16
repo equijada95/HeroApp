@@ -7,11 +7,11 @@ import com.example.prueba001.model.appearance.AppearanceModel
 
 @Entity
 data class AppearanceDbModel(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val idAppearance: Int,
     @ColumnInfo val gender: String,
     @ColumnInfo val race: String,
-    @ColumnInfo val height: List<String>,
-    @ColumnInfo val weight: List<String>,
+    @ColumnInfo val height: String,
+    @ColumnInfo val weight: String,
     @ColumnInfo val eyeColor: String,
     @ColumnInfo val hairColor: String
 ) {
@@ -24,8 +24,8 @@ data class AppearanceDbModel(
                     Math.random().toInt(),
                     it.gender,
                     it.race,
-                    it.height,
-                    it.weight,
+                    it.height.toString(),
+                    it.weight.toString(),
                     it.eyeColor,
                     it.hairColor
                 )

@@ -7,7 +7,7 @@ import com.example.prueba001.model.stats.StatsModel
 
 @Entity
 data class StatsDbModel(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val idStats: Int,
     @ColumnInfo val intelligence: Int,
     @ColumnInfo val strength: Int,
     @ColumnInfo val speed: Int,

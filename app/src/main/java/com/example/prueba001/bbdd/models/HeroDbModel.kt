@@ -18,7 +18,7 @@ data class HeroDbModel(
     @Embedded val powerstats: StatsDbModel?,
     @Embedded val appearance: AppearanceDbModel?,
     @Embedded val biography: BiographyDbModel?,
-    @Embedded val isFavorite: Boolean = false
+    @ColumnInfo val isFavorite: Boolean = false
 ) {
 
     companion object {

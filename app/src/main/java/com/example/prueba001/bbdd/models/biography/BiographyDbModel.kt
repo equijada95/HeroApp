@@ -7,10 +7,10 @@ import com.example.prueba001.model.biography.BiographyModel
 
 @Entity
 data class BiographyDbModel(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val idBiography: Int,
     @ColumnInfo val fullName: String,
     @ColumnInfo val alterEgos: String,
-    @ColumnInfo val aliases: List<String>,
+    @ColumnInfo val aliases: String,
     @ColumnInfo val placeOfBirth: String,
     @ColumnInfo val firstAppearance: String,
     @ColumnInfo val publisher: String,
@@ -24,7 +24,7 @@ data class BiographyDbModel(
                     Math.random().toInt(),
                     it.fullName,
                     it.alterEgos,
-                    it.aliases,
+                    it.aliases.toString(),
                     it.placeOfBirth,
                     it.firstAppearance,
                     it.publisher,
