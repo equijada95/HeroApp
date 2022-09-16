@@ -104,14 +104,12 @@ public class ListFragment extends Fragment implements OnHeroClickCallback, Swipe
 
     private void setAdapter(List<HeroModel> heroModels) {
         if (heroModels == null) {
-            binding.swiperefresh.setRefreshing(false);
-            searchError();
+            showError(getContext().getString(R.string.error_search));
             return;
         }
         if (heroModels.isEmpty()) {
             if (favHeroes == null || favHeroes.isEmpty()) {
-                binding.swiperefresh.setRefreshing(false);
-                Toast.makeText(getContext(), getContext().getString(R.string.error_list), Toast.LENGTH_SHORT).show();
+                showError(getContext().getString(R.string.error_list));
                 return;
             }
             heroModels = HeroModel.Companion.mapList(favHeroes);
@@ -133,12 +131,13 @@ public class ListFragment extends Fragment implements OnHeroClickCallback, Swipe
         }
     }
 
-    private void searchError() {
+    private void showError(String message) {
+        binding.swiperefresh.setRefreshing(false);
         if (adapter != null) {
             adapter.setHeroList(new ArrayList<>());
             adapter.notifyDataSetChanged();
         }
-        Toast.makeText(getContext(), getContext().getString(R.string.error_search), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void setEditTextListener() {
