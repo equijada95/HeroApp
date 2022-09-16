@@ -102,7 +102,12 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
 
     private void setAdapter(List<HeroModel> heroModels) {
         if (heroModels == null || heroModels.isEmpty()) {
-            Toast.makeText(getContext(), getContext().getString(R.string.error_list), Toast.LENGTH_SHORT).show();
+            if (favHeros == null || favHeros.isEmpty()) {
+                Toast.makeText(getContext(), getContext().getString(R.string.error_list), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            heroModels = HeroModel.Companion.mapList(favHeros);
+            this.originalHeros = heroModels;
         }
         this.actualHeros = heroModels;
         if (adapter != null) {
@@ -157,9 +162,10 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     public void onFavChanged(@NonNull HeroModel hero) {
         if (hero == null) return;
         if (hero.isFavorite()) {
-            dataBaseViewModel.deleteHero(HeroDbModel.generateModel(hero));
             hero.setFavorite(false);
+            dataBaseViewModel.deleteHero(HeroDbModel.generateModel(hero));
         } else {
+            hero.setFavorite(true);
             dataBaseViewModel.insertHero(HeroDbModel.generateModel(hero));
         }
     }
