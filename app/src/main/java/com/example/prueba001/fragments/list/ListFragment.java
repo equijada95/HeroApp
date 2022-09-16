@@ -101,7 +101,11 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     }
 
     private void setAdapter(List<HeroModel> heroModels) {
-        if (heroModels == null || heroModels.isEmpty()) {
+        if (heroModels == null) {
+            searchError();
+            return;
+        }
+        if (heroModels.isEmpty()) {
             if (favHeroes == null || favHeroes.isEmpty()) {
                 Toast.makeText(getContext(), getContext().getString(R.string.error_list), Toast.LENGTH_SHORT).show();
                 return;
@@ -121,6 +125,14 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
             adapter.setHeroList(heroModels);
             binding.rvHeroes.setAdapter(adapter);
         }
+    }
+
+    private void searchError() {
+        if (adapter != null) {
+            adapter.setHeroList(new ArrayList<>());
+            adapter.notifyDataSetChanged();
+        }
+        Toast.makeText(getContext(), getContext().getString(R.string.error_search), Toast.LENGTH_SHORT).show();
     }
 
     private void setEditTextListener() {
