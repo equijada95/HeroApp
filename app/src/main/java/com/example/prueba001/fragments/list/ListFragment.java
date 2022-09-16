@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.prueba001.MainActivity;
 import com.example.prueba001.R;
@@ -32,7 +33,7 @@ import java.util.List;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class ListFragment extends Fragment implements OnHeroClickCallback {
+public class ListFragment extends Fragment implements OnHeroClickCallback, SwipeRefreshLayout.OnRefreshListener {
 
     private FragmentListBinding binding;
 
@@ -54,6 +55,7 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getActivity() == null) return;
+        binding.swiperefresh.setOnRefreshListener(this);
         generateView();
     }
 
@@ -102,11 +104,13 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
 
     private void setAdapter(List<HeroModel> heroModels) {
         if (heroModels == null) {
+            binding.swiperefresh.setRefreshing(false);
             searchError();
             return;
         }
         if (heroModels.isEmpty()) {
             if (favHeroes == null || favHeroes.isEmpty()) {
+                binding.swiperefresh.setRefreshing(false);
                 Toast.makeText(getContext(), getContext().getString(R.string.error_list), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -115,9 +119,11 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
         }
         this.actualHeroes = heroModels;
         if (adapter != null) {
+            binding.swiperefresh.setRefreshing(false);
             adapter.setHeroList(heroModels);
             adapter.notifyDataSetChanged();
         } else {
+            binding.swiperefresh.setRefreshing(false);
             adapter = new ListFragmentAdapter(this, getContext());
             adapter.setHeroList(heroModels);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -180,5 +186,10 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
             hero.setFavorite(true);
             dataBaseViewModel.insertHero(HeroDbModel.generateModel(hero));
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        generateView();
     }
 }
