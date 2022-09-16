@@ -16,14 +16,14 @@ class ListScreenViewModel @Inject constructor(
     private val repository: HeroRepository
 ) : ViewModel() {
 
-    private val _heros = MutableLiveData<List<HeroModel>>()
+    private val _heroes = MutableLiveData<List<HeroModel>>()
 
-    fun getHeros(): LiveData<List<HeroModel>> {
+    fun getHeroes(): LiveData<List<HeroModel>> {
         viewModelScope.launch(Dispatchers.IO) {
-            val heros = repository.getHeros()
-            _heros.postValue(heros)
+            val heroes = repository.getHeroes()
+            _heroes.postValue(heroes)
         }
-        return _heros
+        return _heroes
     }
 
 }

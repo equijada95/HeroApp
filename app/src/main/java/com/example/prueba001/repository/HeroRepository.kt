@@ -6,20 +6,20 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 interface HeroRepository {
-    suspend fun getHeros(): List<HeroModel>
+    suspend fun getHeroes(): List<HeroModel>
 }
 
 class HeroRepositoryImpl @Inject constructor(
     private val heroProvider : HeroProvider
 ) : HeroRepository {
 
-    private var heros: List<HeroModel> = emptyList()
+    private var heroes: List<HeroModel> = emptyList()
 
-    override suspend fun getHeros(): List<HeroModel> {
+    override suspend fun getHeroes(): List<HeroModel> {
         try {
             val apiResponse = heroProvider.getAll().body()
-            heros = apiResponse ?: emptyList()
-            return heros
+            heroes = apiResponse ?: emptyList()
+            return heroes
         } catch(e: UnknownHostException) {
             return emptyList()
         }

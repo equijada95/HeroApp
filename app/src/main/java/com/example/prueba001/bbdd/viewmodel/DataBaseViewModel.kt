@@ -16,7 +16,7 @@ class DataBaseViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun getAllFavs() : LiveData<List<HeroDbModel?>?>? {
-        return repository.getHerosFromDataBase()
+        return repository.getHeroesFromDataBase()
     }
 
     fun insertHero(hero: HeroDbModel) {

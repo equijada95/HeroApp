@@ -39,9 +39,9 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     private DataBaseViewModel dataBaseViewModel;
 
     private ListFragmentAdapter adapter;
-    private List<HeroModel> originalHeros = new ArrayList<>();
-    private List<HeroModel> actualHeros = new ArrayList<>();
-    private List<HeroDbModel> favHeros = new ArrayList<>();
+    private List<HeroModel> originalHeroes = new ArrayList<>();
+    private List<HeroModel> actualHeroes = new ArrayList<>();
+    private List<HeroDbModel> favHeroes = new ArrayList<>();
 
     @Nullable
     @Override
@@ -58,14 +58,14 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
     }
 
     private void generateView() {
-        getFavHeros();
+        getFavHeroes();
         binding.progressBar.setVisibility(View.VISIBLE);
         ListScreenViewModel viewModel = new ViewModelProvider(this).get(ListScreenViewModel.class);
-        viewModel.getHeros().observe(getActivity(), new Observer<List<HeroModel>>() {
+        viewModel.getHeroes().observe(getActivity(), new Observer<List<HeroModel>>() {
             @Override
             public void onChanged(List<HeroModel> heroModels) {
                 binding.progressBar.setVisibility(View.GONE);
-                setOriginalHeros(heroModels);
+                setOriginalHeroes(heroModels);
                 setFavorites();
                 setEditTextListener();
                 setAdapter(heroModels);
@@ -73,26 +73,26 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
         });
     }
 
-    private void setOriginalHeros(List<HeroModel> originalHeros) {
-        this.originalHeros = originalHeros;
+    private void setOriginalHeroes(List<HeroModel> originalHeroes) {
+        this.originalHeroes = originalHeroes;
     }
 
-    private void getFavHeros() {
+    private void getFavHeroes() {
         dataBaseViewModel = new ViewModelProvider(this).get(DataBaseViewModel.class);
         dataBaseViewModel.getAllFavs().observe(getActivity(), new Observer<List<HeroDbModel>>() {
             @Override
             public void onChanged(List<HeroDbModel> heroModels) {
-                favHeros = heroModels;
+                favHeroes = heroModels;
                 setFavorites();
-                if (originalHeros == null || originalHeros.isEmpty()) return;
-                setAdapter(originalHeros);
+                if (originalHeroes == null || originalHeroes.isEmpty()) return;
+                setAdapter(originalHeroes);
             }
         });
     }
 
     private void setFavorites() {
-        for (HeroModel heroModel: originalHeros) {
-            for (HeroDbModel heroDbModel: favHeros) {
+        for (HeroModel heroModel: originalHeroes) {
+            for (HeroDbModel heroDbModel: favHeroes) {
                 if (heroModel.getId() == heroDbModel.getId()) {
                     heroModel.setFavorite(true);
                 }
@@ -102,14 +102,14 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
 
     private void setAdapter(List<HeroModel> heroModels) {
         if (heroModels == null || heroModels.isEmpty()) {
-            if (favHeros == null || favHeros.isEmpty()) {
+            if (favHeroes == null || favHeroes.isEmpty()) {
                 Toast.makeText(getContext(), getContext().getString(R.string.error_list), Toast.LENGTH_SHORT).show();
                 return;
             }
-            heroModels = HeroModel.Companion.mapList(favHeros);
-            this.originalHeros = heroModels;
+            heroModels = HeroModel.Companion.mapList(favHeroes);
+            this.originalHeroes = heroModels;
         }
-        this.actualHeros = heroModels;
+        this.actualHeroes = heroModels;
         if (adapter != null) {
             adapter.setHeroList(heroModels);
             adapter.notifyDataSetChanged();
@@ -117,9 +117,9 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
             adapter = new ListFragmentAdapter(this, getContext());
             adapter.setHeroList(heroModels);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            binding.rvHeros.setLayoutManager(layoutManager);
+            binding.rvHeroes.setLayoutManager(layoutManager);
             adapter.setHeroList(heroModels);
-            binding.rvHeros.setAdapter(adapter);
+            binding.rvHeroes.setAdapter(adapter);
         }
     }
 
@@ -132,7 +132,7 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                setAdapter(filterHeros(charSequence.toString()));
+                setAdapter(filterHeroes(charSequence.toString()));
             }
 
             @Override
@@ -142,8 +142,8 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
         });
     }
 
-    private List<HeroModel> filterHeros(String search) {
-        return ListUtils.filter(originalHeros, new ListUtils.Predicate<HeroModel>() {
+    private List<HeroModel> filterHeroes(String search) {
+        return ListUtils.filter(originalHeroes, new ListUtils.Predicate<HeroModel>() {
             @Override
             public boolean evaluate(HeroModel element) {
                 return element.getName().contains(search);
