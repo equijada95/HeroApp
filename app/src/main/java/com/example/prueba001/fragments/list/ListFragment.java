@@ -84,6 +84,7 @@ public class ListFragment extends Fragment implements OnHeroClickCallback {
             public void onChanged(List<HeroDbModel> heroModels) {
                 favHeros = heroModels;
                 setFavorites();
+                if (originalHeros == null || originalHeros.isEmpty()) return;
                 setAdapter(originalHeros);
             }
         });
