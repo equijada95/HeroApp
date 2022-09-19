@@ -34,10 +34,9 @@ data class HeroModel(
         }
 
         fun mapList(elements: List<HeroDbModel?>?): List<HeroModel?>? {
-            var returned: MutableList<HeroModel?>? = null
-            if (elements != null) {
-                returned = ArrayList<HeroModel?>()
-                for (element in elements) {
+            val returned = mutableListOf<HeroModel?>()
+            elements?.let {
+                for (element in it) {
                     returned.add(generateModel(element))
                 }
             }
