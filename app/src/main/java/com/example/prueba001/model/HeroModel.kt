@@ -19,8 +19,8 @@ data class HeroModel(
     companion object {
         @JvmStatic
         fun generateModel(model: HeroDbModel?) : HeroModel? {
-            model?.let {
-                return HeroModel(
+            return model?.let {
+                HeroModel(
                     it.id,
                     ImagesModel.generateModel(it.images),
                     it.name,
@@ -30,10 +30,9 @@ data class HeroModel(
                     it.isFavorite
                 )
             }
-            return null
         }
 
-        fun mapList(elements: List<HeroDbModel?>?): List<HeroModel?>? {
+        fun mapList(elements: List<HeroDbModel?>?): List<HeroModel?> {
             val returned = mutableListOf<HeroModel?>()
             elements?.let {
                 for (element in it) {
@@ -43,6 +42,15 @@ data class HeroModel(
             return returned
         }
 
+        @JvmStatic
+        fun heroTest() = HeroModel(
+            1,
+            ImagesModel.imagesTest(),
+            "A-Bomb",
+            StatsModel.statsTest(),
+            AppearanceModel.appearanceTest(),
+            BiographyModel.biographyTest(),
+            false
+        )
     }
-
 }

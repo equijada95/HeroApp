@@ -28,5 +28,16 @@ data class BiographyModel(
                 )
             }
         }
+
+        @JvmStatic
+        fun biographyTest() = BiographyModel(
+            "Richard Milhouse Jones",
+            "No alter egos found.",
+            listOf("Rick Jones"),
+            "Scarsdale, Arizona",
+            "Hulk Vol 2 #2 (April, 2008) (as A-Bomb)",
+            "Marvel Comics",
+            "good"
+        )
     }
 }

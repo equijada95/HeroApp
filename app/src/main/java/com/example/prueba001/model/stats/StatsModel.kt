@@ -25,6 +25,17 @@ data class StatsModel(
                 )
             }
         }
+
+        @JvmStatic
+        fun statsTest() = StatsModel(
+            38,
+            100,
+            17,
+            80,
+            24,
+            64
+        )
+
     }
 
 }

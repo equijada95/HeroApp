@@ -13,8 +13,9 @@ data class AppearanceModel(
 ) {
 
     companion object {
+
         @JvmStatic
-        fun generateModel(model: AppearanceDbModel?) : AppearanceModel? {
+        fun generateModel(model: AppearanceDbModel?): AppearanceModel? {
             return model?.let {
                 AppearanceModel(
                     it.gender,
@@ -26,6 +27,15 @@ data class AppearanceModel(
                 )
             }
         }
-    }
 
+        @JvmStatic
+        fun appearanceTest() = AppearanceModel(
+            "Male",
+            "Human",
+            listOf("6,8", "203 cm"),
+            listOf("980 lb", "441 kg"),
+            "Yellow",
+            "No hair"
+        )
+    }
 }
