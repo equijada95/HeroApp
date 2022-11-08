@@ -5,8 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.compose.AsyncImage
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.prueba001.R
@@ -112,4 +122,26 @@ class DetailFragment : Fragment(), View.OnClickListener {
             return fr
         }
     }
+}
+
+@Composable
+fun Detail(hero: HeroModel) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AsyncImage(
+            model = hero.images?.lg,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxWidth().clip(CircleShape),
+            contentDescription = null
+        )
+
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    Detail(HeroModel.heroTest())
 }
