@@ -13,9 +13,9 @@ data class StatsModel(
 
     companion object {
         @JvmStatic
-        fun generateModel(model: StatsDbModel?) : StatsModel? {
-            model?.let {
-                return StatsModel(
+        fun generateModel(model: StatsDbModel?): StatsModel? {
+            return model?.let {
+                StatsModel(
                     it.intelligence,
                     it.strength,
                     it.speed,
@@ -24,7 +24,6 @@ data class StatsModel(
                     it.combat
                 )
             }
-            return null
         }
     }
 
