@@ -24,8 +24,8 @@ data class HeroDbModel(
     companion object {
         @JvmStatic
         fun generateModel(model: HeroModel?) : HeroDbModel? {
-            model?.let {
-                return HeroDbModel(
+            return model?.let {
+                HeroDbModel(
                     it.id,
                     ImagesDbModel.generateModel(it.images),
                     it.name,
@@ -35,7 +35,6 @@ data class HeroDbModel(
                     it.isFavorite
                 )
             }
-            return null
         }
     }
 
