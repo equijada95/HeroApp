@@ -15,8 +15,8 @@ data class AppearanceModel(
     companion object {
         @JvmStatic
         fun generateModel(model: AppearanceDbModel?) : AppearanceModel? {
-            model?.let {
-                return AppearanceModel(
+            return model?.let {
+                AppearanceModel(
                     it.gender,
                     it.race,
                     StringUtils.getListFromString(it.height),
@@ -25,7 +25,6 @@ data class AppearanceModel(
                     it.hairColor
                 )
             }
-            return null
         }
     }
 
