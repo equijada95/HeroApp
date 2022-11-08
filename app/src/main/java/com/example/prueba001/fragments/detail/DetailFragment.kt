@@ -5,15 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.compose.AsyncImage
@@ -65,7 +72,7 @@ class DetailFragment : Fragment(), View.OnClickListener {
         binding.tvName.text = hero.name
         hero.powerstats?.let { stats ->
             with (binding) {
-                tvIntelligence.text = ctx.getString(R.string.hero_alignment) + stats.intelligence
+                tvIntelligence.text = ctx.getString(R.string.hero_intelligence) + stats.intelligence
                 tvStrenght.text = ctx.getString(R.string.hero_strength) + stats.strength
                 tvSpeed.text = ctx.getString(R.string.hero_speed) + stats.speed
                 tvDurability.text = ctx.getString(R.string.hero_durability) + stats.durability
@@ -127,16 +134,27 @@ class DetailFragment : Fragment(), View.OnClickListener {
 @Composable
 fun Detail(hero: HeroModel) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(10.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
             model = hero.images?.lg,
             contentScale = ContentScale.Fit,
-            modifier = Modifier.fillMaxWidth().clip(CircleShape),
+            modifier = Modifier
+                .clip(CircleShape)
+                .fillMaxWidth(),
             contentDescription = null
         )
-
+        Text(
+            text = hero.name,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp
+        )
+        Text(
+            text = "${stringResource(id = R.string.hero_intelligence)} ${hero.powerstats?.intelligence}"
+        )
     }
 }
 
