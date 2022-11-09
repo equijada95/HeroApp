@@ -29,6 +29,7 @@ fun Detail(hero: HeroModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(dimensionResource(id = R.dimen.padding_constraint))
     ) {
         Card(
             elevation = dimensionResource(id = R.dimen.elevation_cardview)
@@ -67,6 +68,8 @@ fun Detail(hero: HeroModel) {
         }
         hero.appearance?.let { appearance ->
             Card(
+                modifier = Modifier
+                    .padding(vertical = dimensionResource(id = R.dimen.margin_cardview)),
                 elevation = dimensionResource(id = R.dimen.elevation_cardview)
             ) {
                 Column(
