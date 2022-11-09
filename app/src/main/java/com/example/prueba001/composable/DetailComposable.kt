@@ -30,7 +30,8 @@ import com.example.prueba001.model.HeroModel
 @Composable
 fun Detail(
     hero: HeroModel,
-    viewModel: DataBaseViewModel = hiltViewModel()) {
+    viewModel: DataBaseViewModel = hiltViewModel()
+) {
 
     fun setFav() {
         if (hero.isFavorite) {
