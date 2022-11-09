@@ -30,13 +30,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openDetail(hero: HeroModel) {
-     //   actionBar = supportActionBar
-     //   actionBar?.setDisplayHomeAsUpEnabled(true)
-     //   val transaction = supportFragmentManager.beginTransaction()
-     //   val fr = DetailFragment.newInstance(hero)
-     //   transaction.add(binding.container.id, fr)
-     //   transaction.addToBackStack(null)
-     //   transaction.commit()
         actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         setContent {
