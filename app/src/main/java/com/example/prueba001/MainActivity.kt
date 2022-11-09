@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -89,10 +90,12 @@ fun Detail(hero: HeroModel) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Card {
+        Card(
+            elevation = dimensionResource(id = R.dimen.elevation_cardview)
+        ) {
             Column(
                 modifier = Modifier
-                    .padding(10.dp),
+                    .padding(dimensionResource(id = R.dimen.padding_constraint)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AsyncImage(
@@ -106,7 +109,7 @@ fun Detail(hero: HeroModel) {
                 Text(
                     text = hero.name,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = dimensionResource(id = R.dimen.title_size).value.sp
                 )
                 hero.powerstats?.let { stats ->
                     Text(
@@ -123,17 +126,19 @@ fun Detail(hero: HeroModel) {
             }
         }
         hero.appearance?.let { appearance ->
-            Card {
+            Card(
+                elevation = dimensionResource(id = R.dimen.elevation_cardview)
+            ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(10.dp),
+                        .fillMaxWidth()
+                        .padding(dimensionResource(id = R.dimen.padding_constraint)),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = stringResource(id = R.string.hero_appearance),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = dimensionResource(id = R.dimen.title_size).value.sp
                     )
                     Text(
                         text = "${stringResource(id = R.string.hero_gender)} ${appearance.gender} \n" +
