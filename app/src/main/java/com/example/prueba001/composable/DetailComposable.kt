@@ -57,7 +57,7 @@ fun Detail(
                     .padding(dimensionResource(id = R.dimen.padding_constraint)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AsyncImage(
+                AsyncImage( // TODO MOSTRAR IMAGEN CORRECTAMENTE
                     model = hero.images?.lg,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
