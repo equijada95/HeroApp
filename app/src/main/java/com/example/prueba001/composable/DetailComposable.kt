@@ -33,7 +33,7 @@ fun Detail(
     viewModel: DataBaseViewModel = hiltViewModel()
 ) {
 
-    fun setFav() {
+    fun setFav() { // TODO RECARGAR VISTA
         if (hero.isFavorite) {
             hero.isFavorite = false
             HeroDbModel.generateModel(hero)?.let { viewModel.deleteHero(it) }
