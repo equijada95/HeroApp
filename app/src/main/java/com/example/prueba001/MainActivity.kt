@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -86,30 +87,36 @@ fun Detail(hero: HeroModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            model = hero.images?.lg,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .clip(CircleShape)
-                .fillMaxWidth(),
-            contentDescription = null
-        )
-        Text(
-            text = hero.name,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp
-        )
-        Text(
-            text = "${stringResource(id = R.string.hero_intelligence)} ${hero.powerstats?.intelligence} \n" +
-                    "${stringResource(id = R.string.hero_strength)} ${hero.powerstats?.strength} \n" +
-                    "${stringResource(id = R.string.hero_speed)} ${hero.powerstats?.speed} \n" +
-                    "${stringResource(id = R.string.hero_durability)} ${hero.powerstats?.durability} \n" +
-                    "${stringResource(id = R.string.hero_power)} ${hero.powerstats?.power} \n" +
-                    "${stringResource(id = R.string.hero_combat)} ${hero.powerstats?.combat}"
-        )
+        Card {
+            Column(
+                modifier = Modifier
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                AsyncImage(
+                    model = hero.images?.lg,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .fillMaxWidth(),
+                    contentDescription = null
+                )
+                Text(
+                    text = hero.name,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+                Text(
+                    text = "${stringResource(id = R.string.hero_intelligence)} ${hero.powerstats?.intelligence} \n" +
+                            "${stringResource(id = R.string.hero_strength)} ${hero.powerstats?.strength} \n" +
+                            "${stringResource(id = R.string.hero_speed)} ${hero.powerstats?.speed} \n" +
+                            "${stringResource(id = R.string.hero_durability)} ${hero.powerstats?.durability} \n" +
+                            "${stringResource(id = R.string.hero_power)} ${hero.powerstats?.power} \n" +
+                            "${stringResource(id = R.string.hero_combat)} ${hero.powerstats?.combat}"
+                )
+            }
+        }
     }
 }
 
