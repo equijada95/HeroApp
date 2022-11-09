@@ -1,9 +1,7 @@
 package com.example.prueba001.composable
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -15,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,6 +29,7 @@ fun Detail(hero: HeroModel) {
         modifier = Modifier
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.padding_constraint))
+            .verticalScroll(rememberScrollState())
     ) {
         Card(
             elevation = dimensionResource(id = R.dimen.elevation_cardview)
@@ -96,16 +96,16 @@ fun Detail(hero: HeroModel) {
                 }
             }
         }
-        hero.biography?.let { biography ->
-            Card(
-                elevation = dimensionResource(id = R.dimen.elevation_cardview)
+        Card(
+            elevation = dimensionResource(id = R.dimen.elevation_cardview)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.padding_constraint)),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(dimensionResource(id = R.dimen.padding_constraint)),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                hero.biography?.let { biography ->
                     Text(
                         text = stringResource(id = R.string.hero_biography),
                         fontWeight = FontWeight.Bold,
@@ -123,6 +123,14 @@ fun Detail(hero: HeroModel) {
                         modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                     )
                 }
+                Image(
+                    if (hero.isFavorite) painterResource(R.drawable.ic_fav) else painterResource(R.drawable.ic_unfav),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .width(dimensionResource(id = R.dimen.icon_fav_dimen))
+                        .height(dimensionResource(id = R.dimen.icon_fav_dimen)),
+                    contentScale = ContentScale.Crop
+                )
             }
         }
     }
