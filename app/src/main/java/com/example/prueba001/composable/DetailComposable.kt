@@ -1,6 +1,7 @@
 package com.example.prueba001.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -19,12 +20,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.prueba001.R
+import com.example.prueba001.bbdd.models.HeroDbModel
+import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.model.HeroModel
 
 @Composable
-fun Detail(hero: HeroModel) {
+fun Detail(
+    hero: HeroModel,
+    viewModel: DataBaseViewModel = hiltViewModel()) {
+
+    fun setFav() {
+        if (hero.isFavorite) {
+            hero.isFavorite = false
+            HeroDbModel.generateModel(hero)?.let { viewModel.deleteHero(it) }
+        } else {
+            hero.isFavorite = true
+            HeroDbModel.generateModel(hero)?.let { viewModel.insertHero(it) }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -128,8 +145,16 @@ fun Detail(hero: HeroModel) {
                     contentDescription = "",
                     modifier = Modifier
                         .width(dimensionResource(id = R.dimen.icon_fav_dimen))
-                        .height(dimensionResource(id = R.dimen.icon_fav_dimen)),
-                    contentScale = ContentScale.Crop
+                        .height(dimensionResource(id = R.dimen.icon_fav_dimen))
+                        .clickable(
+                            enabled = true,
+                            onClickLabel = "Set Favorite",
+                            onClick = {
+                                setFav()
+                            }
+                        ),
+                    contentScale = ContentScale.Crop,
+
                 )
             }
         }
