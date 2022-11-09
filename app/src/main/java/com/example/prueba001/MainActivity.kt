@@ -26,10 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inflateView()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(binding.container.id, ListFragment())
-        transaction.addToBackStack(null)
-        transaction.commit()
+        openList()
     }
 
     fun openDetail(hero: HeroModel) {
@@ -40,6 +37,8 @@ class MainActivity : AppCompatActivity() {
      //   transaction.add(binding.container.id, fr)
      //   transaction.addToBackStack(null)
      //   transaction.commit()
+        actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
         setContent {
             HeroAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -57,6 +56,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+    }
+
+    private fun openList() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.add(binding.container.id, ListFragment())
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
