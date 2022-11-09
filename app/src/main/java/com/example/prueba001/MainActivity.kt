@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -107,14 +108,44 @@ fun Detail(hero: HeroModel) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
-                Text(
-                    text = "${stringResource(id = R.string.hero_intelligence)} ${hero.powerstats?.intelligence} \n" +
-                            "${stringResource(id = R.string.hero_strength)} ${hero.powerstats?.strength} \n" +
-                            "${stringResource(id = R.string.hero_speed)} ${hero.powerstats?.speed} \n" +
-                            "${stringResource(id = R.string.hero_durability)} ${hero.powerstats?.durability} \n" +
-                            "${stringResource(id = R.string.hero_power)} ${hero.powerstats?.power} \n" +
-                            "${stringResource(id = R.string.hero_combat)} ${hero.powerstats?.combat}"
-                )
+                hero.powerstats?.let { stats ->
+                    Text(
+                        text = "${stringResource(id = R.string.hero_intelligence)} ${stats.intelligence} \n" +
+                                "${stringResource(id = R.string.hero_strength)} ${stats.strength} \n" +
+                                "${stringResource(id = R.string.hero_speed)} ${stats.speed} \n" +
+                                "${stringResource(id = R.string.hero_durability)} ${stats.durability} \n" +
+                                "${stringResource(id = R.string.hero_power)} ${stats.power} \n" +
+                                "${stringResource(id = R.string.hero_combat)} ${stats.combat}",
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    )
+                }
+            }
+        }
+        hero.appearance?.let { appearance ->
+            Card {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.hero_appearance),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                    Text(
+                        text = "${stringResource(id = R.string.hero_gender)} ${appearance.gender} \n" +
+                                "${stringResource(id = R.string.hero_race)} ${appearance.race} \n" +
+                                "${stringResource(id = R.string.hero_heigth)} ${appearance.height} \n" +
+                                "${stringResource(id = R.string.hero_weight)} ${appearance.weight} \n" +
+                                "${stringResource(id = R.string.hero_eye_color)} ${appearance.eyeColor} \n" +
+                                "${stringResource(id = R.string.hero_hair_color)} ${appearance.hairColor}",
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    )
+                }
             }
         }
     }
