@@ -69,7 +69,7 @@ fun Detail(hero: HeroModel) {
         hero.appearance?.let { appearance ->
             Card(
                 modifier = Modifier
-                    .padding(vertical = dimensionResource(id = R.dimen.margin_cardview)),
+                    .padding(vertical = dimensionResource(id = R.dimen.margin_cardview)), // esto actua de margin, ya que en Compose no hay margin como tal
                 elevation = dimensionResource(id = R.dimen.elevation_cardview)
             ) {
                 Column(
