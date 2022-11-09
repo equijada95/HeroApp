@@ -153,6 +153,35 @@ fun Detail(hero: HeroModel) {
                 }
             }
         }
+        hero.biography?.let { biography ->
+            Card(
+                elevation = dimensionResource(id = R.dimen.elevation_cardview)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(dimensionResource(id = R.dimen.padding_constraint)),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.hero_biography),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = dimensionResource(id = R.dimen.title_size).value.sp
+                    )
+                    Text(
+                        text = "${stringResource(id = R.string.hero_full_name)} ${biography.fullName} \n" +
+                                "${stringResource(id = R.string.hero_alter_egos)} ${biography.alterEgos} \n" +
+                                "${stringResource(id = R.string.hero_aliases)} ${biography.aliases} \n" +
+                                "${stringResource(id = R.string.hero_place_birth)} ${biography.placeOfBirth} \n" +
+                                "${stringResource(id = R.string.hero_first_appearance)} ${biography.firstAppearance} \n" +
+                                "${stringResource(id = R.string.hero_publisher)} ${biography.publisher} \n" +
+                                "${stringResource(id = R.string.hero_alignment)} ${biography.alignment}",
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    )
+                }
+            }
+        }
     }
 }
 
