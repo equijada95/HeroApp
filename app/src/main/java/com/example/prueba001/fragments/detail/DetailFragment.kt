@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.compose.setContent
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,6 +34,7 @@ import com.example.prueba001.bbdd.models.HeroDbModel
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.databinding.FragmentDetailBinding
 import com.example.prueba001.model.HeroModel
+import com.example.prueba001.ui.theme.HeroAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -129,37 +133,4 @@ class DetailFragment : Fragment(), View.OnClickListener {
             return fr
         }
     }
-}
-
-@Composable
-fun Detail(hero: HeroModel) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        AsyncImage(
-            model = hero.images?.lg,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .clip(CircleShape)
-                .fillMaxWidth(),
-            contentDescription = null
-        )
-        Text(
-            text = hero.name,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp
-        )
-        Text(
-            text = "${stringResource(id = R.string.hero_intelligence)} ${hero.powerstats?.intelligence}"
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    Detail(HeroModel.heroTest())
 }
