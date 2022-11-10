@@ -16,8 +16,8 @@ data class BiographyModel(
     companion object {
         @JvmStatic
         fun generateModel(model: BiographyDbModel?) : BiographyModel? {
-            model?.let {
-                return BiographyModel(
+            return model?.let {
+                BiographyModel(
                     it.fullName,
                     it.alterEgos,
                     StringUtils.getListFromString(it.aliases),
@@ -27,7 +27,6 @@ data class BiographyModel(
                     it.alignment
                 )
             }
-            return null
         }
     }
 
