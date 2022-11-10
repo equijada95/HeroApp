@@ -12,15 +12,14 @@ data class ImagesModel(
     companion object {
         @JvmStatic
         fun generateModel(model: ImagesDbModel?) : ImagesModel? {
-            model?.let {
-                return ImagesModel(
+            return model?.let {
+                ImagesModel(
                     it.xs,
                     it.sm,
                     it.md,
                     it.lg
                 )
             }
-            return null
         }
     }
 
