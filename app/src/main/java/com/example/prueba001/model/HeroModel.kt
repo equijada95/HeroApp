@@ -19,8 +19,8 @@ data class HeroModel(
     companion object {
         @JvmStatic
         fun generateModel(model: HeroDbModel?) : HeroModel? {
-            model?.let {
-                return HeroModel(
+            return model?.let {
+                HeroModel(
                     it.id,
                     ImagesModel.generateModel(it.images),
                     it.name,
@@ -30,7 +30,6 @@ data class HeroModel(
                     it.isFavorite
                 )
             }
-            return null
         }
 
         fun mapList(elements: List<HeroDbModel?>?): List<HeroModel?>? {
