@@ -19,8 +19,8 @@ data class BiographyDbModel(
     companion object {
         @JvmStatic
         fun generateModel(model: BiographyModel?) : BiographyDbModel? {
-            model?.let {
-                return BiographyDbModel(
+            return model?.let {
+                BiographyDbModel(
                     Math.random().toInt(),
                     it.fullName,
                     it.alterEgos,
@@ -31,7 +31,6 @@ data class BiographyDbModel(
                     it.alignment
                 )
             }
-            return null
         }
     }
 }
