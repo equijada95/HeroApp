@@ -8,7 +8,7 @@ import java.util.Arrays
 fun String.getList(): List<String> {
     val firstReplace = replace("[", "")
     val secondReplace = firstReplace.replace("]", "")
-    return ArrayList(Arrays.asList(*secondReplace.split(",").toTypedArray()))
+    return listOf(*secondReplace.split(",").toTypedArray())
 }
 
 fun List<HeroModel>.getHeroFromFavorites(favorites: List<HeroDbModel>, predicate: (hero: HeroModel) -> Unit) {
