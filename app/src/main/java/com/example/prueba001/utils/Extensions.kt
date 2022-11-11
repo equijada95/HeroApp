@@ -10,11 +10,9 @@ fun String.getList(): List<String> {
 }
 
 fun List<HeroModel>.getHeroFromFavorites(favorites: List<HeroDbModel>, predicate: (hero: HeroModel) -> Unit) {
-    for (heroModel in this) {
-        for (heroDbModel in favorites) {
-            if (heroModel.id == heroDbModel.id) {
-                predicate(heroModel)
-            }
+    favorites.forEach { heroDbModel ->
+        find { hero -> heroDbModel.id == hero.id }?.let { favorite ->
+            predicate(favorite)
         }
     }
 }
