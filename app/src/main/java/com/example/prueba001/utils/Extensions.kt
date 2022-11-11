@@ -2,8 +2,6 @@ package com.example.prueba001.utils
 
 import com.example.prueba001.bbdd.models.HeroDbModel
 import com.example.prueba001.model.HeroModel
-import java.util.ArrayList
-import java.util.Arrays
 
 fun String.getList(): List<String> {
     val firstReplace = replace("[", "")
