@@ -19,8 +19,8 @@ data class StatsDbModel(
     companion object {
         @JvmStatic
         fun generateModel(model: StatsModel?) : StatsDbModel? {
-            model?.let {
-                return StatsDbModel(
+            return model?.let {
+                StatsDbModel(
                     Math.random().toInt(),
                     it.intelligence,
                     it.strength,
@@ -30,7 +30,6 @@ data class StatsDbModel(
                     it.combat
                 )
             }
-            return null
         }
     }
 

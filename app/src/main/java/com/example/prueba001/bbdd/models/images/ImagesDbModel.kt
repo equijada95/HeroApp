@@ -17,8 +17,8 @@ data class ImagesDbModel(
     companion object {
         @JvmStatic
         fun generateModel(model: ImagesModel?) : ImagesDbModel? {
-            model?.let {
-                return ImagesDbModel(
+            return model?.let {
+                ImagesDbModel(
                     Math.random().toInt(),
                     it.xs,
                     it.sm,
@@ -26,7 +26,6 @@ data class ImagesDbModel(
                     it.lg
                 )
             }
-            return null
         }
     }
 
