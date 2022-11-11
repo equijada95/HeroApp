@@ -1,7 +1,7 @@
 package com.example.prueba001.model.appearance
 
 import com.example.prueba001.bbdd.models.appearance.AppearanceDbModel
-import com.example.prueba001.utils.StringUtils
+import com.example.prueba001.utils.getList
 
 data class AppearanceModel(
     var gender: String,
@@ -19,8 +19,8 @@ data class AppearanceModel(
                 AppearanceModel(
                     it.gender,
                     it.race,
-                    StringUtils.getListFromString(it.height),
-                    StringUtils.getListFromString(it.weight),
+                    it.height.getList(),
+                    it.weight.getList(),
                     it.eyeColor,
                     it.hairColor
                 )
