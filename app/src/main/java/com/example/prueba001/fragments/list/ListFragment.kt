@@ -110,9 +110,9 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
             it.notifyDataSetChanged()
         } ?: run {
             binding.swiperefresh.isRefreshing = false
-            adapter = ListFragmentAdapter(this, context)
+            adapter = ListFragmentAdapter(this, ctx)
             adapter?.setHeroList(heroesMutable)
-            val layoutManager = LinearLayoutManager(activity)
+            val layoutManager = LinearLayoutManager(ctx)
             binding.rvHeroes.layoutManager = layoutManager
             adapter?.setHeroList(heroesMutable)
             binding.rvHeroes.adapter = adapter
