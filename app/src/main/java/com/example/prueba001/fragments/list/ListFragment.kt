@@ -33,7 +33,7 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
     private var adapter: ListFragmentAdapter? = null
     private var originalHeroes: List<HeroModel> = arrayListOf()
     private lateinit var actualHeroes: List<HeroModel>
-    private var favHeroes: List<HeroDbModel> = ArrayList()
+    private var favHeroes: List<HeroDbModel> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,15 +103,15 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
         actualHeroes = heroModels
         adapter?.let {
             binding.swiperefresh.isRefreshing = false
-            it.setHeroList(heroesMutable)
+            it.heroList = heroesMutable
             it.notifyDataSetChanged()
         } ?: run {
             binding.swiperefresh.isRefreshing = false
             adapter = ListFragmentAdapter(this, ctx)
-            adapter?.setHeroList(heroesMutable)
+            adapter?.heroList = heroesMutable
             val layoutManager = LinearLayoutManager(ctx)
             binding.rvHeroes.layoutManager = layoutManager
-            adapter?.setHeroList(heroesMutable)
+            adapter?.heroList = heroesMutable
             binding.rvHeroes.adapter = adapter
         }
     }
@@ -119,7 +119,7 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
     private fun showError(message: String) {
         binding.swiperefresh.isRefreshing = false
         adapter?.let {
-            it.setHeroList(ArrayList())
+            it.heroList = emptyList()
             it.notifyDataSetChanged()
         }
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
