@@ -19,8 +19,8 @@ data class AppearanceDbModel(
     companion object {
         @JvmStatic
         fun generateModel(model: AppearanceModel?) : AppearanceDbModel? {
-            model?.let {
-                return AppearanceDbModel(
+            return model?.let {
+                AppearanceDbModel(
                     Math.random().toInt(),
                     it.gender,
                     it.race,
@@ -30,7 +30,6 @@ data class AppearanceDbModel(
                     it.hairColor
                 )
             }
-            return null
         }
     }
 
