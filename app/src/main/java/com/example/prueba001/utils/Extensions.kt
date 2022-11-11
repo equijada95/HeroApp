@@ -11,7 +11,7 @@ fun String.getList(): List<String> {
     return ArrayList(Arrays.asList(*secondReplace.split(",").toTypedArray()))
 }
 
-fun List<HeroModel>.compareById(favorites: List<HeroDbModel>, predicate: (hero: HeroModel) -> Unit) {
+fun List<HeroModel>.getHeroFromFavorites(favorites: List<HeroDbModel>, predicate: (hero: HeroModel) -> Unit) {
     for (heroModel in this) {
         for (heroDbModel in favorites) {
             if (heroModel.id == heroDbModel.id) {

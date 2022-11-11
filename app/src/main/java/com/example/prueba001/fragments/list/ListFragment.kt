@@ -22,7 +22,7 @@ import com.example.prueba001.fragments.list.adapter.ListFragmentAdapter
 import com.example.prueba001.fragments.list.adapter.OnHeroClickCallback
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.HeroModel.Companion.mapList
-import com.example.prueba001.utils.compareById
+import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.viewModels.ListScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -80,7 +80,7 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
     }
 
     private fun setFavorites() {
-        originalHeroes.compareById(favHeroes) {
+        originalHeroes.getHeroFromFavorites(favHeroes) {
             it.isFavorite = true
         }
     }
