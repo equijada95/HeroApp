@@ -15,13 +15,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.example.prueba001.MainActivity
 import com.example.prueba001.R
 import com.example.prueba001.bbdd.models.HeroDbModel
-import com.example.prueba001.bbdd.models.HeroDbModel.Companion.generateModel
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.databinding.FragmentListBinding
 import com.example.prueba001.fragments.list.adapter.ListFragmentAdapter
 import com.example.prueba001.fragments.list.adapter.OnHeroClickCallback
 import com.example.prueba001.model.HeroModel
-import com.example.prueba001.model.HeroModel.Companion.mapList
+import com.example.prueba001.model.mapToDb
+import com.example.prueba001.model.mapToModel
 import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.viewModels.ListScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,7 +97,7 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
                 showError(ctx.getString(R.string.error_list))
                 return
             }
-            heroesMutable = mapList(favHeroes)
+            heroesMutable = favHeroes.mapToModel()
             originalHeroes = heroesMutable
         }
         actualHeroes = heroModels
@@ -151,10 +151,10 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
     override fun onFavChanged(hero: HeroModel) {
         if (hero.isFavorite) {
             hero.isFavorite = false
-            generateModel(hero)?.let { dataBaseViewModel.deleteHero(it) }
+            dataBaseViewModel.deleteHero(hero.mapToDb())
         } else {
             hero.isFavorite = true
-            generateModel(hero)?.let { dataBaseViewModel.insertHero(it) }
+            dataBaseViewModel.insertHero(hero.mapToDb())
         }
     }
 
