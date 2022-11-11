@@ -32,11 +32,11 @@ data class HeroModel(
             }
         }
 
-        fun mapList(elements: List<HeroDbModel?>?): List<HeroModel?>? {
-            val returned = mutableListOf<HeroModel?>()
+        fun mapList(elements: List<HeroDbModel>?): List<HeroModel> {
+            val returned = mutableListOf<HeroModel>()
             elements?.let {
                 for (element in it) {
-                    returned.add(generateModel(element))
+                    generateModel(element)?.let { hero -> returned.add(hero) }
                 }
             }
             return returned

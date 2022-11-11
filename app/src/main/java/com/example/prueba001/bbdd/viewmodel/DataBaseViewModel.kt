@@ -15,7 +15,7 @@ class DataBaseViewModel @Inject constructor(
     private val repository: DataBaseRepository
 ) : ViewModel() {
 
-    fun getAllFavs() : LiveData<List<HeroDbModel?>?>? {
+    fun getAllFavs() : LiveData<List<HeroDbModel>>? {
         return repository.getHeroesFromDataBase()
     }
 
