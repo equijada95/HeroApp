@@ -1,0 +1,208 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "b9b51b3e47ac4a94d4d393bb5d8b696e",
+    "entities": [
+      {
+        "tableName": "hero_list",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `isFavorite` INTEGER NOT NULL, `idImages` INTEGER, `xs` TEXT, `sm` TEXT, `md` TEXT, `lg` TEXT, `idStats` INTEGER, `intelligence` INTEGER, `strength` INTEGER, `speed` INTEGER, `durability` INTEGER, `power` INTEGER, `combat` INTEGER, `idAppearance` INTEGER, `gender` TEXT, `race` TEXT, `height` TEXT, `weight` TEXT, `eyeColor` TEXT, `hairColor` TEXT, `idBiography` INTEGER, `fullName` TEXT, `alterEgos` TEXT, `aliases` TEXT, `placeOfBirth` TEXT, `firstAppearance` TEXT, `publisher` TEXT, `alignment` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isFavorite",
+            "columnName": "isFavorite",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "images.idImages",
+            "columnName": "idImages",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "images.xs",
+            "columnName": "xs",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "images.sm",
+            "columnName": "sm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "images.md",
+            "columnName": "md",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "images.lg",
+            "columnName": "lg",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "powerstats.idStats",
+            "columnName": "idStats",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "powerstats.intelligence",
+            "columnName": "intelligence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "powerstats.strength",
+            "columnName": "strength",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "powerstats.speed",
+            "columnName": "speed",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "powerstats.durability",
+            "columnName": "durability",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "powerstats.power",
+            "columnName": "power",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "powerstats.combat",
+            "columnName": "combat",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appearance.idAppearance",
+            "columnName": "idAppearance",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appearance.gender",
+            "columnName": "gender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appearance.race",
+            "columnName": "race",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appearance.height",
+            "columnName": "height",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appearance.weight",
+            "columnName": "weight",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appearance.eyeColor",
+            "columnName": "eyeColor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appearance.hairColor",
+            "columnName": "hairColor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography.idBiography",
+            "columnName": "idBiography",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography.fullName",
+            "columnName": "fullName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography.alterEgos",
+            "columnName": "alterEgos",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography.aliases",
+            "columnName": "aliases",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography.placeOfBirth",
+            "columnName": "placeOfBirth",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography.firstAppearance",
+            "columnName": "firstAppearance",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography.publisher",
+            "columnName": "publisher",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography.alignment",
+            "columnName": "alignment",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b9b51b3e47ac4a94d4d393bb5d8b696e')"
+    ]
+  }
+}

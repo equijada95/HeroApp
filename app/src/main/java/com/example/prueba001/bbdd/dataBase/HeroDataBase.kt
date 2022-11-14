@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.prueba001.bbdd.dao.HeroDao
 import com.example.prueba001.bbdd.models.HeroDbModel
 
-@Database(entities = [HeroDbModel::class], version = 1, exportSchema = false)
+@Database(entities = [HeroDbModel::class], version = 1)
 abstract class HeroDataBase : RoomDatabase() {
 
     abstract fun getHeroDao(): HeroDao
