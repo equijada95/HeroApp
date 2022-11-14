@@ -81,7 +81,7 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
 
     private fun setFavorites() {
         originalHeroes.getHeroFromFavorites(favHeroes) {
-            it.isFavorite = true
+            it.isFavorite = true // TODO LOS QUE NO SON FAVORITOS SE BORRAN
         }
     }
 
