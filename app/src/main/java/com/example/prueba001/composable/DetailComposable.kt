@@ -21,11 +21,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.example.prueba001.R
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
+import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun Detail(
@@ -57,14 +57,16 @@ fun Detail(
                     .padding(dimensionResource(id = R.dimen.padding_constraint)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AsyncImage( // TODO MOSTRAR IMAGEN CORRECTAMENTE
-                    model = hero.images?.lg,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .fillMaxWidth(),
-                    contentDescription = null
-                )
+                hero.images?.lg?.let {
+                    GlideImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .clip(CircleShape),
+                        imageModel = it,
+                        contentScale = ContentScale.Crop,
+                    )
+                }
                 Text(
                     text = hero.name,
                     fontWeight = FontWeight.Bold,
