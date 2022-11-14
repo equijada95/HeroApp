@@ -36,12 +36,10 @@ fun Detail(
     var isFav by remember { mutableStateOf(hero.isFavorite) }
 
     fun setFav() {
-        if (hero.isFavorite) {
-            hero.isFavorite = false
+        if (isFav) {
             isFav = false
             viewModel.deleteHero(hero.mapToDb())
         } else {
-            hero.isFavorite = true
             isFav = true
             viewModel.insertHero(hero.mapToDb())
         }

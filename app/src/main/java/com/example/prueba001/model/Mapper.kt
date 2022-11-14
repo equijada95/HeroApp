@@ -92,7 +92,6 @@ fun HeroModel.mapToDb() = HeroDbModel(
     powerstats?.mapToDb(),
     appearance?.mapToDb(),
     biography?.mapToDb(),
-    isFavorite
 )
 
 fun HeroDbModel.mapToModel() = HeroModel(
@@ -102,7 +101,7 @@ fun HeroDbModel.mapToModel() = HeroModel(
     powerstats?.mapToModel(),
     appearance?.mapToModel(),
     biography?.mapToModel(),
-    isFavorite
+    true
 )
 
 fun List<HeroDbModel>.mapToModel() = map { it.mapToModel() }

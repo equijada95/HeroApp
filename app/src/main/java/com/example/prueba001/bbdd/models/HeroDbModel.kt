@@ -16,6 +16,5 @@ data class HeroDbModel(
     @ColumnInfo val name: String,
     @Embedded val powerstats: StatsDbModel?,
     @Embedded val appearance: AppearanceDbModel?,
-    @Embedded val biography: BiographyDbModel?,
-    @ColumnInfo val isFavorite: Boolean = false
+    @Embedded val biography: BiographyDbModel?
 )

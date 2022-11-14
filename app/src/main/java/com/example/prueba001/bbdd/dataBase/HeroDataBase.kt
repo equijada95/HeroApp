@@ -1,16 +1,30 @@
 package com.example.prueba001.bbdd.dataBase
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.prueba001.bbdd.dao.HeroDao
 import com.example.prueba001.bbdd.models.HeroDbModel
 
-@Database(entities = [HeroDbModel::class], version = 1)
+@Database(
+    entities = [HeroDbModel::class],
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2, spec = HeroDataBase.RemoveFavoriteMigration::class)
+    ]
+)
+
 abstract class HeroDataBase : RoomDatabase() {
 
     abstract fun getHeroDao(): HeroDao
+
+    @DeleteColumn(
+        tableName = "hero_list",
+        columnName = "isFavorite"
+    )
+
+    class RemoveFavoriteMigration : AutoMigrationSpec {}
 
     companion object {
 
