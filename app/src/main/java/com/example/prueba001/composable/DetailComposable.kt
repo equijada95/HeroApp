@@ -43,6 +43,14 @@ fun Detail(
         }
     }
 
+    DetailView(hero = hero) { setFav() }
+}
+
+@Composable
+private fun DetailView(
+    hero: HeroModel,
+    setFav: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -152,12 +160,9 @@ fun Detail(
                         .clickable(
                             enabled = true,
                             onClickLabel = "Set Favorite",
-                            onClick = {
-                                setFav()
-                            }
+                            onClick = setFav
                         ),
-                    contentScale = ContentScale.Crop,
-
+                    contentScale = ContentScale.Crop
                 )
             }
         }
@@ -167,5 +172,5 @@ fun Detail(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    Detail(HeroModel.heroTest())
+    DetailView(HeroModel.heroTest()) {}
 }
