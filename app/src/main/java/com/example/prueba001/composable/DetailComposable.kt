@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.prueba001.R
-import com.example.prueba001.bbdd.models.HeroDbModel
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.model.HeroModel
+import com.example.prueba001.model.mapToDb
 
 @Composable
 fun Detail(
@@ -36,10 +36,10 @@ fun Detail(
     fun setFav() { // TODO RECARGAR VISTA
         if (hero.isFavorite) {
             hero.isFavorite = false
-            HeroDbModel.generateModel(hero)?.let { viewModel.deleteHero(it) }
+            viewModel.deleteHero(hero.mapToDb())
         } else {
             hero.isFavorite = true
-            HeroDbModel.generateModel(hero)?.let { viewModel.insertHero(it) }
+            viewModel.insertHero(hero.mapToDb())
         }
     }
 
