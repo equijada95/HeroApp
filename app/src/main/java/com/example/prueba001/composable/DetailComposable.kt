@@ -29,19 +29,33 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun Detail(
-    hero: HeroModel
-) {
-
-    DetailView(hero = hero)
-}
-
-@Composable
-private fun DetailView(
     hero: HeroModel,
     viewModel: DataBaseViewModel = hiltViewModel()
 ) {
 
     var isFav by remember { mutableStateOf(hero.isFavorite) }
+
+    fun setFav() {
+        if (hero.isFavorite) {
+            hero.isFavorite = false
+            isFav = false
+            viewModel.deleteHero(hero.mapToDb())
+        } else {
+            hero.isFavorite = true
+            isFav = true
+            viewModel.insertHero(hero.mapToDb())
+        }
+    }
+
+    DetailView(hero = hero, isFav = isFav) { setFav() }
+}
+
+@Composable
+private fun DetailView(
+    hero: HeroModel,
+    isFav: Boolean,
+    setFav: () -> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -152,17 +166,7 @@ private fun DetailView(
                         .clickable(
                             enabled = true,
                             onClickLabel = "Set Favorite",
-                            onClick = {
-                                if (hero.isFavorite) {
-                                    hero.isFavorite = false
-                                    isFav = false
-                                    viewModel.deleteHero(hero.mapToDb())
-                                } else {
-                                    hero.isFavorite = true
-                                    isFav = true
-                                    viewModel.insertHero(hero.mapToDb())
-                                }
-                            }
+                            onClick = setFav
                         ),
                     contentScale = ContentScale.Crop
                 )
@@ -174,5 +178,5 @@ private fun DetailView(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    DetailView(HeroModel.heroTest())
+    DetailView(HeroModel.heroTest(), false) {}
 }
