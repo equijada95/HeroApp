@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // TODO CERRAR DETALLE
         actionBar?.setDisplayHomeAsUpEnabled(false)
         supportFragmentManager.popBackStack()
         return true
