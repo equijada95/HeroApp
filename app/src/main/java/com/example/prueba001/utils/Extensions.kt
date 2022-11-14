@@ -10,10 +10,13 @@ fun String.getList(): List<String> {
 }
 
 fun List<HeroModel>.getHeroFromFavorites(favorites: List<HeroDbModel>, predicate: (hero: HeroModel) -> Unit) {
-    forEach { it.isFavorite = false }
     favorites.forEach { heroDbModel ->
         find { hero -> heroDbModel.id == hero.id }?.let { favorite ->
             predicate(favorite)
         }
     }
+}
+
+fun List<HeroModel>.setAllFavoritesFalse() {
+    forEach { it.isFavorite = false }
 }

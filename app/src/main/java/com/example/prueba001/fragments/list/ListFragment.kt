@@ -23,6 +23,7 @@ import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
 import com.example.prueba001.model.mapToModel
 import com.example.prueba001.utils.getHeroFromFavorites
+import com.example.prueba001.utils.setAllFavoritesFalse
 import com.example.prueba001.viewModels.ListScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -80,8 +81,9 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
     }
 
     private fun setFavorites() {
+        originalHeroes.setAllFavoritesFalse()
         originalHeroes.getHeroFromFavorites(favHeroes) {
-            it.isFavorite = true // TODO LOS QUE NO SON FAVORITOS SE BORRAN
+            it.isFavorite = true
         }
     }
 
