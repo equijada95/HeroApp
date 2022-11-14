@@ -1,8 +1,5 @@
 package com.example.prueba001.model.biography
 
-import com.example.prueba001.bbdd.models.biography.BiographyDbModel
-import com.example.prueba001.utils.getList
-
 data class BiographyModel(
     var fullName: String,
     var alterEgos: String,
@@ -14,21 +11,6 @@ data class BiographyModel(
 ) {
 
     companion object {
-        @JvmStatic
-        fun generateModel(model: BiographyDbModel?): BiographyModel? {
-            return model?.let {
-                BiographyModel(
-                    it.fullName,
-                    it.alterEgos,
-                    it.aliases.getList(),
-                    it.placeOfBirth,
-                    it.firstAppearance,
-                    it.publisher,
-                    it.alignment
-                )
-            }
-        }
-
         @JvmStatic
         fun biographyTest() = BiographyModel(
             "Richard Milhouse Jones",
