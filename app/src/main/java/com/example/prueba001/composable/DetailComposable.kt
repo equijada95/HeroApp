@@ -8,7 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,28 +29,20 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun Detail(
-    hero: HeroModel,
-    viewModel: DataBaseViewModel = hiltViewModel()
+    hero: HeroModel
 ) {
 
-    fun setFav() { // TODO RECARGAR VISTA
-        if (hero.isFavorite) {
-            hero.isFavorite = false
-            viewModel.deleteHero(hero.mapToDb())
-        } else {
-            hero.isFavorite = true
-            viewModel.insertHero(hero.mapToDb())
-        }
-    }
-
-    DetailView(hero = hero) { setFav() }
+    DetailView(hero = hero)
 }
 
 @Composable
 private fun DetailView(
     hero: HeroModel,
-    setFav: () -> Unit
+    viewModel: DataBaseViewModel = hiltViewModel()
 ) {
+
+    var isFav by remember { mutableStateOf(hero.isFavorite) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -152,7 +144,7 @@ private fun DetailView(
                     )
                 }
                 Image(
-                    if (hero.isFavorite) painterResource(R.drawable.ic_fav) else painterResource(R.drawable.ic_unfav),
+                    if (isFav) painterResource(R.drawable.ic_fav) else painterResource(R.drawable.ic_unfav),
                     contentDescription = "",
                     modifier = Modifier
                         .width(dimensionResource(id = R.dimen.icon_fav_dimen))
@@ -160,7 +152,17 @@ private fun DetailView(
                         .clickable(
                             enabled = true,
                             onClickLabel = "Set Favorite",
-                            onClick = setFav
+                            onClick = {
+                                if (hero.isFavorite) {
+                                    hero.isFavorite = false
+                                    isFav = false
+                                    viewModel.deleteHero(hero.mapToDb())
+                                } else {
+                                    hero.isFavorite = true
+                                    isFav = true
+                                    viewModel.insertHero(hero.mapToDb())
+                                }
+                            }
                         ),
                     contentScale = ContentScale.Crop
                 )
@@ -172,5 +174,5 @@ private fun DetailView(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    DetailView(HeroModel.heroTest()) {}
+    DetailView(HeroModel.heroTest())
 }
