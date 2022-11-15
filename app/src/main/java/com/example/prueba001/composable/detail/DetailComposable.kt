@@ -1,9 +1,5 @@
 package com.example.prueba001.composable.detail
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -15,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,7 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
@@ -31,36 +25,9 @@ import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
 import com.example.prueba001.test.ModelTest
 import com.skydoves.landscapist.glide.GlideImage
-import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class DetailFragment : Fragment() {
-
-    private lateinit var hero : HeroModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                Detail(hero = hero)
-            }
-        }
-    }
-
-    companion object {
-        fun newInstance(hero: HeroModel): DetailFragment {
-            val fr = DetailFragment()
-            fr.hero = hero
-            return fr
-        }
-    }
-
-}
 
 @Composable
-private fun Detail(
+fun DetailComposable(
     hero: HeroModel,
     viewModel: DataBaseViewModel = hiltViewModel()
 ) {

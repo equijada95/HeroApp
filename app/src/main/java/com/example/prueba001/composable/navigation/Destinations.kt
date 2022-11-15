@@ -4,5 +4,7 @@ sealed class Destinations(
     val route: String
 ) {
     object List: Destinations("List")
-    object Detail: Destinations("Detail")
+    object Detail: Destinations("Detail/{hero}") {
+        fun createRoute(heroJson: String) = "Detail/$heroJson"
+    }
 }

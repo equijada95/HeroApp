@@ -7,8 +7,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
+import com.example.prueba001.composable.detail.DetailComposable
 import com.example.prueba001.composable.list.ListComposable
+import com.example.prueba001.model.HeroModel
 import com.example.prueba001.viewModels.HeroViewModel
+import com.google.gson.Gson
 
 @Composable
 fun NavigationController(
@@ -17,7 +20,15 @@ fun NavigationController(
     dbViewModel: DataBaseViewModel = hiltViewModel()
 ) {
     NavHost(navController = navController, startDestination = Destinations.List.route) {
-        composable(Destinations.List.route) { ListComposable(heroViewModel, dbViewModel) }
-        composable(Destinations.Detail.route) {}
+        composable(Destinations.List.route) { ListComposable(heroViewModel, dbViewModel) {
+            val heroJson = Gson().toJson(it)
+
+            navController.navigate(Destinations.Detail.createRoute(heroJson))
+        } }
+        composable(Destinations.Detail.route) { navBackEntry ->
+            val heroJson = navBackEntry.arguments?.getString("hero")
+            val hero = Gson().fromJson(heroJson, HeroModel::class.java)
+            DetailComposable(hero = hero)
+        }
     }
 }

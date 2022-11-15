@@ -32,28 +32,30 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun ListComposable(
     heroViewModel: HeroViewModel = hiltViewModel(),
-    dbViewModel: DataBaseViewModel = hiltViewModel()
+    dbViewModel: DataBaseViewModel = hiltViewModel(),
+    goToDetail: (HeroModel) -> Unit
 ) {
 
     var heroList = heroViewModel._heroes.observeAsState(listOf()).value
-    
+
     if (heroList.isEmpty()) {
         LiveDataLoadingComponent()
     } else {
-        ListView(heroList = heroList, dbViewModel = dbViewModel)
+        ListView(goToDetail = goToDetail, heroList = heroList, dbViewModel = dbViewModel)
     }
 }
 
 
 @Composable
 private fun ListView(
+    goToDetail: (HeroModel) -> Unit,
     heroList: List<HeroModel>,
     dbViewModel: DataBaseViewModel
 ) {
     LazyColumn {
         items(
             items = heroList, itemContent = { hero ->
-                ItemView(hero = hero, dbViewModel)
+                ItemView(goToDetail, hero, dbViewModel)
             }
         )
     }
@@ -61,6 +63,7 @@ private fun ListView(
 
 @Composable
 private fun ItemView(
+    goToDetail: (HeroModel) -> Unit,
     hero: HeroModel,
     dbViewModel: DataBaseViewModel
 ) {
@@ -83,7 +86,11 @@ private fun ItemView(
         elevation = dimensionResource(id = R.dimen.elevation_cardview),
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint))
-            .clickable { }
+            .clickable(
+                enabled = true,
+                onClickLabel = "Go to Detail",
+                onClick = { goToDetail(hero) }
+            )
     ) {
         Column(
             modifier = Modifier
