@@ -41,13 +41,23 @@ fun ListComposable(
 
     val favList = dbViewModel._favorites.observeAsState(listOf()).value
 
+    fun setFav(hero: HeroModel) {
+        if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
+            dbViewModel.deleteHero(hero.mapToDb())
+        } else {
+            dbViewModel.insertHero(hero.mapToDb())
+        }
+    }
+
     if (heroList.isEmpty()) {
         LiveDataLoadingComponent()
     } else {
         heroList.getHeroFromFavorites(favList) {
             it.isFavorite = true
         }
-        ListView(goToDetail = goToDetail, heroList = heroList, dbViewModel = dbViewModel)
+        ListView(goToDetail = goToDetail, heroList = heroList) {
+            setFav(it)
+        }
     }
 }
 
@@ -55,13 +65,13 @@ fun ListComposable(
 @Composable
 private fun ListView(
     heroList: List<HeroModel>,
-    dbViewModel: DataBaseViewModel,
-    goToDetail: (HeroModel) -> Unit
+    goToDetail: (HeroModel) -> Unit,
+    setFav: (HeroModel) -> Unit
 ) {
     LazyColumn {
         items(
             items = heroList, itemContent = { hero ->
-                ItemView(hero, dbViewModel, goToDetail)
+                ItemView(hero, goToDetail, setFav)
             }
         )
     }
@@ -70,8 +80,8 @@ private fun ListView(
 @Composable
 private fun ItemView(
     hero: HeroModel,
-    dbViewModel: DataBaseViewModel,
-    goToDetail: (HeroModel) -> Unit
+    goToDetail: (HeroModel) -> Unit,
+    setFav: (HeroModel) -> Unit
 ) {
 
     var isFav by remember { mutableStateOf(hero.isFavorite) }
@@ -80,12 +90,11 @@ private fun ItemView(
         if (isFav) {
             isFav = false
             hero.isFavorite = false
-            dbViewModel.deleteHero(hero.mapToDb())
         } else {
             isFav = true
             hero.isFavorite = true
-            dbViewModel.insertHero(hero.mapToDb())
         }
+        setFav(hero)
     }
 
     Card(
