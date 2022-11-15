@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
@@ -26,6 +27,7 @@ import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.LiveDataLoadingComponent
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
+import com.example.prueba001.test.ModelTest
 import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.viewModels.HeroViewModel
 import com.skydoves.landscapist.glide.GlideImage
@@ -154,4 +156,10 @@ private fun ItemView(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ListPreview() {
+    ListView(heroList = ModelTest.listHeroTest(), goToDetail = {}, setFav = {})
 }
