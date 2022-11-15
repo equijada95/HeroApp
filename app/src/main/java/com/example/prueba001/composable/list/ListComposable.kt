@@ -26,6 +26,7 @@ import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.LiveDataLoadingComponent
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
+import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.viewModels.HeroViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -38,11 +39,14 @@ fun ListComposable(
 
     val heroList = heroViewModel._heroes.observeAsState(listOf()).value
 
-    // TODO MOSTRAR FAVORITOS
+    val favList = dbViewModel._favorites.observeAsState(listOf()).value
 
     if (heroList.isEmpty()) {
         LiveDataLoadingComponent()
     } else {
+        heroList.getHeroFromFavorites(favList) {
+            it.isFavorite = true
+        }
         ListView(goToDetail = goToDetail, heroList = heroList, dbViewModel = dbViewModel)
     }
 }
