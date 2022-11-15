@@ -23,7 +23,7 @@ fun NavigationController(
         composable(Destinations.List.route) { ListComposable(heroViewModel, dbViewModel) {
             val heroJson = Gson().toJson(it)
 
-            navController.navigate(Destinations.Detail.createRoute(heroJson))
+            navController.navigate(Destinations.Detail.createRoute(heroJson)) // TODO CORREGIR ERROR DE PARSEO
         } }
         composable(Destinations.Detail.route) { navBackEntry ->
             val heroJson = navBackEntry.arguments?.getString("hero")

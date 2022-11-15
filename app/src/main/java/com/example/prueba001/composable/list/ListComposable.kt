@@ -38,6 +38,8 @@ fun ListComposable(
 
     val heroList = heroViewModel._heroes.observeAsState(listOf()).value
 
+    // TODO MOSTRAR FAVORITOS
+
     if (heroList.isEmpty()) {
         LiveDataLoadingComponent()
     } else {
