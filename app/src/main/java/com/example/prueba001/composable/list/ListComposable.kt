@@ -1,26 +1,29 @@
 package com.example.prueba001.composable.list
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
+import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.model.HeroModel
+import com.example.prueba001.model.mapToDb
 import com.skydoves.landscapist.glide.GlideImage
 
 
@@ -36,7 +39,23 @@ fun ListView(heroList: List<HeroModel>) {
 }
 
 @Composable
-private fun ItemView(hero: HeroModel) {
+private fun ItemView(
+    hero: HeroModel,
+    dbViewModel: DataBaseViewModel = hiltViewModel()
+) {
+
+    var isFav by remember { mutableStateOf(hero.isFavorite) }
+
+    fun setFav() {
+        if (isFav) {
+            isFav = false
+            dbViewModel.deleteHero(hero.mapToDb())
+        } else {
+            isFav = true
+            dbViewModel.insertHero(hero.mapToDb())
+        }
+    }
+
     Card(
         elevation = dimensionResource(id = R.dimen.elevation_cardview),
         modifier = Modifier
@@ -74,6 +93,20 @@ private fun ItemView(hero: HeroModel) {
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
             }
+
+            Image(
+                if (isFav) painterResource(R.drawable.ic_fav) else painterResource(R.drawable.ic_unfav),
+                contentDescription = "",
+                modifier = Modifier
+                    .width(dimensionResource(id = R.dimen.icon_fav_dimen))
+                    .height(dimensionResource(id = R.dimen.icon_fav_dimen))
+                    .clickable(
+                        enabled = true,
+                        onClickLabel = "Set Favorite",
+                        onClick = { setFav() }
+                    ),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 }
