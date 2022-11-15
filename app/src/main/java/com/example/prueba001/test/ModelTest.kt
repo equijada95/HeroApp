@@ -9,6 +9,16 @@ import com.example.prueba001.model.stats.StatsModel
 class ModelTest {
 
     companion object {
+
+        @JvmStatic
+        fun listHeroTest(): List<HeroModel> {
+            val list = mutableListOf<HeroModel>()
+            repeat(20) {
+                list.add(heroTest())
+            }
+            return list
+        }
+
         @JvmStatic
         fun heroTest() = HeroModel(
             1,
