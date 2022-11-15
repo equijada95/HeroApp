@@ -10,6 +10,8 @@ import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.detail.DetailComposable
 import com.example.prueba001.composable.list.ListComposable
 import com.example.prueba001.model.HeroModel
+import com.example.prueba001.utils.fromJson
+import com.example.prueba001.utils.toJson
 import com.example.prueba001.viewModels.HeroViewModel
 import com.google.gson.Gson
 
@@ -20,15 +22,13 @@ fun NavigationController(
     dbViewModel: DataBaseViewModel = hiltViewModel()
 ) {
     NavHost(navController = navController, startDestination = Destinations.List.route) {
-        composable(Destinations.List.route) { ListComposable(heroViewModel, dbViewModel) {
-            val heroJson = Gson().toJson(it)
-
-            navController.navigate(Destinations.Detail.createRoute(heroJson)) // TODO CORREGIR ERROR DE PARSEO
+        composable(Destinations.List.route) { ListComposable(heroViewModel, dbViewModel) { hero ->
+            navController.navigate(Destinations.Detail.createRoute(hero.toJson())) // TODO CORREGIR ERROR DE PARSEO
         } }
         composable(Destinations.Detail.route) { navBackEntry ->
-            val heroJson = navBackEntry.arguments?.getString("hero")
-            val hero = Gson().fromJson(heroJson, HeroModel::class.java)
-            DetailComposable(hero = hero, dbViewModel = dbViewModel)
+            val heroJson = navBackEntry.arguments?.getString("hero") ?: return@composable
+
+            DetailComposable(hero = heroJson.fromJson(HeroModel::class.java), dbViewModel = dbViewModel)
         }
     }
 }
