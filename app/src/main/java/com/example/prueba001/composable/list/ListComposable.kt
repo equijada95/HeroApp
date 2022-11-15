@@ -49,9 +49,11 @@ private fun ItemView(
     fun setFav() {
         if (isFav) {
             isFav = false
+            hero.isFavorite = false
             dbViewModel.deleteHero(hero.mapToDb())
         } else {
             isFav = true
+            hero.isFavorite = true
             dbViewModel.insertHero(hero.mapToDb())
         }
     }
