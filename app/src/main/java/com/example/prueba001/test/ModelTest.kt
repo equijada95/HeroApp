@@ -9,7 +9,6 @@ import com.example.prueba001.model.stats.StatsModel
 class ModelTest {
 
     companion object {
-
         @JvmStatic
         fun heroTest() = HeroModel(
             1,
@@ -55,7 +54,5 @@ class ModelTest {
             "Marvel Comics",
             "good"
         )
-
     }
-
 }
