@@ -16,18 +16,20 @@ class DataBaseViewModel @Inject constructor(
     private val repository: DataBaseRepository
 ) : ViewModel() {
     
-    var _favorites = MutableLiveData<List<HeroDbModel>>()
+    private val _favorites = MutableLiveData<List<HeroDbModel>>()
+
+    val favorites: LiveData<List<HeroDbModel>>
+        get() = _favorites
 
     init {
         getAllFavs()
     }
 
-    fun getAllFavs() : LiveData<List<HeroDbModel>> {
+    fun getAllFavs() {
         viewModelScope.launch(Dispatchers.IO) {
             val favorites = repository.getHeroesFromDataBase()
             _favorites.postValue(favorites)
         }
-        return _favorites
     }
 
     fun insertHero(hero: HeroDbModel) {
