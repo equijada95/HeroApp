@@ -54,14 +54,14 @@ fun ListComposable(
 
 @Composable
 private fun ListView(
-    goToDetail: (HeroModel) -> Unit,
     heroList: List<HeroModel>,
-    dbViewModel: DataBaseViewModel
+    dbViewModel: DataBaseViewModel,
+    goToDetail: (HeroModel) -> Unit
 ) {
     LazyColumn {
         items(
             items = heroList, itemContent = { hero ->
-                ItemView(goToDetail, hero, dbViewModel)
+                ItemView(hero, dbViewModel, goToDetail)
             }
         )
     }
@@ -69,9 +69,9 @@ private fun ListView(
 
 @Composable
 private fun ItemView(
-    goToDetail: (HeroModel) -> Unit,
     hero: HeroModel,
-    dbViewModel: DataBaseViewModel
+    dbViewModel: DataBaseViewModel,
+    goToDetail: (HeroModel) -> Unit
 ) {
 
     var isFav by remember { mutableStateOf(hero.isFavorite) }
