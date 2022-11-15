@@ -62,7 +62,7 @@ fun ListComposable(
     }
 
     if (heroList.isEmpty()) {
-        LiveDataLoadingComponent()
+        LiveDataLoadingComponent() // TODO NO SE QUEDE RECARGANDO ETERNAMENTE
     } else {
         heroList.getHeroFromFavorites(favList) {
             it.isFavorite = true
