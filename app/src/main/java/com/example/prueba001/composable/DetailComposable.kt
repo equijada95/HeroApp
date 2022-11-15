@@ -90,7 +90,6 @@ private fun DetailView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-     //       .padding(dimensionResource(id = R.dimen.padding_constraint))
             .verticalScroll(rememberScrollState())
             .background(Color.White)
     ) {
