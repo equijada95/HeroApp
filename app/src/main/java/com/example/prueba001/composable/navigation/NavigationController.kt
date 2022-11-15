@@ -13,7 +13,6 @@ import com.example.prueba001.model.HeroModel
 import com.example.prueba001.utils.fromJson
 import com.example.prueba001.utils.toJson
 import com.example.prueba001.viewModels.HeroViewModel
-import com.google.gson.Gson
 
 @Composable
 fun NavigationController(
