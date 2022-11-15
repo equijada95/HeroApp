@@ -16,7 +16,11 @@ class HeroViewModel @Inject constructor(
     private val repository: HeroRepository
 ) : ViewModel() {
 
-    private val _heroes = MutableLiveData<List<HeroModel>>()
+    val _heroes = MutableLiveData<List<HeroModel>>()
+
+    init {
+        getHeroes()
+    }
 
     fun getHeroes(): LiveData<List<HeroModel>> {
         viewModelScope.launch(Dispatchers.IO) {
