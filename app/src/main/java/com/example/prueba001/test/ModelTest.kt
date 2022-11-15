@@ -10,7 +10,6 @@ class ModelTest {
 
     companion object {
 
-        @JvmStatic
         fun listHeroTest(): List<HeroModel> {
             val list = mutableListOf<HeroModel>()
             repeat(20) {
@@ -19,7 +18,6 @@ class ModelTest {
             return list
         }
 
-        @JvmStatic
         fun heroTest() = HeroModel(
             1,
             imagesTest(),
