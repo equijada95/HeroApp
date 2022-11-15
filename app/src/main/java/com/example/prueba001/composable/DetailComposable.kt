@@ -29,6 +29,7 @@ import com.example.prueba001.R
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
+import com.example.prueba001.test.ModelTest
 import com.skydoves.landscapist.glide.GlideImage
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -212,5 +213,5 @@ private fun DetailView(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    DetailView(HeroModel.heroTest(), false) {}
+    DetailView(ModelTest.heroTest(), false) {}
 }
