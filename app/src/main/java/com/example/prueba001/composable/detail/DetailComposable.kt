@@ -1,4 +1,4 @@
-package com.example.prueba001.composable
+package com.example.prueba001.composable.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
