@@ -29,7 +29,7 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun DetailComposable(
     hero: HeroModel,
-    viewModel: DataBaseViewModel = hiltViewModel()
+    dbViewModel: DataBaseViewModel = hiltViewModel()
 ) {
 
     var isFav by remember { mutableStateOf(hero.isFavorite) }
@@ -37,10 +37,10 @@ fun DetailComposable(
     fun setFav() {
         if (isFav) {
             isFav = false
-            viewModel.deleteHero(hero.mapToDb())
+            dbViewModel.deleteHero(hero.mapToDb())
         } else {
             isFav = true
-            viewModel.insertHero(hero.mapToDb())
+            dbViewModel.insertHero(hero.mapToDb())
         }
     }
 

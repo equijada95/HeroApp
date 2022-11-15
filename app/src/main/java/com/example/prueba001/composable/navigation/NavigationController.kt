@@ -28,7 +28,7 @@ fun NavigationController(
         composable(Destinations.Detail.route) { navBackEntry ->
             val heroJson = navBackEntry.arguments?.getString("hero")
             val hero = Gson().fromJson(heroJson, HeroModel::class.java)
-            DetailComposable(hero = hero)
+            DetailComposable(hero = hero, dbViewModel = dbViewModel)
         }
     }
 }
