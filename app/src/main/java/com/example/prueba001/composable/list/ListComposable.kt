@@ -54,6 +54,8 @@ fun ListComposable(
 
     val pullRefreshState = rememberPullRefreshState(refreshing, { heroViewModel.refresh() })
 
+    // TODO FALLA CUANDO QUITAS UN FAVORITO EN MODO OFFLINE Y VUELVES A RECARGAR ONLINE, SE QUEDA EN FAVORITO
+
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
             dbViewModel.deleteHero(hero.mapToDb())
