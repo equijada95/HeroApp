@@ -24,7 +24,7 @@ import com.example.prueba001.model.mapToDb
 import com.example.prueba001.model.mapToModel
 import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.utils.setAllFavoritesFalse
-import com.example.prueba001.viewModels.ListScreenViewModel
+import com.example.prueba001.viewModels.HeroViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -55,7 +55,7 @@ class ListFragment : Fragment(), OnHeroClickCallback, OnRefreshListener {
         val owner = activity ?: return
         getFavHeroes()
         binding.progressBar.visibility = View.VISIBLE
-        val viewModel = ViewModelProvider(this).get(ListScreenViewModel::class.java)
+        val viewModel = ViewModelProvider(this).get(HeroViewModel::class.java)
         viewModel.getHeroes().observe(owner) { heroModels ->
             binding.progressBar.visibility = View.GONE
             setOriginalHeroes(heroModels)
