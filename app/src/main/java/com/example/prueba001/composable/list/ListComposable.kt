@@ -85,7 +85,6 @@ private fun ItemView(
     }
 
     Card(
-        elevation = dimensionResource(id = R.dimen.elevation_cardview),
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint))
             .clickable(
