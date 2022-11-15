@@ -36,7 +36,7 @@ fun ListComposable(
     goToDetail: (HeroModel) -> Unit
 ) {
 
-    var heroList = heroViewModel._heroes.observeAsState(listOf()).value
+    val heroList = heroViewModel._heroes.observeAsState(listOf()).value
 
     if (heroList.isEmpty()) {
         LiveDataLoadingComponent()
