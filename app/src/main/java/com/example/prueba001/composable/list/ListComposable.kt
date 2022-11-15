@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,17 +23,37 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
+import com.example.prueba001.composable.LiveDataLoadingComponent
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
+import com.example.prueba001.viewModels.HeroViewModel
 import com.skydoves.landscapist.glide.GlideImage
+
+@Composable
+fun ListComposable(
+    heroViewModel: HeroViewModel = hiltViewModel(),
+    dbViewModel: DataBaseViewModel = hiltViewModel()
+) {
+
+    var heroList = heroViewModel._heroes.observeAsState(listOf()).value
+    
+    if (heroList.isEmpty()) {
+        LiveDataLoadingComponent()
+    } else {
+        ListView(heroList = heroList, dbViewModel = dbViewModel)
+    }
+}
 
 
 @Composable
-fun ListView(heroList: List<HeroModel>) {
+private fun ListView(
+    heroList: List<HeroModel>,
+    dbViewModel: DataBaseViewModel
+) {
     LazyColumn {
         items(
             items = heroList, itemContent = { hero ->
-                ItemView(hero = hero)
+                ItemView(hero = hero, dbViewModel)
             }
         )
     }
@@ -41,7 +62,7 @@ fun ListView(heroList: List<HeroModel>) {
 @Composable
 private fun ItemView(
     hero: HeroModel,
-    dbViewModel: DataBaseViewModel = hiltViewModel()
+    dbViewModel: DataBaseViewModel
 ) {
 
     var isFav by remember { mutableStateOf(hero.isFavorite) }
@@ -62,6 +83,7 @@ private fun ItemView(
         elevation = dimensionResource(id = R.dimen.elevation_cardview),
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint))
+            .clickable { }
     ) {
         Column(
             modifier = Modifier

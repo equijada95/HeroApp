@@ -5,12 +5,11 @@ import android.view.MenuItem
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.prueba001.bbdd.models.HeroDbModel
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.detail.DetailFragment
-import com.example.prueba001.composable.list.ListView
+import com.example.prueba001.composable.navigation.NavigationController
 import com.example.prueba001.databinding.ActivityMainBinding
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.utils.getHeroFromFavorites
@@ -51,21 +50,22 @@ class MainActivity : AppCompatActivity() {
     //    transaction.add(binding.container.id, ListFragment())
     //    transaction.addToBackStack(null)
     //    transaction.commit()
-        lateinit var favorites : List<HeroDbModel>
-        val dataBaseViewModel = ViewModelProvider(this).get(DataBaseViewModel::class.java)
-        dataBaseViewModel.getAllFavs()?.observe(this) { favs ->
-            favorites = favs
-        }
 
-        val viewModel = ViewModelProvider(this).get(HeroViewModel::class.java)
-        viewModel.getHeroes().observe(this) { heroModels ->
-            heroModels.getHeroFromFavorites(favorites) {
-                it.isFavorite = true
-            }
+    //    lateinit var favorites : List<HeroDbModel>
+    //    val dataBaseViewModel = ViewModelProvider(this).get(DataBaseViewModel::class.java)
+    //    dataBaseViewModel.getAllFavs()?.observe(this) { favs ->
+    //        favorites = favs
+    //    }
+//
+    //    val viewModel = ViewModelProvider(this).get(HeroViewModel::class.java)
+    //    viewModel.getHeroes().observe(this) { heroModels ->
+    //        heroModels.getHeroFromFavorites(favorites) {
+    //            it.isFavorite = true
+    //        }
+    //    }
 
-            setContent {
-                ListView(heroList = heroModels)
-            }
+        setContent {
+            NavigationController()
         }
     }
 
