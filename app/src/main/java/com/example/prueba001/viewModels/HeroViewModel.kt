@@ -19,7 +19,10 @@ class HeroViewModel @Inject constructor(
     private val repository: HeroRepository
 ) : ViewModel() {
 
-    val _heroes = MutableLiveData<List<HeroModel>>()
+    private val _heroes = MutableLiveData<List<HeroModel>>()
+
+    val heroes: LiveData<List<HeroModel>>
+        get() = _heroes
 
     private val _isRefreshing = MutableStateFlow(false)
 
@@ -34,14 +37,12 @@ class HeroViewModel @Inject constructor(
         getHeroes()
     }
 
-    fun getHeroes(): LiveData<List<HeroModel>> {
+    fun getHeroes() {
         viewModelScope.launch(Dispatchers.IO) {
             _isRefreshing.emit(true)
             val heroes = repository.getHeroes()
             _heroes.postValue(heroes)
             _isRefreshing.emit(false)
         }
-        return _heroes
     }
-
 }
