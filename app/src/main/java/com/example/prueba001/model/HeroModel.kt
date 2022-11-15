@@ -13,17 +13,4 @@ data class HeroModel(
     var appearance: AppearanceModel?,
     var biography: BiographyModel?,
     var isFavorite: Boolean = false
-) {
-    companion object {
-        @JvmStatic
-        fun heroTest() = HeroModel(
-            1,
-            ImagesModel.imagesTest(),
-            "A-Bomb",
-            StatsModel.statsTest(),
-            AppearanceModel.appearanceTest(),
-            BiographyModel.biographyTest(),
-            false
-        )
-    }
-}
+)
