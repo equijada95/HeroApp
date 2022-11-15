@@ -2,12 +2,19 @@ package com.example.prueba001
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.prueba001.bbdd.models.HeroDbModel
+import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.detail.DetailFragment
+import com.example.prueba001.composable.list.ListView
 import com.example.prueba001.databinding.ActivityMainBinding
-import com.example.prueba001.fragments.list.ListFragment
 import com.example.prueba001.model.HeroModel
+import com.example.prueba001.utils.getHeroFromFavorites
+import com.example.prueba001.viewModels.HeroViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -40,10 +47,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openList() {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(binding.container.id, ListFragment())
-        transaction.addToBackStack(null)
-        transaction.commit()
+    //    val transaction = supportFragmentManager.beginTransaction()
+    //    transaction.add(binding.container.id, ListFragment())
+    //    transaction.addToBackStack(null)
+    //    transaction.commit()
+        lateinit var favorites : List<HeroDbModel>
+        val dataBaseViewModel = ViewModelProvider(this).get(DataBaseViewModel::class.java)
+        dataBaseViewModel.getAllFavs()?.observe(this) { favs ->
+            favorites = favs
+        }
+
+        val viewModel = ViewModelProvider(this).get(HeroViewModel::class.java)
+        viewModel.getHeroes().observe(this) { heroModels ->
+            heroModels.getHeroFromFavorites(favorites) {
+                it.isFavorite = true
+            }
+
+            setContent {
+                ListView(heroList = heroModels)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
