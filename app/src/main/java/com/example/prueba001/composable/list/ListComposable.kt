@@ -7,7 +7,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.PullRefreshState
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -32,6 +37,7 @@ import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.viewModels.HeroViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListComposable(
     heroViewModel: HeroViewModel = hiltViewModel(),
@@ -42,6 +48,10 @@ fun ListComposable(
     val heroList = heroViewModel._heroes.observeAsState(listOf()).value
 
     val favList = dbViewModel._favorites.observeAsState(listOf()).value
+
+    val refreshing by heroViewModel.isRefreshing.collectAsState()
+
+    val pullRefreshState = rememberPullRefreshState(refreshing, { heroViewModel.refresh() })
 
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
@@ -57,25 +67,31 @@ fun ListComposable(
         heroList.getHeroFromFavorites(favList) {
             it.isFavorite = true
         }
-        ListView(goToDetail = goToDetail, heroList = heroList) {
+        ListView(goToDetail = goToDetail, heroList = heroList, refreshing = refreshing, pullRefreshState = pullRefreshState) {
             setFav(it)
         }
     }
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ListView(
     heroList: List<HeroModel>,
+    refreshing: Boolean,
+    pullRefreshState: PullRefreshState,
     goToDetail: (HeroModel) -> Unit,
     setFav: (HeroModel) -> Unit
 ) {
-    LazyColumn {
-        items(
-            items = heroList, itemContent = { hero ->
-                ItemView(hero, goToDetail, setFav)
-            }
-        )
+    Box(Modifier.pullRefresh(pullRefreshState)) {
+        LazyColumn {
+            items(
+                items = heroList, itemContent = { hero ->
+                    ItemView(hero, goToDetail, setFav)
+                }
+            )
+        }
+        PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
@@ -161,5 +177,5 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun ListPreview() {
-    ListView(heroList = ModelTest.listHeroTest(), goToDetail = {}, setFav = {})
+  //  ListView(heroList = ModelTest.listHeroTest(), pullRefreshState = null, goToDetail = {}, setFav = {})
 }
