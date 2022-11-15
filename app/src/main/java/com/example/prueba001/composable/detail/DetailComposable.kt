@@ -178,6 +178,6 @@ private fun DetailView(
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun DetailPreview() {
     DetailView(ModelTest.heroTest(), false) {}
 }
