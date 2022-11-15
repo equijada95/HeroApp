@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.example.prueba001.composable.DetailFragment
+import com.example.prueba001.composable.detail.DetailFragment
 import com.example.prueba001.databinding.ActivityMainBinding
 import com.example.prueba001.fragments.list.ListFragment
 import com.example.prueba001.model.HeroModel
