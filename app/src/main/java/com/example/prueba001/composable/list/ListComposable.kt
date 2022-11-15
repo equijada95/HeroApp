@@ -32,6 +32,7 @@ import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.LiveDataLoadingComponent
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
+import com.example.prueba001.model.mapToModel
 import com.example.prueba001.test.ModelTest
 import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.viewModels.HeroViewModel
@@ -61,9 +62,14 @@ fun ListComposable(
         }
     }
 
-    if (heroList.isEmpty()) {
+    if (heroList.isEmpty() && favList.isEmpty()) {
         LiveDataLoadingComponent() // TODO NO SE QUEDE RECARGANDO ETERNAMENTE
-    } else {
+    } else if (heroList.isEmpty() && !favList.isEmpty()) { // para el funcionamiento offline que muestre los favoritos
+        ListView(goToDetail = goToDetail, heroList = favList.mapToModel(), refreshing = refreshing, pullRefreshState = pullRefreshState) {
+            setFav(it)
+        }
+    }
+    else {
         heroList.getHeroFromFavorites(favList) {
             it.isFavorite = true
         }
