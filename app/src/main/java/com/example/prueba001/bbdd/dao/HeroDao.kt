@@ -1,5 +1,6 @@
 package com.example.prueba001.bbdd.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.prueba001.bbdd.models.HeroDbModel
 
@@ -8,7 +9,7 @@ import com.example.prueba001.bbdd.models.HeroDbModel
 interface HeroDao {
 
     @Query("SELECT * FROM hero_list")
-    suspend fun getAll(): List<HeroDbModel>?
+    fun getAll(): LiveData<List<HeroDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(hero: HeroDbModel?)

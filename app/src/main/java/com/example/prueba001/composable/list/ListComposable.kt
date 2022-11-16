@@ -34,6 +34,7 @@ import com.example.prueba001.model.mapToDb
 import com.example.prueba001.model.mapToModel
 import com.example.prueba001.test.ModelTest
 import com.example.prueba001.utils.getHeroFromFavorites
+import com.example.prueba001.utils.setAllFavoritesFalse
 import com.example.prueba001.viewModels.HeroViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -47,7 +48,7 @@ fun ListComposable(
 
     val heroList = heroViewModel.heroes.observeAsState(listOf()).value
 
-    val favList = dbViewModel.favorites.observeAsState(listOf()).value
+    val favList = dbViewModel.getAllFavs()?.observeAsState(listOf())
 
     val refreshing by heroViewModel.isRefreshing.collectAsState()
 
@@ -73,10 +74,14 @@ fun ListComposable(
 
     var heroes = heroList
 
-    heroes.getHeroFromFavorites(favList) {
+    heroes.setAllFavoritesFalse()
+    heroes.getHeroFromFavorites(favList.value) {
         it.isFavorite = true
     }
-    if (heroList.isEmpty()) heroes = favList.mapToModel()
+
+    if (heroList.isEmpty()) heroes = favList.value.mapToModel()
+
+
     ListView(
         heroList = heroes,
         refreshing = refreshing,

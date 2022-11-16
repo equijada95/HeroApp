@@ -1,7 +1,6 @@
 package com.example.prueba001.bbdd.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.prueba001.bbdd.models.HeroDbModel
@@ -16,40 +15,20 @@ class DataBaseViewModel @Inject constructor(
     private val repository: DataBaseRepository
 ) : ViewModel() {
 
-    // TODO RECARGAR DIRECTAMENTE LOS FAVORITOS CUANDO CAMBIA LA BBDD
-    
-    private val _favorites = MutableLiveData<List<HeroDbModel>>()
-
-    val favorites: LiveData<List<HeroDbModel>>
-        get() = _favorites
-
-    init {
-        getAllFavs()
-    }
-
-    private fun getAllFavs() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _getAllFavs()
-        }
+    fun getAllFavs(): LiveData<List<HeroDbModel>> {
+        return repository.getHeroesFromDataBase()
     }
 
     fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertHero(hero)
-            _getAllFavs()
         }
     }
 
     fun deleteHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteHero(hero)
-            _getAllFavs()
         }
-    }
-
-    private suspend fun _getAllFavs() {
-        val favorites = repository.getHeroesFromDataBase()
-        _favorites.postValue(favorites)
     }
 
 }
