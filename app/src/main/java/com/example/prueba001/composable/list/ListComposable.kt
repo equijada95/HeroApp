@@ -63,9 +63,7 @@ fun ListComposable(
         }
     }
 
-    if (heroList.isEmpty() && favList.isEmpty()) {
-        LiveDataLoadingComponent() // TODO NO SE QUEDE RECARGANDO ETERNAMENTE
-    } else if (heroList.isEmpty() && !favList.isEmpty()) { // TODO CUANDO ESTA BUSCANDO, SE DETIENE SI NO ENCUENTRA
+    if (heroList.isEmpty() && !favList.isEmpty()) { // TODO CUANDO ESTA BUSCANDO, SE DETIENE SI NO ENCUENTRA
         ListView(goToDetail = goToDetail,
             heroList = favList.mapToModel(),
             refreshing = refreshing,
@@ -120,15 +118,28 @@ private fun ListView(
         )
 
         Box(Modifier.pullRefresh(pullRefreshState)) {
-            LazyColumn {
-                items(
-                    items = heroList, itemContent = { hero ->
-                        ItemView(hero, goToDetail, setFav)
-                    }
-                )
+            if (heroList.isEmpty()) {
+                LiveDataLoadingComponent()
+            } else {
+                ListItems(heroList = heroList, goToDetail = goToDetail, setFav = setFav)
             }
             PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
         }
+    }
+}
+
+@Composable
+private fun ListItems(
+    heroList: List<HeroModel>,
+    goToDetail: (HeroModel) -> Unit,
+    setFav: (HeroModel) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = heroList, itemContent = { hero ->
+                ItemView(hero, goToDetail, setFav)
+            }
+        )
     }
 }
 
