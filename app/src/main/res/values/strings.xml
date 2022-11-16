@@ -3,6 +3,8 @@
     <string name="error_list">Error: No heroes found </string>
     <string name="error_search">Error: No heroes were found in your search </string>
 
+    <string name="hero_search">Search</string>
+
     <string name="hero_intelligence">Intelligence: </string>
     <string name="hero_strength">Strength: </string>
     <string name="hero_speed">Speed: </string>
