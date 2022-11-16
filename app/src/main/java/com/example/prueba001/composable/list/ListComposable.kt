@@ -56,7 +56,7 @@ fun ListComposable(
 
     // TODO FALLA CUANDO QUITAS UN FAVORITO EN MODO OFFLINE Y VUELVES A RECARGAR ONLINE, SE QUEDA EN FAVORITO
 
-    // TODO FALLA CUANDO PASA DE OFFLINE A ONLINE Y A OFFLINE
+    // TODO PONER MENSAJE DE ERROR SINO ENCUENTRA HEROES O SI FALLA LA CONEXION
 
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
