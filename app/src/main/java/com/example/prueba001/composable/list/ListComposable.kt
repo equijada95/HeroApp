@@ -48,7 +48,7 @@ fun ListComposable(
 
     val heroList = heroViewModel.heroes.observeAsState(listOf()).value
 
-    val favList = dbViewModel.getAllFavs()?.observeAsState(listOf())
+    val favList = dbViewModel.getAllFavs().observeAsState(listOf()).value
 
     val refreshing by heroViewModel.isRefreshing.collectAsState()
 
@@ -59,8 +59,6 @@ fun ListComposable(
     // TODO EN MODO OFFLINE SE QUEDA EL PULLREFRESH PINTADO
 
     // TODO EN LA BUSQUEDA, SI NO ENCUENTRA NADA MUESTRA LOS FAVORITOS
-
-    // TODO REFRESCAR FAVORITOS DESDE DETALLE
 
     // TODO SE QUEDA EL CIRCULITO DE PULLREFRESH
 
@@ -75,11 +73,11 @@ fun ListComposable(
     var heroes = heroList
 
     heroes.setAllFavoritesFalse()
-    heroes.getHeroFromFavorites(favList.value) {
+    heroes.getHeroFromFavorites(favList) {
         it.isFavorite = true
     }
 
-    if (heroList.isEmpty()) heroes = favList.value.mapToModel()
+    if (heroList.isEmpty()) heroes = favList.mapToModel()
 
 
     ListView(
