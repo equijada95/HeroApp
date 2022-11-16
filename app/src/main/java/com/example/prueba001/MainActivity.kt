@@ -16,24 +16,4 @@ class MainActivity : AppCompatActivity() {
             NavigationController()
         }
     }
-
-    private fun openList() {
-    //    val transaction = supportFragmentManager.beginTransaction()
-    //    transaction.add(binding.container.id, ListFragment())
-    //    transaction.addToBackStack(null)
-    //    transaction.commit()
-
-    //    lateinit var favorites : List<HeroDbModel>
-    //    val dataBaseViewModel = ViewModelProvider(this).get(DataBaseViewModel::class.java)
-    //    dataBaseViewModel.getAllFavs()?.observe(this) { favs ->
-    //        favorites = favs
-    //    }
-//
-    //    val viewModel = ViewModelProvider(this).get(HeroViewModel::class.java)
-    //    viewModel.getHeroes().observe(this) { heroModels ->
-    //        heroModels.getHeroFromFavorites(favorites) {
-    //            it.isFavorite = true
-    //        }
-    //    }
-    }
 }
