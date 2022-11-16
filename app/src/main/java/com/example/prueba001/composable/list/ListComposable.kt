@@ -57,8 +57,6 @@ fun ListComposable(
 
     // TODO A VECES SE QUEDA EL PULL REFRESH EN LA PANTALLA AL INICIAR LA APLICACION
 
-    // TODO EN LA BUSQUEDA, SI EL PRIMER ELEMENTO ES FAVORITO, EL PRIMER ELEMENTO DE LA BUSQUEDA TAMBIEN SALE COMO FAVORITO
-
     // TODO EN LA BUSQUEDA, SI NO ENCUENTRA NADA MUESTRA LOS FAVORITOS
 
     fun setFav(hero: HeroModel) {
@@ -133,7 +131,7 @@ private fun ItemView(
     setFav: (HeroModel) -> Unit
 ) {
 
-    var isFav by remember { mutableStateOf(hero.isFavorite) }
+    var isFav by remember { mutableStateOf(false) }
 
     fun setFav() {
         if (isFav) {
@@ -145,6 +143,8 @@ private fun ItemView(
         }
         setFav(hero)
     }
+
+    isFav = hero.isFavorite
 
     Card(
         modifier = Modifier
