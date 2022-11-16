@@ -57,8 +57,6 @@ fun ListComposable(
 
     // TODO A VECES SE QUEDA EL PULL REFRESH EN LA PANTALLA AL INICIAR LA APLICACION
 
-    // TODO CUANDO ESTA BUSCANDO, SE DETIENE SI NO ENCUENTRA
-
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
             dbViewModel.deleteHero(hero.mapToDb())

@@ -22,6 +22,8 @@ class HeroViewModel @Inject constructor(
 
     private val _heroes = MutableLiveData<List<HeroModel>>()
 
+    private val originalHeroes = MutableLiveData<List<HeroModel>>()
+
     val heroes: LiveData<List<HeroModel>>
         get() = _heroes
 
@@ -40,7 +42,7 @@ class HeroViewModel @Inject constructor(
 
     fun search(search: String?) {
         search?.let { text ->
-            val searchHeros = _heroes.value?.filter { hero ->
+            val searchHeros = originalHeroes.value?.filter { hero ->
                 hero.name.contains(text)
             }
             _heroes.postValue(searchHeros)
@@ -53,6 +55,7 @@ class HeroViewModel @Inject constructor(
                 _isRefreshing.emit(true)
                 val heroes = repository.getHeroes()
                 _heroes.postValue(heroes)
+                originalHeroes.postValue(heroes)
                 _isRefreshing.emit(false)
             } catch (e: SocketTimeoutException) {
                 _heroes.postValue(emptyList())
