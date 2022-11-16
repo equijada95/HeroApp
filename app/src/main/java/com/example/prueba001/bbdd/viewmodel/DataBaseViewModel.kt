@@ -15,6 +15,8 @@ import javax.inject.Inject
 class DataBaseViewModel @Inject constructor(
     private val repository: DataBaseRepository
 ) : ViewModel() {
+
+    // TODO RECARGAR DIRECTAMENTE LOS FAVORITOS CUANDO CAMBIA LA BBDD
     
     private val _favorites = MutableLiveData<List<HeroDbModel>>()
 
