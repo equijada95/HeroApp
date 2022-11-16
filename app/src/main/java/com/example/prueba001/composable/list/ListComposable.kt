@@ -59,6 +59,8 @@ fun ListComposable(
 
     // TODO EN LA BUSQUEDA, SI EL PRIMER ELEMENTO ES FAVORITO, EL PRIMER ELEMENTO DE LA BUSQUEDA TAMBIEN SALE COMO FAVORITO
 
+    // TODO EN LA BUSQUEDA, SI NO ENCUENTRA NADA MUESTRA LOS FAVORITOS
+
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
             dbViewModel.deleteHero(hero.mapToDb())
