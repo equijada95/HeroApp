@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
+import com.example.prueba001.composable.customViews.TopBackBar
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
 import com.example.prueba001.test.ModelTest
@@ -57,6 +58,8 @@ private fun DetailView(
             .verticalScroll(rememberScrollState())
             .background(Color.White)
     ) {
+        TopBackBar(title = hero.name)
+        
         Card(
             elevation = dimensionResource(id = R.dimen.elevation_cardview),
             modifier = Modifier
