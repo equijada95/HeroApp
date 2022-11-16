@@ -2,6 +2,7 @@ package com.example.prueba001.composable.customViews
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -33,6 +34,7 @@ fun SearchBar(
             searchText = it
             setSearch(it)
         },
-        label = { Text(stringResource(id = R.string.hero_search)) },
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.search_bar_corner_radius)),
+        label = { Text(stringResource(id = R.string.hero_search)) }
     )
 }

@@ -6,4 +6,5 @@
     <dimen name="title_size">16sp</dimen>
     <dimen name="margin_name">2dp</dimen>
     <dimen name="icon_fav_dimen">50dp</dimen>
+    <dimen name="search_bar_corner_radius">10dp</dimen>
 </resources>
