@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prueba001.composable.navigation.NavigationController
+import com.example.prueba001.ui.theme.HeroAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -13,7 +14,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NavigationController()
+            HeroAppTheme {
+                NavigationController()
+            }
         }
     }
 }
