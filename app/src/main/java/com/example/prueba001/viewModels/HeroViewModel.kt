@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,10 +40,15 @@ class HeroViewModel @Inject constructor(
 
     fun getHeroes() {
         viewModelScope.launch(Dispatchers.IO) {
-            _isRefreshing.emit(true)
-            val heroes = repository.getHeroes()
-            _heroes.postValue(heroes)
-            _isRefreshing.emit(false)
+            try {
+                _isRefreshing.emit(true)
+                val heroes = repository.getHeroes()
+                _heroes.postValue(heroes)
+                _isRefreshing.emit(false)
+            } catch (e: SocketTimeoutException) {
+                _heroes.postValue(emptyList())
+                _isRefreshing.emit(false)
+            }
         }
     }
 }
