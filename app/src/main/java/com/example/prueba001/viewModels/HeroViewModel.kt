@@ -38,7 +38,7 @@ class HeroViewModel @Inject constructor(
         getHeroes()
     }
 
-    fun getHeroes() {
+    private fun getHeroes() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _isRefreshing.emit(true)

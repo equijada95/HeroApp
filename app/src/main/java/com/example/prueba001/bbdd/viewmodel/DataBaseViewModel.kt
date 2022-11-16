@@ -25,7 +25,7 @@ class DataBaseViewModel @Inject constructor(
         getAllFavs()
     }
 
-    fun getAllFavs() {
+    private fun getAllFavs() {
         viewModelScope.launch(Dispatchers.IO) {
             val favorites = repository.getHeroesFromDataBase()
             _favorites.postValue(favorites)
