@@ -73,12 +73,14 @@ fun ListComposable(
         it.isFavorite = true
     }
     if (heroList.isEmpty()) heroes = favList.mapToModel()
-    ListView(goToDetail = goToDetail,
+    ListView(
         heroList = heroes,
         refreshing = refreshing,
         pullRefreshState = pullRefreshState,
+        goToDetail = goToDetail,
         setFav = { setFav(it) },
-        setSearch = { heroViewModel.search(it) })
+        setSearch = { heroViewModel.search(it) }
+    )
 }
 
 
