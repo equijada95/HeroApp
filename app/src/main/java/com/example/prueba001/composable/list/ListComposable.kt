@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -33,7 +31,6 @@ import com.example.prueba001.composable.LiveDataLoadingComponent
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
 import com.example.prueba001.model.mapToModel
-import com.example.prueba001.test.ModelTest
 import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.viewModels.HeroViewModel
 import com.skydoves.landscapist.glide.GlideImage
@@ -68,18 +65,24 @@ fun ListComposable(
 
     if (heroList.isEmpty() && favList.isEmpty()) {
         LiveDataLoadingComponent() // TODO NO SE QUEDE RECARGANDO ETERNAMENTE
-    } else if (heroList.isEmpty() && !favList.isEmpty()) { // para el funcionamiento offline que muestre los favoritos
-        ListView(goToDetail = goToDetail, heroList = favList.mapToModel(), refreshing = refreshing, pullRefreshState = pullRefreshState) {
-            setFav(it)
-        }
+    } else if (heroList.isEmpty() && !favList.isEmpty()) { // TODO CUANDO ESTA BUSCANDO, SE DETIENE SI NO ENCUENTRA
+        ListView(goToDetail = goToDetail,
+            heroList = favList.mapToModel(),
+            refreshing = refreshing,
+            pullRefreshState = pullRefreshState,
+            setFav = { setFav(it) },
+            setSearch = {})
     }
     else {
         heroList.getHeroFromFavorites(favList) {
             it.isFavorite = true
         }
-        ListView(goToDetail = goToDetail, heroList = heroList, refreshing = refreshing, pullRefreshState = pullRefreshState) {
-            setFav(it)
-        }
+        ListView(goToDetail = goToDetail,
+            heroList = heroList,
+            refreshing = refreshing,
+            pullRefreshState = pullRefreshState,
+            setFav = { setFav(it) },
+            setSearch = { heroViewModel.search(it) })
     }
 }
 
@@ -91,17 +94,41 @@ private fun ListView(
     refreshing: Boolean,
     pullRefreshState: PullRefreshState,
     goToDetail: (HeroModel) -> Unit,
-    setFav: (HeroModel) -> Unit
+    setFav: (HeroModel) -> Unit,
+    setSearch: (String) -> Unit
 ) {
-    Box(Modifier.pullRefresh(pullRefreshState)) {
-        LazyColumn {
-            items(
-                items = heroList, itemContent = { hero ->
-                    ItemView(hero, goToDetail, setFav)
-                }
-            )
+
+    var searchText by remember { mutableStateOf("") }
+
+    Column {
+        OutlinedTextField(
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_search),
+                    contentDescription = ""
+                )
+            },
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.padding_constraint))
+                .fillMaxWidth(),
+            value = searchText,
+            onValueChange = {
+                searchText = it
+                setSearch(it)
+            },
+            label = { Text(stringResource(id = R.string.hero_search)) },
+        )
+
+        Box(Modifier.pullRefresh(pullRefreshState)) {
+            LazyColumn {
+                items(
+                    items = heroList, itemContent = { hero ->
+                        ItemView(hero, goToDetail, setFav)
+                    }
+                )
+            }
+            PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
         }
-        PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
