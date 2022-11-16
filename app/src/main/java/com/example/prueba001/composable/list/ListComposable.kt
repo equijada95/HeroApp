@@ -52,9 +52,11 @@ fun ListComposable(
 
     val pullRefreshState = rememberPullRefreshState(refreshing, { heroViewModel.refresh() })
 
-    // TODO FALLA CUANDO QUITAS UN FAVORITO EN MODO OFFLINE Y VUELVES A RECARGAR ONLINE, SE QUEDA EN FAVORITO
-
     // TODO PONER MENSAJE DE ERROR SINO ENCUENTRA HEROES O SI FALLA LA CONEXION
+
+    // TODO A VECES SE QUEDA EL PULL REFRESH EN LA PANTALLA AL INICIAR LA APLICACION
+
+    // TODO CUANDO ESTA BUSCANDO, SE DETIENE SI NO ENCUENTRA
 
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
@@ -64,25 +66,18 @@ fun ListComposable(
         }
     }
 
-    if (heroList.isEmpty() && !favList.isEmpty()) { // TODO CUANDO ESTA BUSCANDO, SE DETIENE SI NO ENCUENTRA
-        ListView(goToDetail = goToDetail,
-            heroList = favList.mapToModel(),
-            refreshing = refreshing,
-            pullRefreshState = pullRefreshState,
-            setFav = { setFav(it) },
-            setSearch = {})
+    var heroes = heroList
+
+    heroes.getHeroFromFavorites(favList) {
+        it.isFavorite = true
     }
-    else {
-        heroList.getHeroFromFavorites(favList) {
-            it.isFavorite = true
-        }
-        ListView(goToDetail = goToDetail,
-            heroList = heroList,
-            refreshing = refreshing,
-            pullRefreshState = pullRefreshState,
-            setFav = { setFav(it) },
-            setSearch = { heroViewModel.search(it) })
-    }
+    if (heroList.isEmpty()) heroes = favList.mapToModel()
+    ListView(goToDetail = goToDetail,
+        heroList = heroes,
+        refreshing = refreshing,
+        pullRefreshState = pullRefreshState,
+        setFav = { setFav(it) },
+        setSearch = { heroViewModel.search(it) })
 }
 
 
