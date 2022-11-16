@@ -48,7 +48,7 @@ fun ListComposable(
 
     val heroList = heroViewModel.heroes.observeAsState(listOf()).value
 
-    val favList = dbViewModel.getAllFavs().observeAsState(listOf()).value
+    val favList = dbViewModel.favorites.observeAsState(listOf()).value
 
     val refreshing by heroViewModel.isRefreshing.collectAsState()
 

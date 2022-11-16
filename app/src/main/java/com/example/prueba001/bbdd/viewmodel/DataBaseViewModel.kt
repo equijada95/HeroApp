@@ -1,6 +1,5 @@
 package com.example.prueba001.bbdd.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.prueba001.bbdd.models.HeroDbModel
@@ -15,9 +14,7 @@ class DataBaseViewModel @Inject constructor(
     private val repository: DataBaseRepository
 ) : ViewModel() {
 
-    fun getAllFavs(): LiveData<List<HeroDbModel>> {
-        return repository.getHeroesFromDataBase()
-    }
+    val favorites = repository.getHeroesFromDataBase()
 
     fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
