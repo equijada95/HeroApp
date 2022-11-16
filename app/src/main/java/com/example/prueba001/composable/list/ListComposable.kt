@@ -57,6 +57,8 @@ fun ListComposable(
 
     // TODO A VECES SE QUEDA EL PULL REFRESH EN LA PANTALLA AL INICIAR LA APLICACION
 
+    // TODO EN LA BUSQUEDA, SI EL PRIMER ELEMENTO ES FAVORITO, EL PRIMER ELEMENTO DE LA BUSQUEDA TAMBIEN SALE COMO FAVORITO
+
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
             dbViewModel.deleteHero(hero.mapToDb())
