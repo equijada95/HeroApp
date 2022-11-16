@@ -37,7 +37,11 @@ class HeroViewModel @Inject constructor(
     }
 
     fun refresh() {
-        getHeroes()
+        viewModelScope.launch(Dispatchers.IO) {
+            _isRefreshing.emit(true)
+            _getHeroes()
+            _isRefreshing.emit(false)
+        }
     }
 
     fun search(search: String?) {
@@ -51,16 +55,18 @@ class HeroViewModel @Inject constructor(
 
     private fun getHeroes() {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _isRefreshing.emit(true)
-                val heroes = repository.getHeroes()
-                _heroes.postValue(heroes)
-                originalHeroes.postValue(heroes)
-                _isRefreshing.emit(false)
-            } catch (e: SocketTimeoutException) {
-                _heroes.postValue(emptyList())
-                _isRefreshing.emit(false)
-            }
+            _getHeroes()
         }
     }
+
+    suspend fun _getHeroes() {
+        try {
+            val heroes = repository.getHeroes()
+            _heroes.postValue(heroes)
+            originalHeroes.postValue(heroes)
+        } catch (e: SocketTimeoutException) {
+            _heroes.postValue(emptyList())
+        }
+    }
+
 }
