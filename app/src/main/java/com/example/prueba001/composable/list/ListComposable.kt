@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.LoadingComponent
+import com.example.prueba001.composable.customViews.SearchBar
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
 import com.example.prueba001.model.mapToModel
@@ -96,26 +97,8 @@ private fun ListView(
     setSearch: (String) -> Unit
 ) {
 
-    var searchText by remember { mutableStateOf("") }
-
     Column {
-        OutlinedTextField(
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_search),
-                    contentDescription = ""
-                )
-            },
-            modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_constraint))
-                .fillMaxWidth(),
-            value = searchText,
-            onValueChange = {
-                searchText = it
-                setSearch(it)
-            },
-            label = { Text(stringResource(id = R.string.hero_search)) },
-        )
+        SearchBar(setSearch = setSearch)
 
         Box(Modifier.pullRefresh(pullRefreshState)) {
             if (heroList.isEmpty()) {
