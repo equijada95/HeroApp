@@ -38,6 +38,15 @@ class HeroViewModel @Inject constructor(
         getHeroes()
     }
 
+    fun search(search: String?) {
+        search?.let { text ->
+            val searchHeros = _heroes.value?.filter { hero ->
+                hero.name.contains(text)
+            }
+            _heroes.postValue(searchHeros)
+        }
+    }
+
     private fun getHeroes() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
