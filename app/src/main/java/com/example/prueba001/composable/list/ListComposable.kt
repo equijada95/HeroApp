@@ -32,6 +32,7 @@ import com.example.prueba001.composable.customViews.SearchBar
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.mapToDb
 import com.example.prueba001.model.mapToModel
+import com.example.prueba001.test.ModelTest
 import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.viewModels.HeroViewModel
 import com.skydoves.landscapist.glide.GlideImage
@@ -202,6 +203,6 @@ private fun ItemView(
 
 @Preview(showBackground = true)
 @Composable
-fun ListPreview() {
-  //  ListView(heroList = ModelTest.listHeroTest(), pullRefreshState = null, goToDetail = {}, setFav = {})
+fun ListItemsPreview() {
+    ListItems(heroList = ModelTest.listHeroTest(), goToDetail = {}, setFav = {})
 }
