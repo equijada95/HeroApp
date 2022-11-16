@@ -27,21 +27,27 @@ class DataBaseViewModel @Inject constructor(
 
     private fun getAllFavs() {
         viewModelScope.launch(Dispatchers.IO) {
-            val favorites = repository.getHeroesFromDataBase()
-            _favorites.postValue(favorites)
+            _getAllFavs()
         }
     }
 
     fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertHero(hero)
+            _getAllFavs()
         }
     }
 
     fun deleteHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteHero(hero)
+            _getAllFavs()
         }
+    }
+
+    private suspend fun _getAllFavs() {
+        val favorites = repository.getHeroesFromDataBase()
+        _favorites.postValue(favorites)
     }
 
 }
