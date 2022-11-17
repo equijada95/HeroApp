@@ -54,11 +54,11 @@ fun ListComposable(
 
     val pullRefreshState = rememberPullRefreshState(refreshing, { heroViewModel.refresh() })
 
+    var isSearch by remember { mutableStateOf(false) }
+
     // TODO PONER MENSAJE DE ERROR SINO ENCUENTRA HEROES O SI FALLA LA CONEXION
 
     // TODO EN MODO OFFLINE SE QUEDA EL PULLREFRESH PINTADO
-
-    // TODO EN LA BUSQUEDA, SI NO ENCUENTRA NADA MUESTRA LOS FAVORITOS
 
     // TODO SE QUEDA EL CIRCULITO DE PULLREFRESH
 
@@ -77,16 +77,20 @@ fun ListComposable(
         it.isFavorite = true
     }
 
-    if (heroList.isEmpty()) heroes = favList.mapToModel()
+    if (heroList.isEmpty() && !isSearch) heroes = favList.mapToModel()
 
 
     ListView(
         heroList = heroes,
         refreshing = refreshing,
         pullRefreshState = pullRefreshState,
+        isSearch = isSearch,
         goToDetail = goToDetail,
         setFav = { setFav(it) },
-        setSearch = { heroViewModel.search(it) }
+        setSearch = {
+            isSearch = !it.isEmpty()
+            heroViewModel.search(it)
+        }
     )
 }
 
@@ -97,6 +101,7 @@ private fun ListView(
     heroList: List<HeroModel>,
     refreshing: Boolean,
     pullRefreshState: PullRefreshState,
+    isSearch: Boolean,
     goToDetail: (HeroModel) -> Unit,
     setFav: (HeroModel) -> Unit,
     setSearch: (String) -> Unit
@@ -106,7 +111,7 @@ private fun ListView(
         SearchBar(setSearch = setSearch)
 
         Box(Modifier.pullRefresh(pullRefreshState)) {
-            if (heroList.isEmpty()) {
+            if (heroList.isEmpty() && !isSearch) {
                 LoadingComponent()
             } else {
                 ListItems(heroList = heroList, goToDetail = goToDetail, setFav = setFav)
