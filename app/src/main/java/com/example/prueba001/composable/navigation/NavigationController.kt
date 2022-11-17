@@ -28,8 +28,9 @@ fun NavigationController(
         } }
         composable(Destinations.Detail.route) { navBackEntry ->
             val encoded = navBackEntry.arguments?.getString("hero") ?: return@composable
-            val hero = encoded.decode(HeroModel::class.java)
-            DetailComposable(hero = hero, dbViewModel = dbViewModel)
+            encoded.decode(HeroModel::class.java)?.let { hero ->
+                DetailComposable(hero = hero, dbViewModel = dbViewModel)
+            }
         }
     }
 }
