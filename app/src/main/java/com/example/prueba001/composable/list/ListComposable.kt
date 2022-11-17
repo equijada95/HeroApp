@@ -62,6 +62,8 @@ fun ListComposable(
 
     // TODO SE QUEDA EL CIRCULITO DE PULLREFRESH
 
+    // TODO BUSQUEDA OFFLINE EN FAVORITOS
+
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
             dbViewModel.deleteHero(hero.mapToDb())
