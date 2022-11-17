@@ -70,7 +70,6 @@ private fun ItemView(
     var isFav by remember { mutableStateOf(hero.isFavorite) }
 
     Card(
-        elevation = dimensionResource(id = R.dimen.elevation_cardview),
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint))
     ) {
@@ -111,8 +110,7 @@ private fun ItemView(
     hero.appearance?.let { appearance ->
         Card(
             modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_constraint)),
-            elevation = dimensionResource(id = R.dimen.elevation_cardview)
+                .padding(dimensionResource(id = R.dimen.padding_constraint))
         ) {
             Column(
                 modifier = Modifier
@@ -139,7 +137,6 @@ private fun ItemView(
         }
     }
     Card(
-        elevation = dimensionResource(id = R.dimen.elevation_cardview),
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint))
     ) {
