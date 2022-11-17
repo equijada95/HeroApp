@@ -33,7 +33,7 @@ fun <T> T.encode(): String? {
     return URLEncoder.encode(json, "UTF-8")
 }
 
-// esta funcion recoge el objeto encodado, lo desencripta y lo convierte en el objeto indicado en el type
+// esta funcion recoge el string encodado, lo desencripta y lo convierte en el objeto indicado en el type
 fun <A> String.decode(type: Class<A>): A {
     val decoded = URLDecoder.decode(this, "UTF-8")
     return Gson().fromJson(decoded, type)
