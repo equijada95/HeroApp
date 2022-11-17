@@ -1,15 +1,15 @@
-package com.example.prueba001.model
+package com.example.prueba001.utils
 
 import com.example.prueba001.bbdd.models.HeroDbModel
 import com.example.prueba001.bbdd.models.appearance.AppearanceDbModel
 import com.example.prueba001.bbdd.models.biography.BiographyDbModel
 import com.example.prueba001.bbdd.models.images.ImagesDbModel
 import com.example.prueba001.bbdd.models.stats.StatsDbModel
+import com.example.prueba001.model.HeroModel
 import com.example.prueba001.model.appearance.AppearanceModel
 import com.example.prueba001.model.biography.BiographyModel
 import com.example.prueba001.model.images.ImagesModel
 import com.example.prueba001.model.stats.StatsModel
-import com.example.prueba001.utils.getList
 
 fun ImagesModel.mapToDb() = ImagesDbModel(
     Math.random().toInt(),
