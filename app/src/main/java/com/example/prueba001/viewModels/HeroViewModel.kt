@@ -53,6 +53,15 @@ class HeroViewModel @Inject constructor(
         }
     }
 
+    fun refreshSearch(search: String?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isRefreshing.emit(true)
+            _getHeroes()
+            search(search)
+            _isRefreshing.emit(false)
+        }
+    }
+
     private fun getHeroes() {
         viewModelScope.launch(Dispatchers.IO) {
             _getHeroes()

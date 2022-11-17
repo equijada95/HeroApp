@@ -51,9 +51,16 @@ fun ListComposable(
 
     val refreshing by heroViewModel.isRefreshing.collectAsState()
 
-    val pullRefreshState = rememberPullRefreshState(refreshing, { heroViewModel.refresh() })
-
     var isSearch by remember { mutableStateOf(false) }
+    var searchText by remember { mutableStateOf("") }
+
+    val pullRefreshState = rememberPullRefreshState(refreshing, {
+        if (isSearch) {
+            heroViewModel.refreshSearch(searchText)
+        } else {
+            heroViewModel.refresh()
+        }
+    })
 
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
@@ -79,6 +86,7 @@ fun ListComposable(
         setFav = { setFav(it) },
         setSearch = {
             isSearch = it.isNotEmpty()
+            searchText = it
             heroViewModel.search(it)
         }
     )
