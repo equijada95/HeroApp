@@ -13,18 +13,14 @@ fun String.getList(): List<String> {
     return listOf(*secondReplace.split(",").toTypedArray())
 }
 
-fun List<HeroModel>.getHeroFromFavorites(favorites: List<HeroDbModel>, predicate: (hero: HeroModel) -> Unit) {
+fun List<HeroModel>.setListWithFavorites(favorites: List<HeroDbModel>) {
+    forEach { it.isFavorite = false }
     favorites.forEach { heroDbModel ->
         find { hero -> heroDbModel.id == hero.id }?.let { favorite ->
-            predicate(favorite)
+            favorite.isFavorite = true
         }
     }
 }
-
-fun List<HeroModel>.setAllFavoritesFalse() {
-    forEach { it.isFavorite = false }
-}
-
 
 // esta funcion convierte cualquier objeto en un json y lo encripta para que
 // pueda parsearse correctamente para la navegacion

@@ -30,11 +30,10 @@ import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.customViews.LoadingComponent
 import com.example.prueba001.composable.customViews.SearchBar
 import com.example.prueba001.model.HeroModel
+import com.example.prueba001.test.ModelTest
+import com.example.prueba001.utils.setListWithFavorites
 import com.example.prueba001.utils.mapToDb
 import com.example.prueba001.utils.mapToModel
-import com.example.prueba001.test.ModelTest
-import com.example.prueba001.utils.getHeroFromFavorites
-import com.example.prueba001.utils.setAllFavoritesFalse
 import com.example.prueba001.viewModels.HeroViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -66,10 +65,7 @@ fun ListComposable(
 
     var heroes = heroList
 
-    heroes.setAllFavoritesFalse()
-    heroes.getHeroFromFavorites(favList) {
-        it.isFavorite = true
-    }
+    heroes.setListWithFavorites(favList)
 
     if (heroList.isEmpty() && !isSearch) heroes = favList.mapToModel()
 
