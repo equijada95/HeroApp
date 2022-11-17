@@ -3,7 +3,6 @@ package com.example.prueba001.bbdd.dataBase
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.prueba001.bbdd.dao.HeroDao
 import com.example.prueba001.bbdd.models.HeroDbModel
 
