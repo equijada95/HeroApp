@@ -30,8 +30,8 @@ import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.LoadingComponent
 import com.example.prueba001.composable.customViews.SearchBar
 import com.example.prueba001.model.HeroModel
-import com.example.prueba001.model.mapToDb
-import com.example.prueba001.model.mapToModel
+import com.example.prueba001.utils.mapToDb
+import com.example.prueba001.utils.mapToModel
 import com.example.prueba001.test.ModelTest
 import com.example.prueba001.utils.getHeroFromFavorites
 import com.example.prueba001.utils.setAllFavoritesFalse
