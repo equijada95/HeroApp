@@ -15,8 +15,6 @@ import com.example.prueba001.utils.encrypt
 import com.example.prueba001.utils.fromJson
 import com.example.prueba001.utils.toJson
 import com.example.prueba001.viewModels.HeroViewModel
-import java.net.URLDecoder
-import java.net.URLEncoder
 
 @Composable
 fun NavigationController(
@@ -27,14 +25,14 @@ fun NavigationController(
     NavHost(navController = navController, startDestination = Destinations.List.route) {
         composable(Destinations.List.route) { ListComposable(heroViewModel, dbViewModel) { hero ->
             hero.toJson().encrypt()?.let { encrypted ->
-                navController.navigate(Destinations.Detail.createRoute(URLEncoder.encode(encrypted, "UTF-8")))
+                navController.navigate(Destinations.Detail.createRoute(encrypted))
             }
         } }
         composable(Destinations.Detail.route) { navBackEntry ->
             val encryptedJson = navBackEntry.arguments?.getString("hero") ?: return@composable
 
-            encryptedJson.decrypt()?.let { heroJson ->
-                DetailComposable(hero = URLDecoder.decode(heroJson, "UTF-8").fromJson(HeroModel::class.java), dbViewModel = dbViewModel)
+            encryptedJson.decrypt()?.let { decrypted ->
+                DetailComposable(hero = decrypted.fromJson(HeroModel::class.java), dbViewModel = dbViewModel)
             }
         }
     }

@@ -4,6 +4,8 @@ import android.util.Base64
 import com.example.prueba001.bbdd.models.HeroDbModel
 import com.example.prueba001.model.HeroModel
 import com.google.gson.Gson
+import java.net.URLDecoder
+import java.net.URLEncoder
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
@@ -52,7 +54,8 @@ fun String.encrypt() :  String? {
 
         val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec)
-        return Base64.encodeToString(cipher.doFinal(this.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
+        val encrypted = Base64.encodeToString(cipher.doFinal(this.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
+        return URLEncoder.encode(encrypted, "UTF-8")
     }
     catch (e: Exception) {
         println("Error while encrypting: $e")
@@ -72,7 +75,9 @@ fun String.decrypt() : String? {
 
         val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
-        return  String(cipher.doFinal(Base64.decode(this, Base64.DEFAULT)))
+        val decrypted = String(cipher.doFinal(Base64.decode(this, Base64.DEFAULT)))
+
+        return URLDecoder.decode(decrypted, "UTF-8")
     }
     catch (e : Exception) {
         println("Error while decrypting: $e");
