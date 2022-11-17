@@ -25,18 +25,16 @@ fun List<HeroModel>.setAllFavoritesFalse() {
     forEach { it.isFavorite = false }
 }
 
-fun <A> String.fromJson(type: Class<A>): A {
-    return Gson().fromJson(this, type)
+
+// esta funcion convierte cualquier objeto en un json y lo encripta para que
+// pueda parsearse correctamente para la navegacion
+fun <T> T.encode(): String? {
+    val json = Gson().toJson(this)
+    return URLEncoder.encode(json, "UTF-8")
 }
 
-fun <T> T.toJson(): String {
-    return Gson().toJson(this)
-}
-
-fun String.encode(): String? {
-    return URLEncoder.encode(this, "UTF-8")
-}
-
-fun String.decode(): String? {
-    return URLDecoder.decode(this, "UTF-8")
+// esta funcion recoge el objeto encodado, lo desencripta y lo convierte en el objeto indicado en el type
+fun <A> String.decode(type: Class<A>): A {
+    val decoded = URLDecoder.decode(this, "UTF-8")
+    return Gson().fromJson(decoded, type)
 }
