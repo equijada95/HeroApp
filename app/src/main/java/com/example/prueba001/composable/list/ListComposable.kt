@@ -56,14 +56,6 @@ fun ListComposable(
 
     var isSearch by remember { mutableStateOf(false) }
 
-    // TODO PONER MENSAJE DE ERROR SINO ENCUENTRA HEROES O SI FALLA LA CONEXION
-
-    // TODO EN MODO OFFLINE SE QUEDA EL PULLREFRESH PINTADO
-
-    // TODO SE QUEDA EL CIRCULITO DE PULLREFRESH
-
-    // TODO BUSQUEDA OFFLINE EN FAVORITOS
-
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
             dbViewModel.deleteHero(hero.mapToDb())
