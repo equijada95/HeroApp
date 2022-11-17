@@ -1,4 +1,4 @@
-package com.example.prueba001.composable
+package com.example.prueba001.composable.customViews
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
 import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
-import com.example.prueba001.composable.LoadingComponent
+import com.example.prueba001.composable.customViews.LoadingComponent
 import com.example.prueba001.composable.customViews.SearchBar
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.utils.mapToDb

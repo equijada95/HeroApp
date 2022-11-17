@@ -59,7 +59,7 @@ class HeroViewModel @Inject constructor(
         }
     }
 
-    suspend fun _getHeroes() {
+    private suspend fun _getHeroes() {
         try {
             val heroes = repository.getHeroes()
             _heroes.postValue(heroes)
