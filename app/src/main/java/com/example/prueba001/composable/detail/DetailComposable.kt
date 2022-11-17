@@ -50,8 +50,6 @@ private fun DetailView(
     setFav: (Boolean) -> Unit
 ) {
 
-    var isFav by remember { mutableStateOf(hero.isFavorite) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,80 +57,62 @@ private fun DetailView(
             .background(Color.White)
     ) {
         TopBackBar(title = hero.name)
-        
-        Card(
-            elevation = dimensionResource(id = R.dimen.elevation_cardview),
+        ItemView(hero = hero, setFav = setFav)
+    }
+}
+
+@Composable
+private fun ItemView(
+    hero: HeroModel,
+    setFav: (Boolean) -> Unit
+) {
+
+    var isFav by remember { mutableStateOf(hero.isFavorite) }
+
+    Card(
+        elevation = dimensionResource(id = R.dimen.elevation_cardview),
+        modifier = Modifier
+            .padding(dimensionResource(id = R.dimen.padding_constraint))
+    ) {
+        Column(
             modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_constraint))
+                .padding(dimensionResource(id = R.dimen.padding_constraint)),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.padding_constraint)),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                hero.images?.lg?.let {
-                    GlideImage(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .clip(CircleShape),
-                        imageModel = it,
-                        contentScale = ContentScale.Crop,
-                    )
-                }
-                Text(
-                    text = hero.name,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = dimensionResource(id = R.dimen.title_size).value.sp
-                )
-                hero.powerstats?.let { stats ->
-                    Text(
-                        text = "${stringResource(id = R.string.hero_intelligence)} ${stats.intelligence} \n" +
-                                "${stringResource(id = R.string.hero_strength)} ${stats.strength} \n" +
-                                "${stringResource(id = R.string.hero_speed)} ${stats.speed} \n" +
-                                "${stringResource(id = R.string.hero_durability)} ${stats.durability} \n" +
-                                "${stringResource(id = R.string.hero_power)} ${stats.power} \n" +
-                                "${stringResource(id = R.string.hero_combat)} ${stats.combat}",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                    )
-                }
-            }
-        }
-        hero.appearance?.let { appearance ->
-            Card(
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.padding_constraint)),
-                elevation = dimensionResource(id = R.dimen.elevation_cardview)
-            ) {
-                Column(
+            hero.images?.lg?.let {
+                GlideImage(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensionResource(id = R.dimen.padding_constraint)),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.hero_appearance),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = dimensionResource(id = R.dimen.title_size).value.sp
-                    )
-                    Text(
-                        text = "${stringResource(id = R.string.hero_gender)} ${appearance.gender} \n" +
-                                "${stringResource(id = R.string.hero_race)} ${appearance.race} \n" +
-                                "${stringResource(id = R.string.hero_heigth)} ${appearance.height} \n" +
-                                "${stringResource(id = R.string.hero_weight)} ${appearance.weight} \n" +
-                                "${stringResource(id = R.string.hero_eye_color)} ${appearance.eyeColor} \n" +
-                                "${stringResource(id = R.string.hero_hair_color)} ${appearance.hairColor}",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                    )
-                }
+                        .aspectRatio(1f)
+                        .clip(CircleShape),
+                    imageModel = it,
+                    contentScale = ContentScale.Crop,
+                )
+            }
+            Text(
+                text = hero.name,
+                fontWeight = FontWeight.Bold,
+                fontSize = dimensionResource(id = R.dimen.title_size).value.sp
+            )
+            hero.powerstats?.let { stats ->
+                Text(
+                    text = "${stringResource(id = R.string.hero_intelligence)} ${stats.intelligence} \n" +
+                            "${stringResource(id = R.string.hero_strength)} ${stats.strength} \n" +
+                            "${stringResource(id = R.string.hero_speed)} ${stats.speed} \n" +
+                            "${stringResource(id = R.string.hero_durability)} ${stats.durability} \n" +
+                            "${stringResource(id = R.string.hero_power)} ${stats.power} \n" +
+                            "${stringResource(id = R.string.hero_combat)} ${stats.combat}",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                )
             }
         }
+    }
+    hero.appearance?.let { appearance ->
         Card(
-            elevation = dimensionResource(id = R.dimen.elevation_cardview),
             modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_constraint))
+                .padding(dimensionResource(id = R.dimen.padding_constraint)),
+            elevation = dimensionResource(id = R.dimen.elevation_cardview)
         ) {
             Column(
                 modifier = Modifier
@@ -140,41 +120,69 @@ private fun DetailView(
                     .padding(dimensionResource(id = R.dimen.padding_constraint)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                hero.biography?.let { biography ->
-                    Text(
-                        text = stringResource(id = R.string.hero_biography),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = dimensionResource(id = R.dimen.title_size).value.sp
-                    )
-                    Text(
-                        text = "${stringResource(id = R.string.hero_full_name)} ${biography.fullName} \n" +
-                                "${stringResource(id = R.string.hero_alter_egos)} ${biography.alterEgos} \n" +
-                                "${stringResource(id = R.string.hero_aliases)} ${biography.aliases} \n" +
-                                "${stringResource(id = R.string.hero_place_birth)} ${biography.placeOfBirth} \n" +
-                                "${stringResource(id = R.string.hero_first_appearance)} ${biography.firstAppearance} \n" +
-                                "${stringResource(id = R.string.hero_publisher)} ${biography.publisher} \n" +
-                                "${stringResource(id = R.string.hero_alignment)} ${biography.alignment}",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                    )
-                }
-                Image(
-                    if (isFav) painterResource(R.drawable.ic_fav) else painterResource(R.drawable.ic_unfav),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .width(dimensionResource(id = R.dimen.icon_fav_dimen))
-                        .height(dimensionResource(id = R.dimen.icon_fav_dimen))
-                        .clickable(
-                            enabled = true,
-                            onClickLabel = "Set Favorite",
-                            onClick = {
-                                isFav = !isFav
-                                setFav(isFav)
-                            }
-                        ),
-                    contentScale = ContentScale.Crop
+                Text(
+                    text = stringResource(id = R.string.hero_appearance),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = dimensionResource(id = R.dimen.title_size).value.sp
+                )
+                Text(
+                    text = "${stringResource(id = R.string.hero_gender)} ${appearance.gender} \n" +
+                            "${stringResource(id = R.string.hero_race)} ${appearance.race} \n" +
+                            "${stringResource(id = R.string.hero_heigth)} ${appearance.height} \n" +
+                            "${stringResource(id = R.string.hero_weight)} ${appearance.weight} \n" +
+                            "${stringResource(id = R.string.hero_eye_color)} ${appearance.eyeColor} \n" +
+                            "${stringResource(id = R.string.hero_hair_color)} ${appearance.hairColor}",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
             }
+        }
+    }
+    Card(
+        elevation = dimensionResource(id = R.dimen.elevation_cardview),
+        modifier = Modifier
+            .padding(dimensionResource(id = R.dimen.padding_constraint))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.padding_constraint)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            hero.biography?.let { biography ->
+                Text(
+                    text = stringResource(id = R.string.hero_biography),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = dimensionResource(id = R.dimen.title_size).value.sp
+                )
+                Text(
+                    text = "${stringResource(id = R.string.hero_full_name)} ${biography.fullName} \n" +
+                            "${stringResource(id = R.string.hero_alter_egos)} ${biography.alterEgos} \n" +
+                            "${stringResource(id = R.string.hero_aliases)} ${biography.aliases} \n" +
+                            "${stringResource(id = R.string.hero_place_birth)} ${biography.placeOfBirth} \n" +
+                            "${stringResource(id = R.string.hero_first_appearance)} ${biography.firstAppearance} \n" +
+                            "${stringResource(id = R.string.hero_publisher)} ${biography.publisher} \n" +
+                            "${stringResource(id = R.string.hero_alignment)} ${biography.alignment}",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                )
+            }
+            Image(
+                if (isFav) painterResource(R.drawable.ic_fav) else painterResource(R.drawable.ic_unfav),
+                contentDescription = "",
+                modifier = Modifier
+                    .width(dimensionResource(id = R.dimen.icon_fav_dimen))
+                    .height(dimensionResource(id = R.dimen.icon_fav_dimen))
+                    .clickable(
+                        enabled = true,
+                        onClickLabel = "Set Favorite",
+                        onClick = {
+                            isFav = !isFav
+                            setFav(isFav)
+                        }
+                    ),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 }
