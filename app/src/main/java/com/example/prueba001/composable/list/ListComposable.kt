@@ -140,13 +140,8 @@ private fun ItemView(
     var isFav by remember { mutableStateOf(false) }
 
     fun setFav() {
-        if (isFav) {
-            isFav = false
-            hero.isFavorite = false
-        } else {
-            isFav = true
-            hero.isFavorite = true
-        }
+        isFav = !isFav
+        hero.isFavorite = !hero.isFavorite
         setFav(hero)
     }
 
