@@ -47,7 +47,7 @@ class HeroViewModel @Inject constructor(
     fun search(search: String?) {
         search?.let { text ->
             val searchHeros = originalHeroes.value?.filter { hero ->
-                hero.name.contains(text)
+                hero.name.uppercase().contains(text.uppercase())
             }
             _heroes.postValue(searchHeros)
         }
