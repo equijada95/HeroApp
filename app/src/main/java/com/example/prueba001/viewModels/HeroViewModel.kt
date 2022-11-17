@@ -64,9 +64,7 @@ class HeroViewModel @Inject constructor(
             val heroes = repository.getHeroes()
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
-        } catch (e: SocketTimeoutException) {
-            _heroes.postValue(emptyList())
-        }
+        } catch (_: SocketTimeoutException) { }
     }
 
 }
