@@ -30,17 +30,19 @@ fun SearchBar(
             )
         },
         trailingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_close),
-                contentDescription = "",
-                modifier = Modifier
-                    .clickable(
-                        onClick = {
-                            searchText = ""
-                            setSearch(searchText)
-                        }
-                    )
-            )
+            if (searchText.isNotEmpty()) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_close),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .clickable(
+                            onClick = {
+                                searchText = ""
+                                setSearch(searchText)
+                            }
+                        )
+                )
+            }
         },
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint))
