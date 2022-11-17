@@ -10,9 +10,13 @@ import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.detail.DetailComposable
 import com.example.prueba001.composable.list.ListComposable
 import com.example.prueba001.model.HeroModel
+import com.example.prueba001.utils.decrypt
+import com.example.prueba001.utils.encrypt
 import com.example.prueba001.utils.fromJson
 import com.example.prueba001.utils.toJson
 import com.example.prueba001.viewModels.HeroViewModel
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 @Composable
 fun NavigationController(
@@ -22,12 +26,16 @@ fun NavigationController(
 ) {
     NavHost(navController = navController, startDestination = Destinations.List.route) {
         composable(Destinations.List.route) { ListComposable(heroViewModel, dbViewModel) { hero ->
-            navController.navigate(Destinations.Detail.createRoute(hero.toJson())) // TODO CORREGIR ERROR DE PARSEO
+            hero.toJson().encrypt()?.let { encrypted ->
+                navController.navigate(Destinations.Detail.createRoute(URLEncoder.encode(encrypted, "UTF-8")))
+            }
         } }
         composable(Destinations.Detail.route) { navBackEntry ->
-            val heroJson = navBackEntry.arguments?.getString("hero") ?: return@composable
+            val encryptedJson = navBackEntry.arguments?.getString("hero") ?: return@composable
 
-            DetailComposable(hero = heroJson.fromJson(HeroModel::class.java), dbViewModel = dbViewModel)
+            encryptedJson.decrypt()?.let { heroJson ->
+                DetailComposable(hero = URLDecoder.decode(heroJson, "UTF-8").fromJson(HeroModel::class.java), dbViewModel = dbViewModel)
+            }
         }
     }
 }
