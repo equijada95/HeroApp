@@ -51,11 +51,10 @@ fun ListComposable(
 
     val refreshing by heroViewModel.isRefreshing.collectAsState()
 
-    var isSearch by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
 
     val pullRefreshState = rememberPullRefreshState(refreshing, {
-        if (isSearch) {
+        if (searchText.isNotEmpty()) {
             heroViewModel.refreshSearch(searchText)
         } else {
             heroViewModel.refresh()
@@ -74,18 +73,16 @@ fun ListComposable(
 
     heroes.setListWithFavorites(favList)
 
-    if (heroList.isEmpty() && !isSearch) heroes = favList.mapToModel()
-
-
+    if (heroList.isEmpty() && searchText.isEmpty()) heroes = favList.mapToModel()
+    
     ListView(
         heroList = heroes,
         refreshing = refreshing,
         pullRefreshState = pullRefreshState,
-        isSearch = isSearch,
+        isSearch = searchText.isNotEmpty(),
         goToDetail = goToDetail,
         setFav = { setFav(it) },
         setSearch = {
-            isSearch = it.isNotEmpty()
             searchText = it
             heroViewModel.search(it)
         }
