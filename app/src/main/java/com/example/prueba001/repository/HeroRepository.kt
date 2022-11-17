@@ -16,12 +16,12 @@ class HeroRepositoryImpl @Inject constructor(
     private var heroes: List<HeroModel> = emptyList()
 
     override suspend fun getHeroes(): List<HeroModel> {
-        try {
+        return try {
             val apiResponse = heroProvider.getAll().body()
             heroes = apiResponse ?: emptyList()
-            return heroes
+            heroes
         } catch(e: UnknownHostException) {
-            return emptyList()
+            emptyList()
         }
     }
 

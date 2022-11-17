@@ -82,7 +82,7 @@ fun ListComposable(
         goToDetail = goToDetail,
         setFav = { setFav(it) },
         setSearch = {
-            isSearch = !it.isEmpty()
+            isSearch = it.isNotEmpty()
             heroViewModel.search(it)
         }
     )
