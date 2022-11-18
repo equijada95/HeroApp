@@ -102,17 +102,16 @@ private fun ListView(
     setSearch: (String) -> Unit
 ) {
 
-    Column {
-        SearchBar(setSearch = setSearch)
-
-        Box(Modifier.pullRefresh(pullRefreshState)) {
+    Box(Modifier.pullRefresh(pullRefreshState)) {
+        Column {
+            SearchBar(setSearch = setSearch)
             if (heroList.isEmpty() && !isSearch) {
                 LoadingComponent()
             } else {
                 ListItems(heroList = heroList, goToDetail = goToDetail, setFav = setFav)
             }
-            PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
         }
+        PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
