@@ -9,7 +9,7 @@ import com.example.prueba001.bbdd.models.HeroDbModel
 interface HeroDao {
 
     @Query("SELECT * FROM hero_list")
-    fun getAll(): LiveData<List<HeroDbModel>>
+    fun getAll(): List<HeroDbModel>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(hero: HeroDbModel?)

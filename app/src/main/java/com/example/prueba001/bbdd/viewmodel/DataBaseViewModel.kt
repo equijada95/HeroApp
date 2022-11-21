@@ -14,8 +14,6 @@ class DataBaseViewModel @Inject constructor(
     private val repository: DataBaseRepository
 ) : ViewModel() {
 
-    val favorites = repository.getHeroesFromDataBase()
-
     fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertHero(hero)

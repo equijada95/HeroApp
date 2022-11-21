@@ -21,7 +21,7 @@ fun NavigationController(
     dbViewModel: DataBaseViewModel = hiltViewModel()
 ) {
     NavHost(navController = navController, startDestination = Destinations.List.route) {
-        composable(Destinations.List.route) { ListComposable(heroViewModel, dbViewModel) { hero ->
+        composable(Destinations.List.route) { ListComposable(heroViewModel) { hero ->
             hero.encode()?.let { encoded ->
                 navController.navigate(Destinations.Detail.createRoute(encoded))
             }

@@ -41,13 +41,10 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun ListComposable(
     heroViewModel: HeroViewModel = hiltViewModel(),
-    dbViewModel: DataBaseViewModel = hiltViewModel(),
     goToDetail: (HeroModel) -> Unit
 ) {
 
     val heroList = heroViewModel.heroes.observeAsState(listOf()).value
-
-    val favList = dbViewModel.favorites.observeAsState(listOf()).value
 
     val refreshing by heroViewModel.isRefreshing.collectAsState()
 
@@ -63,20 +60,20 @@ fun ListComposable(
 
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
-            dbViewModel.deleteHero(hero.mapToDb())
+            heroViewModel.deleteHero(hero.mapToDb())
         } else {
-            dbViewModel.insertHero(hero.mapToDb())
+            heroViewModel.insertHero(hero.mapToDb())
         }
     }
 
-    var heroes = heroList
-
-    heroes.setListWithFavorites(favList)
-
-    if (heroList.isEmpty() && searchText.isEmpty()) heroes = favList.mapToModel()
+  //  var heroes = heroList
+//
+  //  heroes.setListWithFavorites(favList)
+//
+  //  if (heroList.isEmpty() && searchText.isEmpty()) heroes = favList.mapToModel()
     
     ListView(
-        heroList = heroes,
+        heroList = heroList,
         refreshing = refreshing,
         pullRefreshState = pullRefreshState,
         isSearch = searchText.isNotEmpty(),
