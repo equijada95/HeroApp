@@ -48,6 +48,7 @@ class ListViewModel @Inject constructor(
                 else heroes.setListWithFavorites(favorites)
             }
             _heroes.postValue(heroes)
+            originalHeroes.postValue(heroes)
         }
     }
 
