@@ -31,13 +31,17 @@ class ListViewModel @Inject constructor(
     val heroes: LiveData<List<HeroModel>>
         get() = _heroes
 
+    private val favorites = dataBaseRepository.getHeroesFromDataBase()
+
     private val _isRefreshing = MutableStateFlow(false)
 
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
 
     init {
-        getHeroes()
+        favorites.observeForever {
+            getHeroes()
+        }
     }
 
     fun insertHero(hero: HeroDbModel) {
@@ -87,8 +91,7 @@ class ListViewModel @Inject constructor(
     private suspend fun _getHeroes() {
         try {
             val heroes = heroRepository.getHeroes()
-            val favorites = dataBaseRepository.getHeroesFromDataBase()
-            heroes.setListWithFavorites(favorites)
+            favorites.value?.let { heroes.setListWithFavorites(it) }
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
         } catch (_: SocketTimeoutException) { }
