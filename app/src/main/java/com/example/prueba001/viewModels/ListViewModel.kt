@@ -88,7 +88,7 @@ class ListViewModel @Inject constructor(
         try {
             val heroes = heroRepository.getHeroes()
             val favorites = dataBaseRepository.getHeroesFromDataBase()
-            favorites.let { heroes.setListWithFavorites(it) }
+            heroes.setListWithFavorites(favorites)
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
         } catch (_: SocketTimeoutException) { }
