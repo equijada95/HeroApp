@@ -39,8 +39,11 @@ class ListViewModel @Inject constructor(
         get() = _isRefreshing.asStateFlow()
 
     init {
+        getHeroes()
         favorites.observeForever {
-            getHeroes()
+            val heroes = _heroes.value ?: return@observeForever
+            favorites.value?.let { favorites -> heroes.setListWithFavorites(favorites) }
+            _heroes.postValue(heroes)
         }
     }
 
@@ -91,7 +94,6 @@ class ListViewModel @Inject constructor(
     private suspend fun _getHeroes() {
         try {
             val heroes = heroRepository.getHeroes()
-            favorites.value?.let { heroes.setListWithFavorites(it) }
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
         } catch (_: SocketTimeoutException) { }
