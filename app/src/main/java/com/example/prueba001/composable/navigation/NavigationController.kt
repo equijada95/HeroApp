@@ -12,16 +12,16 @@ import com.example.prueba001.composable.list.ListComposable
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.utils.decode
 import com.example.prueba001.utils.encode
-import com.example.prueba001.viewModels.HeroViewModel
+import com.example.prueba001.viewModels.ListViewModel
 
 @Composable
 fun NavigationController(
     navController: NavHostController = rememberNavController(),
-    heroViewModel: HeroViewModel = hiltViewModel(),
+    listViewModel: ListViewModel = hiltViewModel(),
     dbViewModel: DataBaseViewModel = hiltViewModel()
 ) {
     NavHost(navController = navController, startDestination = Destinations.List.route) {
-        composable(Destinations.List.route) { ListComposable(heroViewModel) { hero ->
+        composable(Destinations.List.route) { ListComposable(listViewModel) { hero ->
             hero.encode()?.let { encoded ->
                 navController.navigate(Destinations.Detail.createRoute(encoded))
             }

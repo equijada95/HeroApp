@@ -19,7 +19,7 @@ import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
-class HeroViewModel @Inject constructor(
+class ListViewModel @Inject constructor(
     private val heroRepository: HeroRepository,
     private val dataBaseRepository: DataBaseRepository
 ) : ViewModel() {
