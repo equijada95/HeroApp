@@ -100,8 +100,7 @@ class ListViewModel @Inject constructor(
             var heroes = heroRepository.getHeroes()
 
             favorites.value?.let { favs ->
-                if (heroes.isEmpty()) heroes = favs.mapToModel()
-                else heroes.setListWithFavorites(favs)
+                heroes.setListWithFavorites(favs)
             }
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
