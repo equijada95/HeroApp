@@ -8,6 +8,7 @@ import com.example.prueba001.bbdd.models.HeroDbModel
 import com.example.prueba001.bbdd.repository.DataBaseRepository
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.repository.HeroRepository
+import com.example.prueba001.utils.mapToModel
 import com.example.prueba001.utils.setListWithFavorites
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -93,11 +94,17 @@ class ListViewModel @Inject constructor(
 
     private suspend fun _getHeroes() {
         try {
-            val heroes = heroRepository.getHeroes()
-            favorites.value?.let { favorites -> heroes.setListWithFavorites(favorites) }
+            var heroes = heroRepository.getHeroes()
+
+            favorites.value?.let { favs ->
+                if (heroes.isEmpty()) heroes = favs.mapToModel()
+                else heroes.setListWithFavorites(favs)
+            }
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
-        } catch (_: SocketTimeoutException) { }
+        } catch (_: SocketTimeoutException) {
+            _heroes.postValue(favorites.value?.mapToModel())
+        }
     }
 
 }
