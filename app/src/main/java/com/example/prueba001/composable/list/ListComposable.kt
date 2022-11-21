@@ -62,12 +62,6 @@ fun ListComposable(
             viewModel.insertHero(hero.mapToDb())
         }
     }
-
-  //  var heroes = heroList
-//
-  //  heroes.setListWithFavorites(favList)
-//
-  //  if (heroList.isEmpty() && searchText.isEmpty()) heroes = favList.mapToModel()
     
     ListView(
         heroList = heroList,
