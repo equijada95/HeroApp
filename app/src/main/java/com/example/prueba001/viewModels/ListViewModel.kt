@@ -42,8 +42,11 @@ class ListViewModel @Inject constructor(
     init {
         getHeroes()
         favorites.observeForever {
-            val heroes = _heroes.value ?: return@observeForever
-            favorites.value?.let { favorites -> heroes.setListWithFavorites(favorites) }
+            var heroes = _heroes.value ?: emptyList()
+            it?.let { favorites ->
+                if (heroes.isEmpty()) heroes = favorites.mapToModel()
+                else heroes.setListWithFavorites(favorites)
+            }
             _heroes.postValue(heroes)
         }
     }
