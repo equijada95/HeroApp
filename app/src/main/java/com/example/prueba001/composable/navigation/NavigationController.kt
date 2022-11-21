@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.prueba001.viewModels.DataBaseViewModel
+import com.example.prueba001.viewModels.DetailViewModel
 import com.example.prueba001.composable.detail.DetailComposable
 import com.example.prueba001.composable.list.ListComposable
 import com.example.prueba001.model.HeroModel
@@ -18,7 +18,7 @@ import com.example.prueba001.viewModels.ListViewModel
 fun NavigationController(
     navController: NavHostController = rememberNavController(),
     listViewModel: ListViewModel = hiltViewModel(),
-    dbViewModel: DataBaseViewModel = hiltViewModel()
+    detailViewModel: DetailViewModel = hiltViewModel()
 ) {
     NavHost(navController = navController, startDestination = Destinations.List.route) {
         composable(Destinations.List.route) { ListComposable(listViewModel) { hero ->
@@ -29,7 +29,7 @@ fun NavigationController(
         composable(Destinations.Detail.route) { navBackEntry ->
             val encoded = navBackEntry.arguments?.getString("hero") ?: return@composable
             encoded.decode(HeroModel::class.java)?.let { hero ->
-                DetailComposable(hero = hero, dbViewModel = dbViewModel)
+                DetailComposable(hero = hero, viewModel = detailViewModel)
             }
         }
     }

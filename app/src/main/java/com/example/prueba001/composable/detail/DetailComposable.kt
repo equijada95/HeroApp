@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
-import com.example.prueba001.viewModels.DataBaseViewModel
+import com.example.prueba001.viewModels.DetailViewModel
 import com.example.prueba001.composable.customViews.TopBackBar
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.utils.mapToDb
@@ -30,14 +30,14 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun DetailComposable(
     hero: HeroModel,
-    dbViewModel: DataBaseViewModel = hiltViewModel()
+    viewModel: DetailViewModel = hiltViewModel()
 ) {
 
     fun setFav(isFav: Boolean) {
         if (!isFav) { // al reves tambien porque ya se ha cambiado el valor de isFav en la vista
-            dbViewModel.deleteHero(hero.mapToDb())
+            viewModel.deleteHero(hero.mapToDb())
         } else {
-            dbViewModel.insertHero(hero.mapToDb())
+            viewModel.insertHero(hero.mapToDb())
         }
     }
 
