@@ -32,24 +32,6 @@ fun DetailComposable(
     hero: HeroModel,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
-
-    fun setFav(isFav: Boolean) {
-        if (!isFav) { // al reves tambien porque ya se ha cambiado el valor de isFav en la vista
-            viewModel.deleteHero(hero.mapToDb())
-        } else {
-            viewModel.insertHero(hero.mapToDb())
-        }
-    }
-
-    DetailView(hero = hero) { setFav(it) }
-}
-
-@Composable
-private fun DetailView(
-    hero: HeroModel,
-    setFav: (Boolean) -> Unit
-) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,14 +39,14 @@ private fun DetailView(
             .background(Color.White)
     ) {
         TopBackBar(title = hero.name)
-        ItemView(hero = hero, setFav = setFav)
+        ItemView(hero) { viewModel.setFav(hero) }
     }
 }
 
 @Composable
 private fun ItemView(
     hero: HeroModel,
-    setFav: (Boolean) -> Unit
+    setFav: () -> Unit
 ) {
 
     var isFav by remember { mutableStateOf(hero.isFavorite) }
@@ -174,8 +156,8 @@ private fun ItemView(
                         enabled = true,
                         onClickLabel = "Set Favorite",
                         onClick = {
+                            setFav()
                             isFav = !isFav
-                            setFav(isFav)
                         }
                     ),
                 contentScale = ContentScale.Crop
@@ -187,5 +169,5 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun DetailPreview() {
-    DetailView(ModelTest.heroTest()) {}
+    DetailComposable(ModelTest.heroTest())
 }
