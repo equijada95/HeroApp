@@ -106,9 +106,7 @@ class ListViewModel @Inject constructor(
             }
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
-        } catch (_: SocketTimeoutException) {
-            _heroes.postValue(favorites.value?.mapToModel())
-        }
+        } catch (_: SocketTimeoutException) { }
     }
 
 }
