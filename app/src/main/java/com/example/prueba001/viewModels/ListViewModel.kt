@@ -78,7 +78,7 @@ class ListViewModel @Inject constructor(
 
     private suspend fun getHeroes() {
         try {
-            var heroes = heroRepository.getHeroes()
+            val heroes = heroRepository.getHeroes()
             setHeroesWithFavorites(heroes)
         } catch (_: SocketTimeoutException) { }
     }
