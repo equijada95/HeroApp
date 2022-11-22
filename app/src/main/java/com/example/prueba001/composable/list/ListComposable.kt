@@ -26,57 +26,45 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
-import com.example.prueba001.bbdd.viewmodel.DataBaseViewModel
 import com.example.prueba001.composable.customViews.LoadingComponent
 import com.example.prueba001.composable.customViews.SearchBar
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.test.ModelTest
-import com.example.prueba001.utils.setListWithFavorites
 import com.example.prueba001.utils.mapToDb
-import com.example.prueba001.utils.mapToModel
-import com.example.prueba001.viewModels.HeroViewModel
+import com.example.prueba001.viewModels.ListViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListComposable(
-    heroViewModel: HeroViewModel = hiltViewModel(),
-    dbViewModel: DataBaseViewModel = hiltViewModel(),
+    viewModel: ListViewModel = hiltViewModel(),
     goToDetail: (HeroModel) -> Unit
 ) {
 
-    val heroList = heroViewModel.heroes.observeAsState(listOf()).value
+    val heroList = viewModel.heroes.observeAsState(listOf()).value
 
-    val favList = dbViewModel.favorites.observeAsState(listOf()).value
-
-    val refreshing by heroViewModel.isRefreshing.collectAsState()
+    val refreshing by viewModel.isRefreshing.collectAsState()
 
     var searchText by remember { mutableStateOf("") }
 
     val pullRefreshState = rememberPullRefreshState(refreshing, {
         if (searchText.isNotEmpty()) {
-            heroViewModel.refreshSearch(searchText)
+            viewModel.refreshSearch(searchText)
         } else {
-            heroViewModel.refresh()
+            viewModel.refresh()
         }
     })
 
     fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
-            dbViewModel.deleteHero(hero.mapToDb())
+            viewModel.deleteHero(hero.mapToDb())
         } else {
-            dbViewModel.insertHero(hero.mapToDb())
+            viewModel.insertHero(hero.mapToDb())
         }
     }
-
-    var heroes = heroList
-
-    heroes.setListWithFavorites(favList)
-
-    if (heroList.isEmpty() && searchText.isEmpty()) heroes = favList.mapToModel()
     
     ListView(
-        heroList = heroes,
+        heroList = heroList,
         refreshing = refreshing,
         pullRefreshState = pullRefreshState,
         isSearch = searchText.isNotEmpty(),
@@ -84,7 +72,7 @@ fun ListComposable(
         setFav = { setFav(it) },
         setSearch = {
             searchText = it
-            heroViewModel.search(it)
+            viewModel.search(it)
         }
     )
 }

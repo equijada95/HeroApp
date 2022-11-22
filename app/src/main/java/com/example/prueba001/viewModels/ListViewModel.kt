@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.prueba001.bbdd.models.HeroDbModel
+import com.example.prueba001.bbdd.repository.DataBaseRepository
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.repository.HeroRepository
+import com.example.prueba001.utils.mapToModel
+import com.example.prueba001.utils.setListWithFavorites
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,24 +20,43 @@ import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
-class HeroViewModel @Inject constructor(
-    private val repository: HeroRepository
+class ListViewModel @Inject constructor(
+    private val heroRepository: HeroRepository,
+    private val dataBaseRepository: DataBaseRepository
 ) : ViewModel() {
 
     private val _heroes = MutableLiveData<List<HeroModel>>()
 
     private val originalHeroes = MutableLiveData<List<HeroModel>>()
 
-    val heroes: LiveData<List<HeroModel>>
-        get() = _heroes
+    val heroes: LiveData<List<HeroModel>> get() = _heroes
+
+    private val favorites = dataBaseRepository.getHeroesFromDataBase()
 
     private val _isRefreshing = MutableStateFlow(false)
 
-    val isRefreshing: StateFlow<Boolean>
-        get() = _isRefreshing.asStateFlow()
+    val isRefreshing: StateFlow<Boolean> get() = _isRefreshing.asStateFlow()
 
     init {
         getHeroes()
+        favorites.observeForever {
+            var heroes = _heroes.value ?: emptyList()
+            heroes = setHeroesWithFavorites(heroes)
+            _heroes.postValue(heroes)
+            originalHeroes.postValue(heroes)
+        }
+    }
+
+    fun insertHero(hero: HeroDbModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataBaseRepository.insertHero(hero)
+        }
+    }
+
+    fun deleteHero(hero: HeroDbModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataBaseRepository.deleteHero(hero)
+        }
     }
 
     fun refresh() {
@@ -70,10 +93,20 @@ class HeroViewModel @Inject constructor(
 
     private suspend fun _getHeroes() {
         try {
-            val heroes = repository.getHeroes()
+            var heroes = heroRepository.getHeroes()
+
+            heroes = setHeroesWithFavorites(heroes)
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
         } catch (_: SocketTimeoutException) { }
+    }
+
+    private fun setHeroesWithFavorites(heroList: List<HeroModel>): List<HeroModel> {
+        favorites.value?.let { favs ->
+            if (heroList.isEmpty()) return favs.mapToModel()
+            else heroList.setListWithFavorites(favs)
+        }
+        return heroList
     }
 
 }

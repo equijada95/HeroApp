@@ -1,4 +1,4 @@
-package com.example.prueba001.bbdd.viewmodel
+package com.example.prueba001.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,11 +10,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DataBaseViewModel @Inject constructor(
+class DetailViewModel @Inject constructor(
     private val repository: DataBaseRepository
 ) : ViewModel() {
-
-    val favorites = repository.getHeroesFromDataBase()
 
     fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
