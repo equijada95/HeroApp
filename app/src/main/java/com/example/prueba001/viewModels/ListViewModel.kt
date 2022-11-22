@@ -38,10 +38,8 @@ class ListViewModel @Inject constructor(
             favorites = dataBaseRepository.getHeroesFromDataBase().stateIn(scope = CoroutineScope(Job()))
             getHeroes()
             favorites.collect {
-                var heroes = _state.value.heroList
-                heroes = setHeroesWithFavorites(heroes)
-                _state.update { it.copy(heroList = it.heroList) }
-                originalHeroes.update { heroes }
+                val heroes = _state.value.heroList
+                setHeroesWithFavorites(heroes)
             }
         }
     }
@@ -81,17 +79,16 @@ class ListViewModel @Inject constructor(
     private suspend fun getHeroes() {
         try {
             var heroes = heroRepository.getHeroes()
-
-            heroes = setHeroesWithFavorites(heroes)
-            _state.update { it.copy(heroList = heroes) }
-            originalHeroes.update { heroes }
+            setHeroesWithFavorites(heroes)
         } catch (_: SocketTimeoutException) { }
     }
 
-    private fun setHeroesWithFavorites(heroList: List<HeroModel>): List<HeroModel> {
-        if (heroList.isEmpty()) return favorites.value.mapToModel()
-        else heroList.setListWithFavorites(favorites.value)
-        return heroList
+    private fun setHeroesWithFavorites(heroList: List<HeroModel>) {
+        var heroes = heroList
+        if (heroes.isEmpty()) heroes = favorites.value.mapToModel()
+        else heroes.setListWithFavorites(favorites.value)
+        _state.update { it.copy(heroList = heroes) }
+        originalHeroes.update { heroes }
     }
 
     private fun refresh() {
