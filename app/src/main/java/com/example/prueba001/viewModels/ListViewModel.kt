@@ -29,15 +29,13 @@ class ListViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ListState())
 
-    private val coroutineScope = CoroutineScope(Job())
-
     private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
 
     private lateinit var favorites: StateFlow<List<HeroDbModel>>
 
     init {
         viewModelScope.launch {
-            favorites = dataBaseRepository.getHeroesFromDataBase().stateIn(scope = coroutineScope)
+            favorites = dataBaseRepository.getHeroesFromDataBase().stateIn(scope = CoroutineScope(Job()))
             getHeroes()
             favorites.collect {
                 var heroes = _state.value.heroList
