@@ -31,7 +31,7 @@ class ListViewModel @Inject constructor(
 
     private val coroutineScope = CoroutineScope(Job())
 
-    private val originalHeroes : MutableStateFlow<List<HeroModel>> = MutableStateFlow(emptyList())
+    private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
 
     private lateinit var favorites: StateFlow<List<HeroDbModel>>
 
