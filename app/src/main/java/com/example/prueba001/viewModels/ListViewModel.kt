@@ -66,16 +66,14 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun search(search: String?) {
-        search?.let { text ->
-            val searchHeros = originalHeroes.value.filter { hero ->
-                hero.name.uppercase().contains(text.uppercase())
-            }
-            _state.update { it.copy(heroList = searchHeros) }
+    fun search(searchText: String) {
+        val searchHeros = originalHeroes.value.filter { hero ->
+            hero.name.uppercase().contains(searchText.uppercase())
         }
+        _state.update { it.copy(heroList = searchHeros) }
     }
 
-    private fun refreshSearch(search: String?) {
+    private fun refreshSearch(search: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(refreshing = true) }
             getHeroes()
