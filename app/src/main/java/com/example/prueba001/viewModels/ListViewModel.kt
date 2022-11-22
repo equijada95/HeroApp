@@ -24,17 +24,17 @@ class ListViewModel @Inject constructor(
     private val dataBaseRepository: DataBaseRepository
 ) : ViewModel() {
 
+    val state: StateFlow<ListState> get() = _state.asStateFlow()
+
+    private val _state = MutableStateFlow(ListState())
+
+    private val coroutineScope = CoroutineScope(Job())
+
     private val originalHeroes : MutableStateFlow<List<HeroModel>> = MutableStateFlow(emptyList())
 
     private val favoritesFlow = dataBaseRepository.getHeroesFromDataBase()
 
-    private val coroutineScope = CoroutineScope(Job())
-
     private lateinit var favorites: StateFlow<List<HeroDbModel>>
-
-    private val _state = MutableStateFlow(ListState())
-
-    val state: StateFlow<ListState> get() = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
