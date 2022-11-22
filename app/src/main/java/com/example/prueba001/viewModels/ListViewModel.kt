@@ -1,6 +1,5 @@
 package com.example.prueba001.viewModels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,11 +9,13 @@ import com.example.prueba001.model.HeroModel
 import com.example.prueba001.repository.HeroRepository
 import com.example.prueba001.utils.mapToModel
 import com.example.prueba001.utils.setListWithFavorites
+import com.example.prueba001.viewModels.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
 import javax.inject.Inject
@@ -25,24 +26,20 @@ class ListViewModel @Inject constructor(
     private val dataBaseRepository: DataBaseRepository
 ) : ViewModel() {
 
-    private val _heroes = MutableLiveData<List<HeroModel>>()
-
     private val originalHeroes = MutableLiveData<List<HeroModel>>()
-
-    val heroes: LiveData<List<HeroModel>> get() = _heroes
 
     private val favorites = dataBaseRepository.getHeroesFromDataBase()
 
-    private val _isRefreshing = MutableStateFlow(false)
+    private val _state = MutableStateFlow(ListState())
 
-    val isRefreshing: StateFlow<Boolean> get() = _isRefreshing.asStateFlow()
+    val state: StateFlow<ListState> get() = _state.asStateFlow()
 
     init {
         getHeroes()
         favorites.observeForever {
-            var heroes = _heroes.value ?: emptyList()
+            var heroes = _state.value.heroList
             heroes = setHeroesWithFavorites(heroes)
-            _heroes.postValue(heroes)
+            _state.update { it.copy(heroList = it.heroList) }
             originalHeroes.postValue(heroes)
         }
     }
@@ -61,9 +58,9 @@ class ListViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            _isRefreshing.emit(true)
+            _state.update { it.copy(refreshing = true) }
             _getHeroes()
-            _isRefreshing.emit(false)
+            _state.update { it.copy(refreshing = false) }
         }
     }
 
@@ -72,16 +69,16 @@ class ListViewModel @Inject constructor(
             val searchHeros = originalHeroes.value?.filter { hero ->
                 hero.name.uppercase().contains(text.uppercase())
             }
-            _heroes.postValue(searchHeros)
+            searchHeros?.let { _state.update { it.copy(heroList = searchHeros) } }
         }
     }
 
     fun refreshSearch(search: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            _isRefreshing.emit(true)
+            _state.update { it.copy(refreshing = true) }
             _getHeroes()
             search(search)
-            _isRefreshing.emit(false)
+            _state.update { it.copy(refreshing = false) }
         }
     }
 
@@ -96,7 +93,7 @@ class ListViewModel @Inject constructor(
             var heroes = heroRepository.getHeroes()
 
             heroes = setHeroesWithFavorites(heroes)
-            _heroes.postValue(heroes)
+            _state.update { it.copy(heroList = heroes) }
             originalHeroes.postValue(heroes)
         } catch (_: SocketTimeoutException) { }
     }

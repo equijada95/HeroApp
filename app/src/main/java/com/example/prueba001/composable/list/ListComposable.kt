@@ -12,7 +12,6 @@ import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,13 +40,11 @@ fun ListComposable(
     goToDetail: (HeroModel) -> Unit
 ) {
 
-    val heroList = viewModel.heroes.observeAsState(listOf()).value
-
-    val refreshing by viewModel.isRefreshing.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     var searchText by remember { mutableStateOf("") }
 
-    val pullRefreshState = rememberPullRefreshState(refreshing, {
+    val pullRefreshState = rememberPullRefreshState(state.refreshing, {
         if (searchText.isNotEmpty()) {
             viewModel.refreshSearch(searchText)
         } else {
@@ -64,8 +61,8 @@ fun ListComposable(
     }
     
     ListView(
-        heroList = heroList,
-        refreshing = refreshing,
+        heroList = state.heroList,
+        refreshing = state.refreshing,
         pullRefreshState = pullRefreshState,
         isSearch = searchText.isNotEmpty(),
         goToDetail = goToDetail,
