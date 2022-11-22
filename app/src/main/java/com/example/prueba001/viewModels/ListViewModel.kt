@@ -29,15 +29,13 @@ class ListViewModel @Inject constructor(
 
     private val originalHeroes = MutableLiveData<List<HeroModel>>()
 
-    val heroes: LiveData<List<HeroModel>>
-        get() = _heroes
+    val heroes: LiveData<List<HeroModel>> get() = _heroes
 
     private val favorites = dataBaseRepository.getHeroesFromDataBase()
 
     private val _isRefreshing = MutableStateFlow(false)
 
-    val isRefreshing: StateFlow<Boolean>
-        get() = _isRefreshing.asStateFlow()
+    val isRefreshing: StateFlow<Boolean> get() = _isRefreshing.asStateFlow()
 
     init {
         getHeroes()
