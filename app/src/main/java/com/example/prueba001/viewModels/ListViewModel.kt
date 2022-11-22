@@ -6,6 +6,7 @@ import com.example.prueba001.bbdd.models.HeroDbModel
 import com.example.prueba001.bbdd.repository.DataBaseRepository
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.repository.HeroRepository
+import com.example.prueba001.utils.mapToDb
 import com.example.prueba001.utils.mapToModel
 import com.example.prueba001.utils.setListWithFavorites
 import com.example.prueba001.viewModels.state.ListState
@@ -49,23 +50,19 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun insertHero(hero: HeroDbModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            dataBaseRepository.insertHero(hero)
+    fun setFav(hero: HeroModel) {
+        if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
+            deleteHero(hero.mapToDb())
+        } else {
+            insertHero(hero.mapToDb())
         }
     }
 
-    fun deleteHero(hero: HeroDbModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            dataBaseRepository.deleteHero(hero)
-        }
-    }
-
-    fun refresh() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(refreshing = true) }
-            getHeroes()
-            _state.update { it.copy(refreshing = false) }
+    fun refresh(searchText: String) {
+        if (searchText.isEmpty()) {
+            refresh()
+        } else {
+            refreshSearch(searchText)
         }
     }
 
@@ -78,7 +75,7 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun refreshSearch(search: String?) {
+    private fun refreshSearch(search: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(refreshing = true) }
             getHeroes()
@@ -101,6 +98,26 @@ class ListViewModel @Inject constructor(
         if (heroList.isEmpty()) return favorites.value.mapToModel()
         else heroList.setListWithFavorites(favorites.value)
         return heroList
+    }
+
+    private fun refresh() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(refreshing = true) }
+            getHeroes()
+            _state.update { it.copy(refreshing = false) }
+        }
+    }
+
+    private fun insertHero(hero: HeroDbModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataBaseRepository.insertHero(hero)
+        }
+    }
+
+    private fun deleteHero(hero: HeroDbModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataBaseRepository.deleteHero(hero)
+        }
     }
 
 }

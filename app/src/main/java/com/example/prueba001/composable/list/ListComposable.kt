@@ -29,7 +29,6 @@ import com.example.prueba001.composable.customViews.LoadingComponent
 import com.example.prueba001.composable.customViews.SearchBar
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.test.ModelTest
-import com.example.prueba001.utils.mapToDb
 import com.example.prueba001.viewModels.ListViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -45,20 +44,8 @@ fun ListComposable(
     var searchText by remember { mutableStateOf("") }
 
     val pullRefreshState = rememberPullRefreshState(state.refreshing, {
-        if (searchText.isNotEmpty()) {
-            viewModel.refreshSearch(searchText)
-        } else {
-            viewModel.refresh()
-        }
+        viewModel.refresh(searchText)
     })
-
-    fun setFav(hero: HeroModel) {
-        if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
-            viewModel.deleteHero(hero.mapToDb())
-        } else {
-            viewModel.insertHero(hero.mapToDb())
-        }
-    }
     
     ListView(
         heroList = state.heroList,
@@ -66,7 +53,7 @@ fun ListComposable(
         pullRefreshState = pullRefreshState,
         isSearch = searchText.isNotEmpty(),
         goToDetail = goToDetail,
-        setFav = { setFav(it) },
+        setFav = { viewModel.setFav(it) },
         setSearch = {
             searchText = it
             viewModel.search(it)
