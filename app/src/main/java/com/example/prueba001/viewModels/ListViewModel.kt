@@ -43,10 +43,7 @@ class ListViewModel @Inject constructor(
         getHeroes()
         favorites.observeForever {
             var heroes = _heroes.value ?: emptyList()
-            it?.let { favorites ->
-                if (heroes.isEmpty()) heroes = favorites.mapToModel()
-                else heroes.setListWithFavorites(favorites)
-            }
+            heroes = setHeroesWithFavorites(heroes)
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
         }
@@ -100,13 +97,18 @@ class ListViewModel @Inject constructor(
         try {
             var heroes = heroRepository.getHeroes()
 
-            favorites.value?.let { favs ->
-                if (heroes.isEmpty()) heroes = favs.mapToModel()
-                else heroes.setListWithFavorites(favs)
-            }
+            heroes = setHeroesWithFavorites(heroes)
             _heroes.postValue(heroes)
             originalHeroes.postValue(heroes)
         } catch (_: SocketTimeoutException) { }
+    }
+
+    private fun setHeroesWithFavorites(heroList: List<HeroModel>): List<HeroModel> {
+        favorites.value?.let { favs ->
+            if (heroList.isEmpty()) return favs.mapToModel()
+            else heroList.setListWithFavorites(favs)
+        }
+        return heroList
     }
 
 }
