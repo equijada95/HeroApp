@@ -36,9 +36,11 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
 
+    // Modules
+    implementation project(path: ':data')
+
     // Hilt
     implementation 'com.google.dagger:hilt-android:2.40.5'
-    implementation project(path: ':data')
     kapt 'com.google.dagger:hilt-compiler:2.38.1'
 
     // Coroutines
