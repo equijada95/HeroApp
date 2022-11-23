@@ -1,5 +1,8 @@
 package com.equijada95.heroapp.data.modules
 
+import android.app.Application
+import com.equijada95.heroapp.data.bbdd.dao.HeroDao
+import com.equijada95.heroapp.data.bbdd.dataBase.HeroDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,5 +35,17 @@ class DataModule {
     @Provides
     fun providerHeroProvider(retrofit: Retrofit): com.equijada95.heroapp.data.api.provider.HeroProvider =
         retrofit.create(com.equijada95.heroapp.data.api.provider.HeroProvider::class.java)
+
+    @Provides
+    @Singleton
+    fun providesHeroDao(heroDataBase: HeroDataBase): HeroDao {
+        return heroDataBase.getHeroDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesHeroDataBase(context: Application): HeroDataBase {
+        return HeroDataBase.getDatabase(context)
+    }
 
 }

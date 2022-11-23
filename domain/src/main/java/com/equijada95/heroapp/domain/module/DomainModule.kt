@@ -18,16 +18,4 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DomainModule {
 
-    @Provides
-    @Singleton
-    fun providesHeroDao(heroDataBase: HeroDataBase): HeroDao {
-        return heroDataBase.getHeroDao()
-    }
-
-    @Provides
-    @Singleton
-    fun providesHeroDataBase(context: Application): HeroDataBase {
-        return HeroDataBase.getDatabase(context)
-    }
-
 }
