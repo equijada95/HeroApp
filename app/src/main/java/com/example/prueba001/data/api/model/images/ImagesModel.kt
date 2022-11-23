@@ -1,4 +1,4 @@
-package com.example.prueba001.domain.api.model.images
+package com.example.prueba001.data.api.model.images
 
 data class ImagesModel(
     var xs : String,

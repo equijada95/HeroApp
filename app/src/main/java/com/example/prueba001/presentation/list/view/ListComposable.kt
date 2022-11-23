@@ -27,8 +27,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
 import com.example.prueba001.presentation.customViews.LoadingComponent
 import com.example.prueba001.presentation.customViews.SearchBar
-import com.example.prueba001.domain.api.model.HeroModel
-import com.example.prueba001.domain.api.model.test.ModelTest
+import com.example.prueba001.data.api.model.HeroModel
+import com.example.prueba001.data.api.model.test.ModelTest
 import com.example.prueba001.presentation.list.viewModel.ListViewModel
 import com.skydoves.landscapist.glide.GlideImage
 

@@ -1,4 +1,4 @@
-package com.example.prueba001.domain.api.model.stats
+package com.example.prueba001.data.api.model.stats
 
 data class StatsModel(
     var intelligence: Int,

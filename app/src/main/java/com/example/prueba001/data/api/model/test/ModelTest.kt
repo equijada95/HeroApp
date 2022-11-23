@@ -1,10 +1,10 @@
-package com.example.prueba001.domain.api.model.test
+package com.example.prueba001.data.api.model.test
 
-import com.example.prueba001.domain.api.model.HeroModel
-import com.example.prueba001.domain.api.model.appearance.AppearanceModel
-import com.example.prueba001.domain.api.model.biography.BiographyModel
-import com.example.prueba001.domain.api.model.images.ImagesModel
-import com.example.prueba001.domain.api.model.stats.StatsModel
+import com.example.prueba001.data.api.model.HeroModel
+import com.example.prueba001.data.api.model.appearance.AppearanceModel
+import com.example.prueba001.data.api.model.biography.BiographyModel
+import com.example.prueba001.data.api.model.images.ImagesModel
+import com.example.prueba001.data.api.model.stats.StatsModel
 
 class ModelTest {
 

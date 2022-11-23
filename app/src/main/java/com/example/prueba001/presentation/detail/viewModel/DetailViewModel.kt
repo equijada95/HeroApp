@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.prueba001.data.bbdd.models.HeroDbModel
 import com.example.prueba001.domain.bbdd.repository.DataBaseRepository
-import com.example.prueba001.domain.api.model.HeroModel
+import com.example.prueba001.data.api.model.HeroModel
 import com.example.prueba001.domain.utils.mapToDb
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

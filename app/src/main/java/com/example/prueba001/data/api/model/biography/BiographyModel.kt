@@ -1,4 +1,4 @@
-package com.example.prueba001.domain.api.model.biography
+package com.example.prueba001.data.api.model.biography
 
 data class BiographyModel(
     var fullName: String,

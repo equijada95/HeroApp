@@ -1,4 +1,4 @@
-package com.example.prueba001.domain.api.model.appearance
+package com.example.prueba001.data.api.model.appearance
 
 data class AppearanceModel(
     var gender: String,
