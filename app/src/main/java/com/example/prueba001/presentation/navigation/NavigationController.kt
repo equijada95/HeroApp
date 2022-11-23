@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.prueba001.presentation.detail.DetailComposable
 import com.example.prueba001.presentation.list.ListComposable
-import com.example.prueba001.domain.api.model.HeroModel
+import com.example.prueba001.data.api.model.HeroModel
 import com.example.prueba001.domain.utils.decode
 import com.example.prueba001.domain.utils.encode
 

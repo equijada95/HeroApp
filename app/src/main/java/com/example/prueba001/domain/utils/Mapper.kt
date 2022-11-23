@@ -5,11 +5,11 @@ import com.example.prueba001.data.bbdd.models.appearance.AppearanceDbModel
 import com.example.prueba001.data.bbdd.models.biography.BiographyDbModel
 import com.example.prueba001.data.bbdd.models.images.ImagesDbModel
 import com.example.prueba001.data.bbdd.models.stats.StatsDbModel
-import com.example.prueba001.domain.api.model.HeroModel
-import com.example.prueba001.domain.api.model.appearance.AppearanceModel
-import com.example.prueba001.domain.api.model.biography.BiographyModel
-import com.example.prueba001.domain.api.model.images.ImagesModel
-import com.example.prueba001.domain.api.model.stats.StatsModel
+import com.example.prueba001.data.api.model.HeroModel
+import com.example.prueba001.data.api.model.appearance.AppearanceModel
+import com.example.prueba001.data.api.model.biography.BiographyModel
+import com.example.prueba001.data.api.model.images.ImagesModel
+import com.example.prueba001.data.api.model.stats.StatsModel
 
 fun ImagesModel.mapToDb() = ImagesDbModel(
     Math.random().toInt(),

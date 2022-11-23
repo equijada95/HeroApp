@@ -1,6 +1,6 @@
 package com.example.prueba001.domain.api.repository
 
-import com.example.prueba001.domain.api.model.HeroModel
+import com.example.prueba001.data.api.model.HeroModel
 import com.example.prueba001.data.api.provider.HeroProvider
 import java.net.UnknownHostException
 import javax.inject.Inject

@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
 import com.example.prueba001.presentation.customViews.TopBackBar
-import com.example.prueba001.domain.api.model.HeroModel
-import com.example.prueba001.domain.api.model.test.ModelTest
+import com.example.prueba001.data.api.model.HeroModel
+import com.example.prueba001.data.api.model.test.ModelTest
 import com.example.prueba001.presentation.detail.viewModel.DetailViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
