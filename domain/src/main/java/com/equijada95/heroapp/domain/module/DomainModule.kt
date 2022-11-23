@@ -17,13 +17,11 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun providesDataBaseRepository(dataBaseRepositoryImpl: DataBaseRepositoryImpl): DataBaseRepository {
-        return dataBaseRepositoryImpl
-    }
+    fun providesDataBaseRepository(dataBaseRepositoryImpl: DataBaseRepositoryImpl) = dataBaseRepositoryImpl
+
 
     @Provides
     @Singleton
-    fun providerHeroRepository(provider: HeroProvider): HeroRepository =
-        HeroRepositoryImpl(provider)
+    fun providerHeroRepository(provider: HeroProvider): HeroRepository = HeroRepositoryImpl(provider)
 
 }
