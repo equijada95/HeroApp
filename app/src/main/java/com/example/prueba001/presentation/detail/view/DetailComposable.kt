@@ -1,4 +1,4 @@
-package com.example.prueba001.composable.detail
+package com.example.prueba001.presentation.detail
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -20,11 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
-import com.example.prueba001.viewModels.DetailViewModel
-import com.example.prueba001.composable.customViews.TopBackBar
+import com.example.prueba001.presentation.customViews.TopBackBar
 import com.example.prueba001.domain.api.model.HeroModel
-import com.example.prueba001.utils.mapToDb
 import com.example.prueba001.domain.api.model.test.ModelTest
+import com.example.prueba001.presentation.detail.viewModel.DetailViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable

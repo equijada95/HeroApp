@@ -1,15 +1,15 @@
-package com.example.prueba001.composable.navigation
+package com.example.prueba001.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.prueba001.composable.detail.DetailComposable
-import com.example.prueba001.composable.list.ListComposable
+import com.example.prueba001.presentation.detail.DetailComposable
+import com.example.prueba001.presentation.list.ListComposable
 import com.example.prueba001.domain.api.model.HeroModel
-import com.example.prueba001.utils.decode
-import com.example.prueba001.utils.encode
+import com.example.prueba001.domain.utils.decode
+import com.example.prueba001.domain.utils.encode
 
 @Composable
 fun NavigationController(

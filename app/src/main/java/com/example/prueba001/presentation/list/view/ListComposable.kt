@@ -1,4 +1,4 @@
-package com.example.prueba001.composable.list
+package com.example.prueba001.presentation.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,11 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
-import com.example.prueba001.composable.customViews.LoadingComponent
-import com.example.prueba001.composable.customViews.SearchBar
+import com.example.prueba001.presentation.customViews.LoadingComponent
+import com.example.prueba001.presentation.customViews.SearchBar
 import com.example.prueba001.domain.api.model.HeroModel
 import com.example.prueba001.domain.api.model.test.ModelTest
-import com.example.prueba001.viewModels.ListViewModel
+import com.example.prueba001.presentation.list.viewModel.ListViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @OptIn(ExperimentalMaterialApi::class)

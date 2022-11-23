@@ -1,4 +1,4 @@
-package com.example.prueba001.theme
+package com.example.prueba001.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

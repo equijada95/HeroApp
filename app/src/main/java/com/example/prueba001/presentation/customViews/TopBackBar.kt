@@ -1,4 +1,4 @@
-package com.example.prueba001.composable.customViews
+package com.example.prueba001.presentation.customViews
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.material.Icon

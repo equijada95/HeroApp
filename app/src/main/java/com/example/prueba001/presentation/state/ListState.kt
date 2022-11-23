@@ -1,4 +1,4 @@
-package com.example.prueba001.viewModels.state
+package com.example.prueba001.presentation.state
 
 import com.example.prueba001.domain.api.model.HeroModel
 

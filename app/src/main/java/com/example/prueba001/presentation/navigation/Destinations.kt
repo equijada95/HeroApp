@@ -1,4 +1,4 @@
-package com.example.prueba001.composable.navigation
+package com.example.prueba001.presentation.navigation
 
 sealed class Destinations(
     val route: String

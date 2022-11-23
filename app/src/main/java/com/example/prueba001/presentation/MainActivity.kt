@@ -1,10 +1,10 @@
-package com.example.prueba001
+package com.example.prueba001.presentation
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.example.prueba001.composable.navigation.NavigationController
-import com.example.prueba001.theme.HeroAppTheme
+import com.example.prueba001.presentation.navigation.NavigationController
+import com.example.prueba001.presentation.theme.HeroAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 

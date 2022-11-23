@@ -1,4 +1,4 @@
-package com.example.prueba001.viewModels
+package com.example.prueba001.presentation.list.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,10 +6,10 @@ import com.example.prueba001.data.bbdd.models.HeroDbModel
 import com.example.prueba001.domain.bbdd.repository.DataBaseRepository
 import com.example.prueba001.domain.api.model.HeroModel
 import com.example.prueba001.domain.api.repository.HeroRepository
-import com.example.prueba001.utils.mapToDb
-import com.example.prueba001.utils.mapToModel
-import com.example.prueba001.utils.setListWithFavorites
-import com.example.prueba001.viewModels.state.ListState
+import com.example.prueba001.domain.utils.mapToDb
+import com.example.prueba001.domain.utils.mapToModel
+import com.example.prueba001.domain.utils.setListWithFavorites
+import com.example.prueba001.presentation.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

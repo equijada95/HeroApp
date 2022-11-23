@@ -1,4 +1,4 @@
-package com.example.prueba001.utils
+package com.example.prueba001.domain.utils
 
 import com.example.prueba001.data.bbdd.models.HeroDbModel
 import com.example.prueba001.domain.api.model.HeroModel
