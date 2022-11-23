@@ -1,6 +1,7 @@
 package com.equijada95.heroapp.data.modules
 
 import android.app.Application
+import com.equijada95.heroapp.data.api.provider.HeroProvider
 import com.equijada95.heroapp.data.bbdd.dao.HeroDao
 import com.equijada95.heroapp.data.bbdd.dataBase.HeroDataBase
 import dagger.Module
@@ -24,28 +25,25 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(@Named("BaseUrl") baseUrl: HttpUrl): Retrofit {
-        return Retrofit.Builder()
+    fun provideRetrofit(@Named("BaseUrl") baseUrl: HttpUrl) =
+        Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(baseUrl)
             .build()
-    }
+
 
     @Singleton
     @Provides
-    fun providerHeroProvider(retrofit: Retrofit): com.equijada95.heroapp.data.api.provider.HeroProvider =
-        retrofit.create(com.equijada95.heroapp.data.api.provider.HeroProvider::class.java)
+    fun providerHeroProvider(retrofit: Retrofit): HeroProvider = retrofit.create(HeroProvider::class.java)
 
     @Provides
     @Singleton
-    fun providesHeroDao(heroDataBase: HeroDataBase): HeroDao {
-        return heroDataBase.getHeroDao()
-    }
+    fun providesHeroDao(heroDataBase: HeroDataBase) = heroDataBase.getHeroDao()
+
 
     @Provides
     @Singleton
-    fun providesHeroDataBase(context: Application): HeroDataBase {
-        return HeroDataBase.getDatabase(context)
-    }
+    fun providesHeroDataBase(context: Application) = HeroDataBase.getDatabase(context)
+
 
 }
