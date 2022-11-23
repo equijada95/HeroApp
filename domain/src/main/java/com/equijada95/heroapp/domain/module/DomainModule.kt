@@ -17,7 +17,7 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun providesDataBaseRepository(dataBaseRepositoryImpl: DataBaseRepositoryImpl) = dataBaseRepositoryImpl
+    fun providesDataBaseRepository(dataBaseRepositoryImpl: DataBaseRepositoryImpl): DataBaseRepository = dataBaseRepositoryImpl
 
 
     @Provides
