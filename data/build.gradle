@@ -42,6 +42,11 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
 
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.40.5'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    kapt 'com.google.dagger:hilt-compiler:2.38.1'
+
     // Room
     implementation "androidx.room:room-runtime:2.4.3"
     annotationProcessor "androidx.room:room-compiler:2.4.3"
@@ -50,7 +55,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation "com.squareup.okhttp3:logging-interceptor:4.5.0"
+    api 'com.squareup.retrofit2:retrofit:2.6.0'
+    api 'com.squareup.retrofit2:converter-gson:2.6.0'
+    api "com.squareup.okhttp3:logging-interceptor:4.5.0"
 }

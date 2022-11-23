@@ -30,22 +30,4 @@ class DomainModule {
         return HeroDataBase.getDatabase(context)
     }
 
-    @Provides
-    @Named("BaseUrl")
-    fun provideBaseUrl() = "https://akabab.github.io/superhero-api/api/".toHttpUrl()
-
-    @Singleton
-    @Provides
-    fun provideRetrofit(@Named("BaseUrl") baseUrl: HttpUrl): Retrofit {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(baseUrl)
-            .build()
-    }
-
-    @Singleton
-    @Provides
-    fun providerHeroProvider(retrofit: Retrofit): com.equijada95.heroapp.data.api.provider.HeroProvider =
-        retrofit.create(com.equijada95.heroapp.data.api.provider.HeroProvider::class.java)
-
 }

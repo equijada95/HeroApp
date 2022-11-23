@@ -47,9 +47,4 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
     implementation 'androidx.room:room-ktx:2.4.3'
     kapt "androidx.room:room-compiler:2.4.3"
-
-    // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation "com.squareup.okhttp3:logging-interceptor:4.5.0"
 }
