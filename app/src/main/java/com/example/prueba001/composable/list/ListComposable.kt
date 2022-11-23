@@ -12,7 +12,6 @@ import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +29,6 @@ import com.example.prueba001.composable.customViews.LoadingComponent
 import com.example.prueba001.composable.customViews.SearchBar
 import com.example.prueba001.model.HeroModel
 import com.example.prueba001.test.ModelTest
-import com.example.prueba001.utils.mapToDb
 import com.example.prueba001.viewModels.ListViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -41,35 +39,21 @@ fun ListComposable(
     goToDetail: (HeroModel) -> Unit
 ) {
 
-    val heroList = viewModel.heroes.observeAsState(listOf()).value
-
-    val refreshing by viewModel.isRefreshing.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     var searchText by remember { mutableStateOf("") }
 
-    val pullRefreshState = rememberPullRefreshState(refreshing, {
-        if (searchText.isNotEmpty()) {
-            viewModel.refreshSearch(searchText)
-        } else {
-            viewModel.refresh()
-        }
+    val pullRefreshState = rememberPullRefreshState(state.refreshing, {
+        viewModel.refresh(searchText)
     })
-
-    fun setFav(hero: HeroModel) {
-        if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
-            viewModel.deleteHero(hero.mapToDb())
-        } else {
-            viewModel.insertHero(hero.mapToDb())
-        }
-    }
     
     ListView(
-        heroList = heroList,
-        refreshing = refreshing,
+        heroList = state.heroList,
+        refreshing = state.refreshing,
         pullRefreshState = pullRefreshState,
         isSearch = searchText.isNotEmpty(),
         goToDetail = goToDetail,
-        setFav = { setFav(it) },
+        setFav = { viewModel.setFav(it) },
         setSearch = {
             searchText = it
             viewModel.search(it)

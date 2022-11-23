@@ -1,15 +1,15 @@
 package com.example.prueba001.bbdd.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.prueba001.bbdd.models.HeroDbModel
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface HeroDao {
 
     @Query("SELECT * FROM hero_list")
-    fun getAll(): LiveData<List<HeroDbModel>>
+    fun getAll(): Flow<List<HeroDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(hero: HeroDbModel?)
