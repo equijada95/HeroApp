@@ -1,6 +1,6 @@
 package com.example.prueba001.modules
 
-import com.example.prueba001.provider.HeroProvider
+import com.example.prueba001.data.api.provider.HeroProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

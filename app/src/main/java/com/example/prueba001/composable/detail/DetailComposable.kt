@@ -22,9 +22,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prueba001.R
 import com.example.prueba001.viewModels.DetailViewModel
 import com.example.prueba001.composable.customViews.TopBackBar
-import com.example.prueba001.model.HeroModel
+import com.example.prueba001.domain.api.model.HeroModel
 import com.example.prueba001.utils.mapToDb
-import com.example.prueba001.test.ModelTest
+import com.example.prueba001.domain.api.model.test.ModelTest
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable

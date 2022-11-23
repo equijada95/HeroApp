@@ -2,9 +2,9 @@ package com.example.prueba001.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.prueba001.bbdd.models.HeroDbModel
-import com.example.prueba001.bbdd.repository.DataBaseRepository
-import com.example.prueba001.model.HeroModel
+import com.example.prueba001.data.bbdd.models.HeroDbModel
+import com.example.prueba001.domain.bbdd.repository.DataBaseRepository
+import com.example.prueba001.domain.api.model.HeroModel
 import com.example.prueba001.utils.mapToDb
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

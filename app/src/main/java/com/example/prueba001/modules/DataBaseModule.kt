@@ -1,10 +1,10 @@
 package com.example.prueba001.modules
 
 import android.app.Application
-import com.example.prueba001.bbdd.dao.HeroDao
-import com.example.prueba001.bbdd.dataBase.HeroDataBase
-import com.example.prueba001.bbdd.repository.DataBaseRepository
-import com.example.prueba001.bbdd.repository.DataBaseRepositoryImpl
+import com.example.prueba001.data.bbdd.dao.HeroDao
+import com.example.prueba001.data.bbdd.dataBase.HeroDataBase
+import com.example.prueba001.domain.bbdd.repository.DataBaseRepository
+import com.example.prueba001.domain.bbdd.repository.DataBaseRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,7 +1,7 @@
 package com.example.prueba001.utils
 
-import com.example.prueba001.bbdd.models.HeroDbModel
-import com.example.prueba001.model.HeroModel
+import com.example.prueba001.data.bbdd.models.HeroDbModel
+import com.example.prueba001.domain.api.model.HeroModel
 import com.google.gson.Gson
 import java.net.URLDecoder
 import java.net.URLEncoder
