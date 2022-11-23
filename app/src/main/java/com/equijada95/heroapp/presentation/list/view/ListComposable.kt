@@ -36,7 +36,7 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun ListComposable(
     viewModel: ListViewModel = hiltViewModel(),
-    goToDetail: (HeroModel) -> Unit
+    goToDetail: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit
 ) {
 
     val state by viewModel.state.collectAsState()
@@ -65,12 +65,12 @@ fun ListComposable(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ListView(
-    heroList: List<HeroModel>,
+    heroList: List<com.equijada95.heroapp.data.api.model.HeroModel>,
     refreshing: Boolean,
     pullRefreshState: PullRefreshState,
     isSearch: Boolean,
-    goToDetail: (HeroModel) -> Unit,
-    setFav: (HeroModel) -> Unit,
+    goToDetail: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit,
+    setFav: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit,
     setSearch: (String) -> Unit
 ) {
 
@@ -89,9 +89,9 @@ private fun ListView(
 
 @Composable
 private fun ListItems(
-    heroList: List<HeroModel>,
-    goToDetail: (HeroModel) -> Unit,
-    setFav: (HeroModel) -> Unit
+    heroList: List<com.equijada95.heroapp.data.api.model.HeroModel>,
+    goToDetail: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit,
+    setFav: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit
 ) {
     LazyColumn {
         items(
@@ -104,9 +104,9 @@ private fun ListItems(
 
 @Composable
 private fun ItemView(
-    hero: HeroModel,
-    goToDetail: (HeroModel) -> Unit,
-    setFav: (HeroModel) -> Unit
+    hero: com.equijada95.heroapp.data.api.model.HeroModel,
+    goToDetail: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit,
+    setFav: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit
 ) {
 
     var isFav by remember { mutableStateOf(false) }
@@ -181,5 +181,5 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun ListItemsPreview() {
-    ListItems(heroList = ModelTest.listHeroTest(), goToDetail = {}, setFav = {})
+    ListItems(heroList = com.equijada95.heroapp.data.api.model.test.ModelTest.listHeroTest(), goToDetail = {}, setFav = {})
 }

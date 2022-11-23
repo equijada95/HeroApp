@@ -1,6 +1,8 @@
-package com.equijada95.heroapp.modules
+package com.equijada95.heroapp.domain.module
 
-import com.equijada95.heroapp.data.api.provider.HeroProvider
+import android.app.Application
+import com.equijada95.heroapp.data.bbdd.dao.HeroDao
+import com.equijada95.heroapp.data.bbdd.dataBase.HeroDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +16,19 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ProviderModule {
+class DomainModule {
+
+    @Provides
+    @Singleton
+    fun providesHeroDao(heroDataBase: HeroDataBase): HeroDao {
+        return heroDataBase.getHeroDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesHeroDataBase(context: Application): HeroDataBase {
+        return HeroDataBase.getDatabase(context)
+    }
 
     @Provides
     @Named("BaseUrl")
@@ -31,7 +45,7 @@ class ProviderModule {
 
     @Singleton
     @Provides
-    fun providerHeroProvider(retrofit: Retrofit): HeroProvider =
-        retrofit.create(HeroProvider::class.java)
+    fun providerHeroProvider(retrofit: Retrofit): com.equijada95.heroapp.data.api.provider.HeroProvider =
+        retrofit.create(com.equijada95.heroapp.data.api.provider.HeroProvider::class.java)
 
 }

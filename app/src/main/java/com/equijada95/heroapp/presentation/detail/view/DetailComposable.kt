@@ -28,7 +28,7 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun DetailComposable(
-    hero: HeroModel,
+    hero: com.equijada95.heroapp.data.api.model.HeroModel,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
     Column(
@@ -44,7 +44,7 @@ fun DetailComposable(
 
 @Composable
 private fun ItemView(
-    hero: HeroModel,
+    hero: com.equijada95.heroapp.data.api.model.HeroModel,
     setFav: () -> Unit
 ) {
 
@@ -168,5 +168,5 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun DetailPreview() {
-    DetailComposable(ModelTest.heroTest())
+    DetailComposable(com.equijada95.heroapp.data.api.model.test.ModelTest.heroTest())
 }
