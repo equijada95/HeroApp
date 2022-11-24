@@ -62,15 +62,8 @@ class ListViewModel @Inject constructor(
         repository.getHeroes(scope).onEach { result ->
             when (result) {
                 is ApiResult.Success -> {
-                    var heroes = result.data ?: emptyList()
-                    if (searchText.value.isNotEmpty()) {
-                        heroes = heroes.filter { hero ->
-                            hero.name.uppercase().contains(searchText.value.uppercase())
-                        }
-                    } else {
-                        originalHeroes.update { heroes }
-                    }
-                    _state.update { it.copy(heroList = heroes, loading = false, error = ApiResult.ApiError.NO_ERROR) }
+                    val heroes = result.data ?: emptyList()
+                    success(heroes)
                 }
                 is ApiResult.Error -> {
                     val heroes = result.data ?: emptyList()
@@ -82,6 +75,18 @@ class ListViewModel @Inject constructor(
                 }
             }
         }.launchIn(scope)
+    }
+
+    private fun success(heroList: List<HeroModel>) {
+        var heroes = heroList
+        if (searchText.value.isNotEmpty()) {
+            heroes = heroes.filter { hero ->
+                hero.name.uppercase().contains(searchText.value.uppercase())
+            }
+        } else {
+            originalHeroes.update { heroes }
+        }
+        _state.update { it.copy(heroList = heroes, loading = false, error = ApiResult.ApiError.NO_ERROR) }
     }
 
     private fun insertHero(hero: HeroDbModel) {
