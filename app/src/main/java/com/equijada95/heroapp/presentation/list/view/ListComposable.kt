@@ -30,13 +30,14 @@ import com.equijada95.heroapp.data.api.model.test.ModelTest
 import com.equijada95.heroapp.presentation.customViews.LoadingComponent
 import com.equijada95.heroapp.presentation.customViews.SearchBar
 import com.equijada95.heroapp.presentation.list.viewModel.ListViewModel
+import com.equijada95.heroapp.presentation.state.ListState
 import com.skydoves.landscapist.glide.GlideImage
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListComposable(
     viewModel: ListViewModel = hiltViewModel(),
-    goToDetail: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit
+    goToDetail: (HeroModel) -> Unit
 ) {
 
     val state by viewModel.state.collectAsState()
@@ -48,8 +49,7 @@ fun ListComposable(
     })
     
     ListView(
-        heroList = state.heroList,
-        refreshing = state.refreshing,
+        state = state,
         pullRefreshState = pullRefreshState,
         isSearch = searchText.isNotEmpty(),
         goToDetail = goToDetail,
@@ -65,33 +65,32 @@ fun ListComposable(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ListView(
-    heroList: List<com.equijada95.heroapp.data.api.model.HeroModel>,
-    refreshing: Boolean,
+    state: ListState,
     pullRefreshState: PullRefreshState,
     isSearch: Boolean,
-    goToDetail: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit,
-    setFav: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit,
+    goToDetail: (HeroModel) -> Unit,
+    setFav: (HeroModel) -> Unit,
     setSearch: (String) -> Unit
 ) {
 
     Box(Modifier.pullRefresh(pullRefreshState)) {
         Column {
             SearchBar(setSearch = setSearch)
-            if (heroList.isEmpty() && !isSearch) {
+            if (state.loading && !isSearch) {
                 LoadingComponent()
             } else {
-                ListItems(heroList = heroList, goToDetail = goToDetail, setFav = setFav)
+                ListItems(heroList = state.heroList, goToDetail = goToDetail, setFav = setFav)
             }
         }
-        PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+        PullRefreshIndicator(state.refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
 @Composable
 private fun ListItems(
-    heroList: List<com.equijada95.heroapp.data.api.model.HeroModel>,
-    goToDetail: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit,
-    setFav: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit
+    heroList: List<HeroModel>,
+    goToDetail: (HeroModel) -> Unit,
+    setFav: (HeroModel) -> Unit
 ) {
     LazyColumn {
         items(
@@ -104,9 +103,9 @@ private fun ListItems(
 
 @Composable
 private fun ItemView(
-    hero: com.equijada95.heroapp.data.api.model.HeroModel,
-    goToDetail: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit,
-    setFav: (com.equijada95.heroapp.data.api.model.HeroModel) -> Unit
+    hero: HeroModel,
+    goToDetail: (HeroModel) -> Unit,
+    setFav: (HeroModel) -> Unit
 ) {
 
     var isFav by remember { mutableStateOf(false) }
@@ -181,5 +180,5 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun ListItemsPreview() {
-    ListItems(heroList = com.equijada95.heroapp.data.api.model.test.ModelTest.listHeroTest(), goToDetail = {}, setFav = {})
+    ListItems(heroList = ModelTest.listHeroTest(), goToDetail = {}, setFav = {})
 }
