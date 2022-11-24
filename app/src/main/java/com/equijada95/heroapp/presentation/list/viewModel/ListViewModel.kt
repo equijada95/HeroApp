@@ -2,6 +2,8 @@ package com.equijada95.heroapp.presentation.list.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.equijada95.heroapp.data.api.model.HeroModel
+import com.equijada95.heroapp.data.bbdd.models.HeroDbModel
 import com.equijada95.heroapp.domain.api.repository.HeroRepository
 import com.equijada95.heroapp.domain.bbdd.repository.DataBaseRepository
 import com.equijada95.heroapp.domain.utils.mapToDb
@@ -27,9 +29,9 @@ class ListViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ListState())
 
-    private val originalHeroes = MutableStateFlow(emptyList<com.equijada95.heroapp.data.api.model.HeroModel>())
+    private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
 
-    private lateinit var favorites: StateFlow<List<com.equijada95.heroapp.data.bbdd.models.HeroDbModel>>
+    private lateinit var favorites: StateFlow<List<HeroDbModel>>
 
     init {
         viewModelScope.launch {
@@ -42,7 +44,7 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun setFav(hero: com.equijada95.heroapp.data.api.model.HeroModel) {
+    fun setFav(hero: HeroModel) {
         if (!hero.isFavorite) { // funciona al revés porque ya se ha cambiado la variable fav del objeto
             deleteHero(hero.mapToDb())
         } else {
@@ -81,7 +83,7 @@ class ListViewModel @Inject constructor(
         } catch (_: SocketTimeoutException) { }
     }
 
-    private fun setHeroesWithFavorites(heroList: List<com.equijada95.heroapp.data.api.model.HeroModel>) {
+    private fun setHeroesWithFavorites(heroList: List<HeroModel>) {
         var heroes = heroList
         if (heroes.isEmpty()) heroes = favorites.value.mapToModel()
         else heroes.setListWithFavorites(favorites.value)
@@ -97,13 +99,13 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    private fun insertHero(hero: com.equijada95.heroapp.data.bbdd.models.HeroDbModel) {
+    private fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
             dataBaseRepository.insertHero(hero)
         }
     }
 
-    private fun deleteHero(hero: com.equijada95.heroapp.data.bbdd.models.HeroDbModel) {
+    private fun deleteHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
             dataBaseRepository.deleteHero(hero)
         }
