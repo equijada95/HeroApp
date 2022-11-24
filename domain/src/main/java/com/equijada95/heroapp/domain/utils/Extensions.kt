@@ -1,6 +1,7 @@
 package com.equijada95.heroapp.domain.utils
 
 import com.equijada95.heroapp.data.api.model.HeroModel
+import com.equijada95.heroapp.data.bbdd.models.HeroDbModel
 import com.google.gson.Gson
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -12,7 +13,7 @@ fun String.getList(): List<String> {
     return listOf(*secondReplace.split(",").toTypedArray())
 }
 
-fun List<HeroModel>.setListWithFavorites(favorites: List<com.equijada95.heroapp.data.bbdd.models.HeroDbModel>) {
+fun List<HeroModel>.setListWithFavorites(favorites: List<HeroDbModel>) {
     forEach { it.isFavorite = false }
     favorites.forEach { heroDbModel ->
         find { hero -> heroDbModel.id == hero.id }?.let { favorite ->
