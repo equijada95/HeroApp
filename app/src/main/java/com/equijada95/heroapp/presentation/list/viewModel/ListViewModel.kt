@@ -26,6 +26,8 @@ class ListViewModel @Inject constructor(
 
     private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
 
+    private var searchText = MutableStateFlow("")
+
     init {
         viewModelScope.launch {
             getHeroes(this)
@@ -40,36 +42,34 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun refresh(searchText: String) {
-        if (searchText.isEmpty()) {
-            refresh()
-        } else {
-            refreshSearch(searchText)
+    fun refresh() { // TODO DESDE MODO ONLINE, PONES MODO OFFLINE RECARGAS Y SE QUEDA EL LOADING
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(refreshing = true) }
+            getHeroes(this)
+            _state.update { it.copy(refreshing = false) }
         }
     }
 
     fun search(searchText: String) {
+        this.searchText.update { searchText }
         val searchHeros = originalHeroes.value.filter { hero ->
             hero.name.uppercase().contains(searchText.uppercase())
         }
         _state.update { it.copy(heroList = searchHeros, error = ApiResult.ApiError.NO_ERROR) }
     }
 
-    private fun refreshSearch(search: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(refreshing = true) }
-            getHeroes(this)
-            search(search)
-            _state.update { it.copy(refreshing = false) }
-        }
-    }
-
     private suspend fun getHeroes(scope: CoroutineScope) {
         repository.getHeroes(scope).onEach { result ->
             when (result) {
                 is ApiResult.Success -> {
-                    val heroes = result.data ?: emptyList()
-                    originalHeroes.update { heroes }
+                    var heroes = result.data ?: emptyList()
+                    if (searchText.value.isNotEmpty()) {
+                        heroes = heroes.filter { hero ->
+                            hero.name.uppercase().contains(searchText.value.uppercase())
+                        }
+                    } else {
+                        originalHeroes.update { heroes }
+                    }
                     _state.update { it.copy(heroList = heroes, loading = false, error = ApiResult.ApiError.NO_ERROR) }
                 }
                 is ApiResult.Error -> {
@@ -82,14 +82,6 @@ class ListViewModel @Inject constructor(
                 }
             }
         }.launchIn(scope)
-    }
-
-    private fun refresh() { // TODO DESDE MODO ONLINE, PONES MODO OFFLINE RECARGAS Y SE QUEDA EL LOADING
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(refreshing = true) }
-            getHeroes(this)
-            _state.update { it.copy(refreshing = false) }
-        }
     }
 
     private fun insertHero(hero: HeroDbModel) {

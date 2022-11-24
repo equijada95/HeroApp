@@ -45,10 +45,8 @@ fun ListComposable(
 
     val state by viewModel.state.collectAsState()
 
-    var searchText by remember { mutableStateOf("") }
-
     val pullRefreshState = rememberPullRefreshState(state.refreshing, {
-        viewModel.refresh(searchText)
+        viewModel.refresh()
     })
 
     when (state.error) { // TODO AL ENTRAR DESDE MODO OFFLINE A ONLINE SIGUE SALIENDO MENSAJE DE ERROR
@@ -71,11 +69,9 @@ fun ListComposable(
     ListView(
         state = state,
         pullRefreshState = pullRefreshState,
-        isSearch = searchText.isNotEmpty(),
         goToDetail = goToDetail,
         setFav = { viewModel.setFav(it) },
         setSearch = {
-            searchText = it
             viewModel.search(it)
         }
     )
@@ -87,7 +83,6 @@ fun ListComposable(
 private fun ListView(
     state: ListState,
     pullRefreshState: PullRefreshState,
-    isSearch: Boolean,
     goToDetail: (HeroModel) -> Unit,
     setFav: (HeroModel) -> Unit,
     setSearch: (String) -> Unit
@@ -96,7 +91,7 @@ private fun ListView(
     Box(Modifier.pullRefresh(pullRefreshState)) {
         Column {
             SearchBar(setSearch = setSearch)
-            if (state.loading && !isSearch) {
+            if (state.loading) {
                 LoadingComponent()
             } else {
                 ListItems(heroList = state.heroList, goToDetail = goToDetail, setFav = setFav)
