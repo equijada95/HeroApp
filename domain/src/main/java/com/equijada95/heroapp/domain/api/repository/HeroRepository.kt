@@ -2,26 +2,36 @@ package com.equijada95.heroapp.domain.api.repository
 
 import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.api.provider.HeroProvider
-import java.net.UnknownHostException
+import com.equijada95.heroapp.domain.result.ApiResult
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 interface HeroRepository {
-    suspend fun getHeroes(): List<HeroModel>
+    suspend fun getHeroes(): Flow<ApiResult<List<HeroModel>>>
 }
 
 class HeroRepositoryImpl @Inject constructor(
     private val heroProvider : HeroProvider
 ) : HeroRepository {
 
-    private var heroes: List<HeroModel> = emptyList()
-
-    override suspend fun getHeroes(): List<HeroModel> {
-        return try {
+    override suspend fun getHeroes(): Flow<ApiResult<List<HeroModel>>> = flow {
+        emit(ApiResult.Loading())
+        try {
             val apiResponse = heroProvider.getAll().body()
-            heroes = apiResponse ?: emptyList()
-            heroes
-        } catch(e: UnknownHostException) {
-            emptyList()
+            emit(ApiResult.Success(apiResponse))
+        } catch (e: HttpException) {
+            emit(ApiResult.Error(
+                message = "Oops, something went wrong",
+                data = null
+            ))
+        } catch (e: IOException) {
+            emit(ApiResult.Error(
+                message = "Couldn't reach server, check your internet connection",
+                data = null
+            ))
         }
     }
 }

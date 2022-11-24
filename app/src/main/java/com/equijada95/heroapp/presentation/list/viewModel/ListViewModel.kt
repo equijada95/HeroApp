@@ -6,6 +6,7 @@ import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.bbdd.models.HeroDbModel
 import com.equijada95.heroapp.domain.api.repository.HeroRepository
 import com.equijada95.heroapp.domain.bbdd.repository.DataBaseRepository
+import com.equijada95.heroapp.domain.result.ApiResult
 import com.equijada95.heroapp.domain.utils.mapToDb
 import com.equijada95.heroapp.domain.utils.mapToModel
 import com.equijada95.heroapp.domain.utils.setListWithFavorites
@@ -13,10 +14,8 @@ import com.equijada95.heroapp.presentation.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,8 +34,8 @@ class ListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            favorites = dataBaseRepository.getHeroesFromDataBase().stateIn(scope = CoroutineScope(Job()))
-            getHeroes()
+            favorites = dataBaseRepository.getHeroesFromDataBase().stateIn(scope = this)
+            getHeroes(this)
             favorites.collect {
                 val heroes = _state.value.heroList
                 setHeroesWithFavorites(heroes)
@@ -70,17 +69,30 @@ class ListViewModel @Inject constructor(
     private fun refreshSearch(search: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(refreshing = true) }
-            getHeroes()
+            getHeroes(this)
             search(search)
             _state.update { it.copy(refreshing = false) }
         }
     }
 
-    private suspend fun getHeroes() {
-        try {
-            val heroes = heroRepository.getHeroes()
-            setHeroesWithFavorites(heroes)
-        } catch (_: SocketTimeoutException) { }
+    private suspend fun getHeroes(scope: CoroutineScope) {
+        heroRepository.getHeroes().onEach { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    setHeroesWithFavorites(result.data ?: emptyList())
+                }
+                is ApiResult.Error -> {
+                    val heroes = favorites.value.mapToModel()
+                    _state.update { it.copy(heroList = heroes) }
+                    originalHeroes.update { heroes }
+                    _state.update { it.copy(loading = false) }
+                    // TODO SHOW ERROR
+                }
+                is ApiResult.Loading -> {
+                    _state.update { it.copy(loading = true) }
+                }
+            }
+        }.launchIn(scope)
     }
 
     private fun setHeroesWithFavorites(heroList: List<HeroModel>) {
@@ -89,12 +101,13 @@ class ListViewModel @Inject constructor(
         else heroes.setListWithFavorites(favorites.value)
         _state.update { it.copy(heroList = heroes) }
         originalHeroes.update { heroes }
+        _state.update { it.copy(loading = false) }
     }
 
     private fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(refreshing = true) }
-            getHeroes()
+            getHeroes(this)
             _state.update { it.copy(refreshing = false) }
         }
     }
