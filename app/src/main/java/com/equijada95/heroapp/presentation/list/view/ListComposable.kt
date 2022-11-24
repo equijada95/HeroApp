@@ -1,4 +1,4 @@
-package com.equijada95.heroapp.presentation.list
+package com.equijada95.heroapp.presentation.list.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
