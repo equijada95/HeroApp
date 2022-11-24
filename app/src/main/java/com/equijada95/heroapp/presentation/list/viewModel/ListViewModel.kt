@@ -37,7 +37,7 @@ class ListViewModel @Inject constructor(
             favorites = dataBaseRepository.getHeroesFromDataBase().stateIn(scope = this)
             getHeroes(this)
             favorites.collect {
-                val heroes = _state.value.heroList
+                val heroes = _state.value.heroList // TODO error al dar favorito y buscar
                 setHeroesWithFavorites(heroes)
             }
         }
