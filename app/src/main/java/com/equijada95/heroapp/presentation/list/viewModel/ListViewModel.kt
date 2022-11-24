@@ -97,7 +97,7 @@ class ListViewModel @Inject constructor(
 
     private fun setHeroesWithFavorites(heroList: List<HeroModel>) {
         var heroes = heroList
-        if (heroes.isEmpty()) heroes = favorites.value.mapToModel()
+        if (heroes.isEmpty()) heroes = favorites.value.mapToModel() // TODO REVISAR ESTO
         else heroes.setListWithFavorites(favorites.value)
         _state.update { it.copy(heroList = heroes) }
         originalHeroes.update { heroes }
