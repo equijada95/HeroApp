@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.equijada95.heroapp.R
+import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.api.model.test.ModelTest
 import com.equijada95.heroapp.presentation.customViews.TopBackBar
 import com.equijada95.heroapp.presentation.detail.viewModel.DetailViewModel
@@ -27,7 +28,7 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun DetailComposable(
-    hero: com.equijada95.heroapp.data.api.model.HeroModel,
+    hero: HeroModel,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
     Column(
@@ -43,7 +44,7 @@ fun DetailComposable(
 
 @Composable
 private fun ItemView(
-    hero: com.equijada95.heroapp.data.api.model.HeroModel,
+    hero: HeroModel,
     setFav: () -> Unit
 ) {
 
