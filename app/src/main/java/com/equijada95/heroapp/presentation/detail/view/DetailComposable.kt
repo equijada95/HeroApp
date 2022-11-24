@@ -1,4 +1,4 @@
-package com.equijada95.heroapp.presentation.detail
+package com.equijada95.heroapp.presentation.detail.view
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.equijada95.heroapp.R
-import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.api.model.test.ModelTest
 import com.equijada95.heroapp.presentation.customViews.TopBackBar
 import com.equijada95.heroapp.presentation.detail.viewModel.DetailViewModel
@@ -168,5 +167,5 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun DetailPreview() {
-    DetailComposable(com.equijada95.heroapp.data.api.model.test.ModelTest.heroTest())
+    DetailComposable(ModelTest.heroTest())
 }

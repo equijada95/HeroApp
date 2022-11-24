@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.equijada95.heroapp.presentation.detail.DetailComposable
+import com.equijada95.heroapp.presentation.detail.view.DetailComposable
 import com.equijada95.heroapp.presentation.list.view.ListComposable
 import com.equijada95.heroapp.domain.utils.decode
 import com.equijada95.heroapp.domain.utils.encode
