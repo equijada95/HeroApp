@@ -97,9 +97,8 @@ class ListViewModel @Inject constructor(
         var heroes = heroList
         if (heroes.isEmpty()) heroes = favorites.value.mapToModel() // TODO REVISAR ESTO
         else heroes.setListWithFavorites(favorites.value)
-        _state.update { it.copy(heroList = heroes, error = ApiResult.ApiError.NO_ERROR) }
         originalHeroes.update { heroes }
-        _state.update { it.copy(loading = false) }
+        _state.update { it.copy(heroList = heroes, loading = false, error = ApiResult.ApiError.NO_ERROR) }
     }
 
     private fun refresh() { // TODO DESDE MODO ONLINE, PONES MODO OFFLINE RECARGAS Y SE QUEDA EL LOADING
