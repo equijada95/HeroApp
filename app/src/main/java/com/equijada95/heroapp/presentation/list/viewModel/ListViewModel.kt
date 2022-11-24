@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val heroRepository: HeroRepository
+    private val repository: HeroRepository
 ) : ViewModel() {
 
     val state: StateFlow<ListState> get() = _state.asStateFlow()
@@ -65,7 +65,7 @@ class ListViewModel @Inject constructor(
     }
 
     private suspend fun getHeroes(scope: CoroutineScope) {
-        heroRepository.getHeroes(scope).onEach { result ->
+        repository.getHeroes(scope).onEach { result ->
             when (result) {
                 is ApiResult.Success -> {
                     val heroes = result.data ?: emptyList()
@@ -94,13 +94,13 @@ class ListViewModel @Inject constructor(
 
     private fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            heroRepository.insertHero(hero)
+            repository.insertHero(hero)
         }
     }
 
     private fun deleteHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            heroRepository.deleteHero(hero)
+            repository.deleteHero(hero)
         }
     }
 
