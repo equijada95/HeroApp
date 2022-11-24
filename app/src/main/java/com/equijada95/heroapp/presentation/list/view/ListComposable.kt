@@ -30,7 +30,7 @@ import com.equijada95.heroapp.data.api.model.test.ModelTest
 import com.equijada95.heroapp.presentation.customViews.LoadingComponent
 import com.equijada95.heroapp.presentation.customViews.SearchBar
 import com.equijada95.heroapp.presentation.list.viewModel.ListViewModel
-import com.equijada95.heroapp.presentation.state.ListState
+import com.equijada95.heroapp.presentation.list.state.ListState
 import com.skydoves.landscapist.glide.GlideImage
 
 @OptIn(ExperimentalMaterialApi::class)

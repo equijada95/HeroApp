@@ -10,7 +10,7 @@ import com.equijada95.heroapp.domain.result.ApiResult
 import com.equijada95.heroapp.domain.utils.mapToDb
 import com.equijada95.heroapp.domain.utils.mapToModel
 import com.equijada95.heroapp.domain.utils.setListWithFavorites
-import com.equijada95.heroapp.presentation.state.ListState
+import com.equijada95.heroapp.presentation.list.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

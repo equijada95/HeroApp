@@ -1,4 +1,4 @@
-package com.equijada95.heroapp.presentation.state
+package com.equijada95.heroapp.presentation.list.state
 
 import com.equijada95.heroapp.data.api.model.HeroModel
 
