@@ -4,12 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.bbdd.models.HeroDbModel
-import com.equijada95.heroapp.domain.api.repository.HeroRepository
-import com.equijada95.heroapp.domain.bbdd.repository.DataBaseRepository
+import com.equijada95.heroapp.domain.repository.HeroRepository
 import com.equijada95.heroapp.domain.result.ApiResult
 import com.equijada95.heroapp.domain.utils.mapToDb
-import com.equijada95.heroapp.domain.utils.mapToModel
-import com.equijada95.heroapp.domain.utils.setListWithFavorites
 import com.equijada95.heroapp.presentation.list.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -20,8 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val heroRepository: HeroRepository,
-    private val dataBaseRepository: DataBaseRepository
+    private val heroRepository: HeroRepository
 ) : ViewModel() {
 
     val state: StateFlow<ListState> get() = _state.asStateFlow()
@@ -30,16 +26,9 @@ class ListViewModel @Inject constructor(
 
     private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
 
-    private lateinit var favorites: StateFlow<List<HeroDbModel>>
-
     init {
         viewModelScope.launch {
-            favorites = dataBaseRepository.getHeroesFromDataBase().stateIn(scope = this)
             getHeroes(this)
-            favorites.collect {
-                val heroes = _state.value.heroList // TODO error al dar favorito y buscar
-                setHeroesWithFavorites(heroes)
-            }
         }
     }
 
@@ -76,13 +65,15 @@ class ListViewModel @Inject constructor(
     }
 
     private suspend fun getHeroes(scope: CoroutineScope) {
-        heroRepository.getHeroes().onEach { result ->
+        heroRepository.getHeroes(scope).onEach { result ->
             when (result) {
                 is ApiResult.Success -> {
-                    setHeroesWithFavorites(result.data ?: emptyList())
+                    val heroes = result.data ?: emptyList()
+                    originalHeroes.update { heroes }
+                    _state.update { it.copy(heroList = heroes, loading = false, error = ApiResult.ApiError.NO_ERROR) }
                 }
                 is ApiResult.Error -> {
-                    val heroes = favorites.value.mapToModel()
+                    val heroes = result.data ?: emptyList()
                     originalHeroes.update { heroes }
                     _state.update { it.copy(heroList = heroes, loading = false, error = result.error ?: ApiResult.ApiError.SERVER_ERROR) }
                 }
@@ -91,14 +82,6 @@ class ListViewModel @Inject constructor(
                 }
             }
         }.launchIn(scope)
-    }
-
-    private fun setHeroesWithFavorites(heroList: List<HeroModel>) {
-        var heroes = heroList
-        if (heroes.isEmpty()) heroes = favorites.value.mapToModel() // TODO REVISAR ESTO
-        else heroes.setListWithFavorites(favorites.value)
-        originalHeroes.update { heroes }
-        _state.update { it.copy(heroList = heroes, loading = false, error = ApiResult.ApiError.NO_ERROR) }
     }
 
     private fun refresh() { // TODO DESDE MODO ONLINE, PONES MODO OFFLINE RECARGAS Y SE QUEDA EL LOADING
@@ -111,13 +94,13 @@ class ListViewModel @Inject constructor(
 
     private fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            dataBaseRepository.insertHero(hero)
+            heroRepository.insertHero(hero)
         }
     }
 
     private fun deleteHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            dataBaseRepository.deleteHero(hero)
+            heroRepository.deleteHero(hero)
         }
     }
 
