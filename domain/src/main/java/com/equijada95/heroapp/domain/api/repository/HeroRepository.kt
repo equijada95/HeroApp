@@ -24,12 +24,12 @@ class HeroRepositoryImpl @Inject constructor(
             emit(ApiResult.Success(apiResponse))
         } catch (e: HttpException) {
             emit(ApiResult.Error(
-                message = "Oops, something went wrong",
+                error = ApiResult.ApiError.SERVER_ERROR,
                 data = null
             ))
         } catch (e: IOException) {
             emit(ApiResult.Error(
-                message = "Couldn't reach server, check your internet connection",
+                error = ApiResult.ApiError.NO_CONNECTION_ERROR,
                 data = null
             ))
         }

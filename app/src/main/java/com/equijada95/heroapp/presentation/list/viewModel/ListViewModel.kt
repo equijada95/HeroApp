@@ -63,7 +63,7 @@ class ListViewModel @Inject constructor(
         val searchHeros = originalHeroes.value.filter { hero ->
             hero.name.uppercase().contains(searchText.uppercase())
         }
-        _state.update { it.copy(heroList = searchHeros) }
+        _state.update { it.copy(heroList = searchHeros, error = ApiResult.ApiError.NO_ERROR) }
     }
 
     private fun refreshSearch(search: String) {
@@ -83,10 +83,8 @@ class ListViewModel @Inject constructor(
                 }
                 is ApiResult.Error -> {
                     val heroes = favorites.value.mapToModel()
-                    _state.update { it.copy(heroList = heroes) }
                     originalHeroes.update { heroes }
-                    _state.update { it.copy(loading = false) }
-                    // TODO SHOW ERROR
+                    _state.update { it.copy(heroList = heroes, loading = false, error = result.error ?: ApiResult.ApiError.SERVER_ERROR) }
                 }
                 is ApiResult.Loading -> {
                     _state.update { it.copy(loading = true) }
@@ -99,7 +97,7 @@ class ListViewModel @Inject constructor(
         var heroes = heroList
         if (heroes.isEmpty()) heroes = favorites.value.mapToModel() // TODO REVISAR ESTO
         else heroes.setListWithFavorites(favorites.value)
-        _state.update { it.copy(heroList = heroes) }
+        _state.update { it.copy(heroList = heroes, error = ApiResult.ApiError.NO_ERROR) }
         originalHeroes.update { heroes }
         _state.update { it.copy(loading = false) }
     }

@@ -1,5 +1,6 @@
 package com.equijada95.heroapp.presentation.list.view
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.equijada95.heroapp.R
 import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.api.model.test.ModelTest
+import com.equijada95.heroapp.domain.result.ApiResult
 import com.equijada95.heroapp.presentation.customViews.LoadingComponent
 import com.equijada95.heroapp.presentation.customViews.SearchBar
 import com.equijada95.heroapp.presentation.list.viewModel.ListViewModel
@@ -47,6 +50,23 @@ fun ListComposable(
     val pullRefreshState = rememberPullRefreshState(state.refreshing, {
         viewModel.refresh(searchText)
     })
+
+    when (state.error) { // TODO AL ENTRAR DESDE MODO OFFLINE A ONLINE SIGUE SALIENDO MENSAJE DE ERROR
+        ApiResult.ApiError.SERVER_ERROR -> {
+            Toast.makeText(
+                LocalContext.current,
+                stringResource(id = R.string.error_server),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        ApiResult.ApiError.NO_CONNECTION_ERROR -> {
+            Toast.makeText(
+                LocalContext.current,
+                stringResource(id = R.string.error_no_connection),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
     
     ListView(
         state = state,
