@@ -11,6 +11,7 @@ import com.equijada95.heroapp.presentation.list.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,7 +47,6 @@ class ListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(refreshing = true) }
             getHeroes(this, true)
-            _state.update { it.copy(refreshing = false) }
         }
     }
 
@@ -72,7 +72,8 @@ class ListViewModel @Inject constructor(
                         it.copy(
                             heroList = heroes,
                             loading = false,
-                            error = result.error ?: ApiResult.ApiError.SERVER_ERROR
+                            error = result.error ?: ApiResult.ApiError.SERVER_ERROR,
+                            refreshing = false
                         )
                     }
                 }
@@ -92,7 +93,14 @@ class ListViewModel @Inject constructor(
         } else {
             originalHeroes.update { heroes }
         }
-        _state.update { it.copy(heroList = heroes, loading = false, error = ApiResult.ApiError.NO_ERROR) }
+        _state.update {
+            it.copy(
+                heroList = heroes,
+                loading = false,
+                error = ApiResult.ApiError.NO_ERROR,
+                refreshing = false
+            )
+        }
     }
 
     private fun insertHero(hero: HeroDbModel) {
