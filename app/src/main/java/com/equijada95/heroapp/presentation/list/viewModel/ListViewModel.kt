@@ -30,7 +30,7 @@ class ListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getHeroes(this)
+            getHeroes(this, false)
         }
     }
 
@@ -45,7 +45,7 @@ class ListViewModel @Inject constructor(
     fun refresh() { // TODO DESDE MODO ONLINE, PONES MODO OFFLINE RECARGAS Y SE QUEDA EL LOADING
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(refreshing = true) }
-            getHeroes(this)
+            getHeroes(this, true)
             _state.update { it.copy(refreshing = false) }
         }
     }
@@ -58,8 +58,8 @@ class ListViewModel @Inject constructor(
         _state.update { it.copy(heroList = searchHeros, error = ApiResult.ApiError.NO_ERROR) }
     }
 
-    private suspend fun getHeroes(scope: CoroutineScope) {
-        repository.getHeroes(scope).onEach { result ->
+    private suspend fun getHeroes(scope: CoroutineScope, refresh: Boolean) {
+        repository.getHeroes(scope, refresh).onEach { result ->
             when (result) {
                 is ApiResult.Success -> {
                     val heroes = result.data ?: emptyList()

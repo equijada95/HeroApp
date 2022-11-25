@@ -16,7 +16,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 interface HeroRepository {
-    suspend fun getHeroes(scope: CoroutineScope): Flow<ApiResult<List<HeroModel>>>
+    suspend fun getHeroes(scope: CoroutineScope, refresh: Boolean): Flow<ApiResult<List<HeroModel>>>
     suspend fun insertHero(hero: HeroDbModel)
     suspend fun deleteHero(hero: HeroDbModel)
 }
@@ -26,9 +26,9 @@ class HeroRepositoryImpl @Inject constructor(
     private val dao: HeroDao
 ) : HeroRepository {
 
-    override suspend fun getHeroes(scope: CoroutineScope): Flow<ApiResult<List<HeroModel>>> = flow {
+    override suspend fun getHeroes(scope: CoroutineScope, refresh: Boolean): Flow<ApiResult<List<HeroModel>>> = flow {
         val favorites = dao.getAll().stateIn(scope = scope)
-        emit(ApiResult.Loading())
+        if (!refresh) emit(ApiResult.Loading())
         try {
             val apiResponse = heroProvider.getAll().body()
             emit(ApiResult.Success(apiResponse))
