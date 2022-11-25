@@ -36,7 +36,6 @@ import com.equijada95.heroapp.presentation.list.viewModel.ListViewModel
 import com.equijada95.heroapp.presentation.list.state.ListState
 import com.skydoves.landscapist.glide.GlideImage
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListComposable(
     viewModel: ListViewModel = hiltViewModel(),
@@ -44,10 +43,6 @@ fun ListComposable(
 ) {
 
     val state by viewModel.state.collectAsState()
-
-    val pullRefreshState = rememberPullRefreshState(state.refreshing, {
-        viewModel.refresh()
-    })
 
     when (state.error) { // TODO AL ENTRAR DESDE MODO OFFLINE A ONLINE SIGUE SALIENDO MENSAJE DE ERROR
         ApiResult.ApiError.SERVER_ERROR -> {
@@ -68,12 +63,10 @@ fun ListComposable(
     
     ListView(
         state = state,
-        pullRefreshState = pullRefreshState,
         goToDetail = goToDetail,
+        refresh = { viewModel.refresh() },
         setFav = { viewModel.setFav(it) },
-        setSearch = {
-            viewModel.search(it)
-        }
+        setSearch = { viewModel.search(it) }
     )
 }
 
@@ -82,11 +75,15 @@ fun ListComposable(
 @Composable
 private fun ListView(
     state: ListState,
-    pullRefreshState: PullRefreshState,
     goToDetail: (HeroModel) -> Unit,
+    refresh: () -> Unit,
     setFav: (HeroModel) -> Unit,
     setSearch: (String) -> Unit
 ) {
+
+    val pullRefreshState = rememberPullRefreshState(state.refreshing, {
+        refresh()
+    })
 
     Box(Modifier.pullRefresh(pullRefreshState)) {
         Column {
@@ -195,5 +192,9 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun ListItemsPreview() {
-    ListItems(heroList = ModelTest.listHeroTest(), goToDetail = {}, setFav = {})
+    ListView(state = ListState(heroList = ModelTest.listHeroTest()),
+        goToDetail = {},
+        setFav = {},
+        refresh = {},
+        setSearch = {})
 }
