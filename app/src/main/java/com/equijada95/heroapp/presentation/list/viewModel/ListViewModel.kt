@@ -42,7 +42,7 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun refresh() { // TODO DESDE MODO ONLINE, PONES MODO OFFLINE RECARGAS Y SE QUEDA EL LOADING
+    fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(refreshing = true) }
             getHeroes(this, true)
