@@ -9,7 +9,6 @@ import com.equijada95.heroapp.domain.utils.mapToModel
 import com.equijada95.heroapp.domain.utils.setListWithFavorites
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import retrofit2.HttpException
@@ -28,7 +27,7 @@ class HeroRepositoryImpl @Inject constructor(
 ) : HeroRepository {
 
     override suspend fun getHeroes(scope: CoroutineScope): Flow<ApiResult<List<HeroModel>>> = flow {
-        val favorites = getHeroesFromDataBase().stateIn(scope = scope)
+        val favorites = dao.getAll().stateIn(scope = scope)
         emit(ApiResult.Loading())
         try {
             val apiResponse = heroProvider.getAll().body()
@@ -49,8 +48,6 @@ class HeroRepositoryImpl @Inject constructor(
             ))
         }
     }
-
-    private fun getHeroesFromDataBase(): Flow<List<HeroDbModel>> = dao.getAll()
 
     override suspend fun insertHero(hero: HeroDbModel) {
         dao.insert(hero)
