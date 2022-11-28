@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
@@ -44,22 +43,27 @@ fun ListComposable(
 
     val state by viewModel.state.collectAsState()
 
-    when (state.error) {
-        ApiResult.ApiError.SERVER_ERROR -> {
-            Toast.makeText(
-                LocalContext.current,
-                stringResource(id = R.string.error_server),
-                Toast.LENGTH_SHORT
-            ).show()
+    @Composable
+    fun showError() {
+        var errorText = ""
+        when (state.error) {
+            ApiResult.ApiError.SERVER_ERROR -> {
+                errorText = stringResource(id = R.string.error_server)
+            }
+            ApiResult.ApiError.NO_CONNECTION_ERROR -> {
+                errorText = stringResource(id = R.string.error_no_connection)
+            }
         }
-        ApiResult.ApiError.NO_CONNECTION_ERROR -> {
+        if (errorText.isNotEmpty()) {
             Toast.makeText(
                 LocalContext.current,
-                stringResource(id = R.string.error_no_connection),
+                errorText,
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
+
+    showError()
     
     ListView(
         state = state,
