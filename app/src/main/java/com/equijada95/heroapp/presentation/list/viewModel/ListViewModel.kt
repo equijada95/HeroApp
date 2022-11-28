@@ -66,7 +66,10 @@ class ListViewModel @Inject constructor(
                     success(heroes)
                 }
                 is ApiResult.Error -> {
-                    if (result.error == ApiResult.ApiError.NO_ERROR) return@onEach
+                    if (result.error == ApiResult.ApiError.NO_ERROR) {
+                        _state.update { it.copy(error = ApiResult.ApiError.NO_ERROR) }
+                        return@onEach
+                    }
                     val heroes = result.data ?: emptyList()
                     originalHeroes.update { heroes }
                     _state.update {

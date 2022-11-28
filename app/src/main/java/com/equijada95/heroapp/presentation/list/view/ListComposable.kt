@@ -44,7 +44,7 @@ fun ListComposable(
 
     val state by viewModel.state.collectAsState()
 
-    when (state.error) { // TODO AL ENTRAR DESDE MODO OFFLINE A ONLINE SIGUE SALIENDO MENSAJE DE ERROR
+    when (state.error) {
         ApiResult.ApiError.SERVER_ERROR -> {
             Toast.makeText(
                 LocalContext.current,

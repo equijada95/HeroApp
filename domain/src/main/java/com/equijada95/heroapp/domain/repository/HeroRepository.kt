@@ -28,6 +28,10 @@ class HeroRepositoryImpl @Inject constructor(
 
     override suspend fun getHeroes(scope: CoroutineScope, refresh: Boolean): Flow<ApiResult<List<HeroModel>>> = flow {
         val favorites = dao.getAll().stateIn(scope = scope)
+        emit(ApiResult.Error(
+            error = ApiResult.ApiError.NO_ERROR,
+            data = null
+        ))
         if (!refresh) emit(ApiResult.Loading())
         try {
             val apiResponse = heroProvider.getAll().body()
