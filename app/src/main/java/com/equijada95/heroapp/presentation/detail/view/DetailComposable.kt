@@ -1,4 +1,4 @@
-package com.equijada95.heroapp.presentation.detail
+package com.equijada95.heroapp.presentation.detail.view
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -28,7 +28,7 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun DetailComposable(
-    hero: com.equijada95.heroapp.data.api.model.HeroModel,
+    hero: HeroModel,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
     Column(
@@ -44,7 +44,7 @@ fun DetailComposable(
 
 @Composable
 private fun ItemView(
-    hero: com.equijada95.heroapp.data.api.model.HeroModel,
+    hero: HeroModel,
     setFav: () -> Unit
 ) {
 
@@ -168,5 +168,5 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun DetailPreview() {
-    DetailComposable(com.equijada95.heroapp.data.api.model.test.ModelTest.heroTest())
+    DetailComposable(ModelTest.heroTest())
 }

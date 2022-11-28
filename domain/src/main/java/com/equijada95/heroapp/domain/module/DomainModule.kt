@@ -1,10 +1,7 @@
 package com.equijada95.heroapp.domain.module
 
-import com.equijada95.heroapp.data.api.provider.HeroProvider
-import com.equijada95.heroapp.domain.api.repository.HeroRepository
-import com.equijada95.heroapp.domain.api.repository.HeroRepositoryImpl
-import com.equijada95.heroapp.domain.bbdd.repository.DataBaseRepository
-import com.equijada95.heroapp.domain.bbdd.repository.DataBaseRepositoryImpl
+import com.equijada95.heroapp.domain.repository.HeroRepository
+import com.equijada95.heroapp.domain.repository.HeroRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,11 +14,6 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun providesDataBaseRepository(dataBaseRepositoryImpl: DataBaseRepositoryImpl): DataBaseRepository = dataBaseRepositoryImpl
-
-
-    @Provides
-    @Singleton
-    fun providerHeroRepository(provider: HeroProvider): HeroRepository = HeroRepositoryImpl(provider)
+    fun providerHeroRepository(heroRepositoryImpl: HeroRepositoryImpl): HeroRepository = heroRepositoryImpl
 
 }

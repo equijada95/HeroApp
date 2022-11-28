@@ -4,25 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.bbdd.models.HeroDbModel
-import com.equijada95.heroapp.domain.api.repository.HeroRepository
-import com.equijada95.heroapp.domain.bbdd.repository.DataBaseRepository
+import com.equijada95.heroapp.domain.repository.HeroRepository
+import com.equijada95.heroapp.domain.result.ApiResult
 import com.equijada95.heroapp.domain.utils.mapToDb
-import com.equijada95.heroapp.domain.utils.mapToModel
-import com.equijada95.heroapp.domain.utils.setListWithFavorites
-import com.equijada95.heroapp.presentation.state.ListState
+import com.equijada95.heroapp.presentation.list.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val heroRepository: HeroRepository,
-    private val dataBaseRepository: DataBaseRepository
+    private val repository: HeroRepository
 ) : ViewModel() {
 
     val state: StateFlow<ListState> get() = _state.asStateFlow()
@@ -31,16 +27,11 @@ class ListViewModel @Inject constructor(
 
     private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
 
-    private lateinit var favorites: StateFlow<List<HeroDbModel>>
+    private var searchText = MutableStateFlow("")
 
     init {
         viewModelScope.launch {
-            favorites = dataBaseRepository.getHeroesFromDataBase().stateIn(scope = CoroutineScope(Job()))
-            getHeroes()
-            favorites.collect {
-                val heroes = _state.value.heroList
-                setHeroesWithFavorites(heroes)
-            }
+            getHeroes(this, false)
         }
     }
 
@@ -52,62 +43,79 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun refresh(searchText: String) {
-        if (searchText.isEmpty()) {
-            refresh()
-        } else {
-            refreshSearch(searchText)
+    fun refresh() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(refreshing = true) }
+            getHeroes(this, true)
         }
     }
 
     fun search(searchText: String) {
+        this.searchText.update { searchText }
         val searchHeros = originalHeroes.value.filter { hero ->
             hero.name.uppercase().contains(searchText.uppercase())
         }
-        _state.update { it.copy(heroList = searchHeros) }
+        _state.update { it.copy(heroList = searchHeros, error = ApiResult.ApiError.NO_ERROR) }
     }
 
-    private fun refreshSearch(search: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(refreshing = true) }
-            getHeroes()
-            search(search)
-            _state.update { it.copy(refreshing = false) }
-        }
+    private suspend fun getHeroes(scope: CoroutineScope, refresh: Boolean) {
+        repository.getHeroes(scope, refresh).onEach { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    val heroes = result.data ?: emptyList()
+                    success(heroes)
+                }
+                is ApiResult.Error -> {
+                    if (result.error == ApiResult.ApiError.NO_ERROR) {
+                        _state.update { it.copy(error = ApiResult.ApiError.NO_ERROR) }
+                        return@onEach
+                    }
+                    val heroes = result.data ?: emptyList()
+                    originalHeroes.update { heroes }
+                    _state.update {
+                        it.copy(
+                            heroList = heroes,
+                            loading = false,
+                            error = result.error ?: ApiResult.ApiError.SERVER_ERROR,
+                            refreshing = false
+                        )
+                    }
+                }
+                is ApiResult.Loading -> {
+                    _state.update { it.copy(loading = true) }
+                }
+            }
+        }.launchIn(scope)
     }
 
-    private suspend fun getHeroes() {
-        try {
-            val heroes = heroRepository.getHeroes()
-            setHeroesWithFavorites(heroes)
-        } catch (_: SocketTimeoutException) { }
-    }
-
-    private fun setHeroesWithFavorites(heroList: List<HeroModel>) {
+    private fun success(heroList: List<HeroModel>) {
         var heroes = heroList
-        if (heroes.isEmpty()) heroes = favorites.value.mapToModel()
-        else heroes.setListWithFavorites(favorites.value)
-        _state.update { it.copy(heroList = heroes) }
-        originalHeroes.update { heroes }
-    }
-
-    private fun refresh() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(refreshing = true) }
-            getHeroes()
-            _state.update { it.copy(refreshing = false) }
+        if (searchText.value.isNotEmpty()) {
+            heroes = heroes.filter { hero ->
+                hero.name.uppercase().contains(searchText.value.uppercase())
+            }
+        } else {
+            originalHeroes.update { heroes }
+        }
+        _state.update {
+            it.copy(
+                heroList = heroes,
+                loading = false,
+                error = ApiResult.ApiError.NO_ERROR,
+                refreshing = false
+            )
         }
     }
 
     private fun insertHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            dataBaseRepository.insertHero(hero)
+            repository.insertHero(hero)
         }
     }
 
     private fun deleteHero(hero: HeroDbModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            dataBaseRepository.deleteHero(hero)
+            repository.deleteHero(hero)
         }
     }
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.bbdd.models.HeroDbModel
-import com.equijada95.heroapp.domain.bbdd.repository.DataBaseRepository
+import com.equijada95.heroapp.domain.repository.HeroRepository
 import com.equijada95.heroapp.domain.utils.mapToDb
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val repository: DataBaseRepository
+    private val repository: HeroRepository
 ) : ViewModel() {
 
     fun setFav(hero: HeroModel) {
