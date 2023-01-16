@@ -7,5 +7,6 @@ data class ListState (
     val heroList: List<HeroModel> = emptyList(),
     val loading: Boolean = false,
     val refreshing: Boolean = false,
+    val searchText: String = "",
     val error: ApiResult.ApiError = ApiResult.ApiError.NO_ERROR
 )

@@ -18,9 +18,9 @@ import com.equijada95.heroapp.R
 
 @Composable
 fun SearchBar(
+    searchText: String,
     setSearch: (String) -> Unit
 ) {
-    var searchText by remember { mutableStateOf("") }
 
     OutlinedTextField(
         leadingIcon = {
@@ -37,8 +37,7 @@ fun SearchBar(
                     modifier = Modifier
                         .clickable(
                             onClick = {
-                                searchText = ""
-                                setSearch(searchText)
+                                setSearch("")
                             }
                         )
                 )
@@ -49,7 +48,6 @@ fun SearchBar(
             .fillMaxWidth(),
         value = searchText,
         onValueChange = {
-            searchText = it
             setSearch(it)
         },
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.search_bar_corner_radius)),

@@ -91,7 +91,7 @@ private fun ListView(
 
     Box(Modifier.pullRefresh(pullRefreshState)) {
         Column {
-            SearchBar(setSearch = setSearch)
+            SearchBar(searchText = state.searchText, setSearch = setSearch)
             if (state.loading) {
                 LoadingComponent()
             } else {
