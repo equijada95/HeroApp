@@ -11,7 +11,6 @@ import com.equijada95.heroapp.presentation.list.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,8 +25,6 @@ class ListViewModel @Inject constructor(
     private val _state = MutableStateFlow(ListState())
 
     private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
-
-    private var searchText = MutableStateFlow("")
 
     init {
         viewModelScope.launch {
@@ -51,7 +48,7 @@ class ListViewModel @Inject constructor(
     }
 
     fun search(searchText: String) {
-        this.searchText.update { searchText }
+        _state.update { it.copy(searchText = searchText) }
         val searchHeros = originalHeroes.value.filter { hero ->
             hero.name.uppercase().contains(searchText.uppercase())
         }
@@ -90,9 +87,9 @@ class ListViewModel @Inject constructor(
 
     private fun success(heroList: List<HeroModel>) {
         var heroes = heroList
-        if (searchText.value.isNotEmpty()) {
+        if (_state.value.searchText.isNotEmpty()) {
             heroes = heroes.filter { hero ->
-                hero.name.uppercase().contains(searchText.value.uppercase())
+                hero.name.uppercase().contains(_state.value.searchText.uppercase())
             }
         } else {
             originalHeroes.update { heroes }
