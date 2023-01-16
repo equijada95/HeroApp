@@ -1,7 +1,17 @@
 package com.equijada95.heroapp.domain.utils
 
-fun com.equijada95.heroapp.data.api.model.images.ImagesModel.mapToDb() =
-    com.equijada95.heroapp.data.bbdd.models.images.ImagesDbModel(
+import com.equijada95.heroapp.data.api.model.HeroModel
+import com.equijada95.heroapp.data.api.model.appearance.AppearanceModel
+import com.equijada95.heroapp.data.api.model.biography.BiographyModel
+import com.equijada95.heroapp.data.api.model.images.ImagesModel
+import com.equijada95.heroapp.data.api.model.stats.StatsModel
+import com.equijada95.heroapp.data.bbdd.models.HeroDbModel
+import com.equijada95.heroapp.data.bbdd.models.appearance.AppearanceDbModel
+import com.equijada95.heroapp.data.bbdd.models.biography.BiographyDbModel
+import com.equijada95.heroapp.data.bbdd.models.images.ImagesDbModel
+import com.equijada95.heroapp.data.bbdd.models.stats.StatsDbModel
+
+fun ImagesModel.mapToDb() = ImagesDbModel(
         Math.random().toInt(),
         xs,
         sm,
@@ -9,16 +19,14 @@ fun com.equijada95.heroapp.data.api.model.images.ImagesModel.mapToDb() =
         lg
     )
 
-fun com.equijada95.heroapp.data.bbdd.models.images.ImagesDbModel.mapToModel() =
-    com.equijada95.heroapp.data.api.model.images.ImagesModel(
+fun ImagesDbModel.mapToModel() = ImagesModel(
         xs,
         sm,
         md,
         lg
     )
 
-fun com.equijada95.heroapp.data.api.model.appearance.AppearanceModel.mapToDb() =
-    com.equijada95.heroapp.data.bbdd.models.appearance.AppearanceDbModel(
+fun AppearanceModel.mapToDb() = AppearanceDbModel(
         Math.random().toInt(),
         gender,
         race,
@@ -28,8 +36,7 @@ fun com.equijada95.heroapp.data.api.model.appearance.AppearanceModel.mapToDb() =
         hairColor
     )
 
-fun com.equijada95.heroapp.data.bbdd.models.appearance.AppearanceDbModel.mapToModel() =
-    com.equijada95.heroapp.data.api.model.appearance.AppearanceModel(
+fun AppearanceDbModel.mapToModel() = AppearanceModel(
         gender,
         race,
         height.getList(),
@@ -38,8 +45,7 @@ fun com.equijada95.heroapp.data.bbdd.models.appearance.AppearanceDbModel.mapToMo
         hairColor
     )
 
-fun com.equijada95.heroapp.data.api.model.biography.BiographyModel.mapToDb() =
-    com.equijada95.heroapp.data.bbdd.models.biography.BiographyDbModel(
+fun BiographyModel.mapToDb() = BiographyDbModel(
         Math.random().toInt(),
         fullName,
         alterEgos,
@@ -50,8 +56,7 @@ fun com.equijada95.heroapp.data.api.model.biography.BiographyModel.mapToDb() =
         alignment
     )
 
-fun com.equijada95.heroapp.data.bbdd.models.biography.BiographyDbModel.mapToModel() =
-    com.equijada95.heroapp.data.api.model.biography.BiographyModel(
+fun BiographyDbModel.mapToModel() = BiographyModel(
         fullName,
         alterEgos,
         aliases.getList(),
@@ -61,8 +66,7 @@ fun com.equijada95.heroapp.data.bbdd.models.biography.BiographyDbModel.mapToMode
         alignment
     )
 
-fun com.equijada95.heroapp.data.api.model.stats.StatsModel.mapToDb() =
-    com.equijada95.heroapp.data.bbdd.models.stats.StatsDbModel(
+fun StatsModel.mapToDb() = StatsDbModel(
         Math.random().toInt(),
         intelligence,
         strength,
@@ -72,8 +76,7 @@ fun com.equijada95.heroapp.data.api.model.stats.StatsModel.mapToDb() =
         combat
     )
 
-fun com.equijada95.heroapp.data.bbdd.models.stats.StatsDbModel.mapToModel() =
-    com.equijada95.heroapp.data.api.model.stats.StatsModel(
+fun StatsDbModel.mapToModel() = StatsModel(
         intelligence,
         strength,
         speed,
@@ -82,8 +85,7 @@ fun com.equijada95.heroapp.data.bbdd.models.stats.StatsDbModel.mapToModel() =
         combat
     )
 
-fun com.equijada95.heroapp.data.api.model.HeroModel.mapToDb() =
-    com.equijada95.heroapp.data.bbdd.models.HeroDbModel(
+fun HeroModel.mapToDb() = HeroDbModel(
         id,
         images?.mapToDb(),
         name,
@@ -92,8 +94,7 @@ fun com.equijada95.heroapp.data.api.model.HeroModel.mapToDb() =
         biography?.mapToDb(),
     )
 
-fun com.equijada95.heroapp.data.bbdd.models.HeroDbModel.mapToModel() =
-    com.equijada95.heroapp.data.api.model.HeroModel(
+fun HeroDbModel.mapToModel() = HeroModel(
         id,
         images?.mapToModel(),
         name,
@@ -103,4 +104,4 @@ fun com.equijada95.heroapp.data.bbdd.models.HeroDbModel.mapToModel() =
         true
     )
 
-fun List<com.equijada95.heroapp.data.bbdd.models.HeroDbModel>.mapToModel() = map { it.mapToModel() }
+fun List<HeroDbModel>.mapToModel() = map { it.mapToModel() }
