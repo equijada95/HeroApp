@@ -1,22 +1,30 @@
 package com.equijada95.heroapp.presentation.list.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.equijada95.heroapp.data.api.model.test.ModelTest
 import com.equijada95.heroapp.domain.repository.HeroRepository
+import com.equijada95.heroapp.domain.repository.HeroRepositoryImpl
+import com.equijada95.heroapp.domain.result.ApiResult
+import com.equijada95.heroapp.presentation.list.state.ListState
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
+import org.junit.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ListViewModelTest {
 
     @RelaxedMockK
-    private lateinit var heroRepository: HeroRepository
+    private lateinit var heroRepository: HeroRepositoryImpl
 
     private lateinit var viewModel: ListViewModel
 
@@ -26,8 +34,8 @@ class ListViewModelTest {
     @Before
     fun onBefore() {
         MockKAnnotations.init(this)
-        viewModel = ListViewModel(heroRepository)
         Dispatchers.setMain(Dispatchers.Unconfined)
+        viewModel = ListViewModel(heroRepository)
     }
 
     @After
@@ -35,4 +43,17 @@ class ListViewModelTest {
         Dispatchers.resetMain()
     }
 
+    @Test
+    fun `when viewmodel is created, get all heros`() = runTest {
+        // Given
+        val heroList = ModelTest.listHeroTest()
+        val apiResult = ApiResult.Success(heroList)
+        val scope = CoroutineScope(Job())
+        coEvery { heroRepository.getHeroes(scope, false) } returns flowOf(apiResult)
+
+        // When
+
+        // Then
+        assert(viewModel.state.value == ListState(heroList))
+    }
 }
