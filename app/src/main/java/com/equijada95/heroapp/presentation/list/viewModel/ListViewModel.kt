@@ -44,7 +44,7 @@ class ListViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(refreshing = true) }
+            _state.update { it.copy(refreshing = true, error = UIError.NoError()) }
             getHeroes(this, true)
         }
     }
