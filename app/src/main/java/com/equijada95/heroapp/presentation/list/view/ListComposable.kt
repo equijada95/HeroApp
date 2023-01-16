@@ -42,20 +42,13 @@ fun ListComposable(
 
     val state by viewModel.state.collectAsState()
 
-    @Composable
-    fun showError() {
-        val errorTextId = state.error.messageId
-
-        errorTextId?.let {
-            Toast.makeText(
-                LocalContext.current,
-                stringResource(id = errorTextId),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+    state.error.messageId?.let { messageId ->
+        Toast.makeText(
+            LocalContext.current,
+            stringResource(id = messageId),
+            Toast.LENGTH_SHORT
+        ).show()
     }
-
-    showError()
     
     ListView(
         state = state,
