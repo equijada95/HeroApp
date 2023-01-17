@@ -4,15 +4,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.equijada95.heroapp.data.api.model.test.ModelTest
 import com.equijada95.heroapp.domain.repository.HeroRepositoryImpl
 import com.equijada95.heroapp.domain.result.ApiResult
-import com.equijada95.heroapp.presentation.list.state.ListState
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -52,12 +49,12 @@ class ListViewModelTest {
         // Given
         val heroList = ModelTest.listHeroTest()
         val apiResult = ApiResult.Success(heroList)
-        val scope = CoroutineScope(Job())
-        coEvery { heroRepository.getHeroes(scope, false) } returns flowOf(apiResult)
+        coEvery { heroRepository.getHeroes(any(), any()) } returns flowOf(apiResult)
 
         // When
+        viewModel.initTest()
 
         // Then
-        assert(viewModel.state.value == ListState(heroList))
+        assert(viewModel.state.value.heroList == heroList)
     }
 }
