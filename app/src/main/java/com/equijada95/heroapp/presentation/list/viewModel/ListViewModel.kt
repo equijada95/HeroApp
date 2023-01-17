@@ -65,13 +65,12 @@ class ListViewModel @Inject constructor(
                     success(heroes)
                 }
                 is ApiResult.Error -> {
-                    val error: UIError
-                    when (result.error) {
+                    val error = when (result.error) {
                         ApiResult.ApiError.SERVER_ERROR -> {
-                            error = UIError.Error(R.string.error_server)
+                            UIError.Error(R.string.error_server)
                         }
                         ApiResult.ApiError.NO_CONNECTION_ERROR -> {
-                            error = UIError.Error(R.string.error_no_connection)
+                            UIError.Error(R.string.error_no_connection)
                         }
                         else -> {
                             _state.update { it.copy(error = UIError.NoError()) }
