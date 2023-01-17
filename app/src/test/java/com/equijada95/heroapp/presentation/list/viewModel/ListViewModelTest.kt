@@ -52,7 +52,7 @@ class ListViewModelTest {
         coEvery { heroRepository.getHeroes(any(), any()) } returns flowOf(apiResult)
 
         // When
-        viewModel.initTest()
+        viewModel.initializeViewModel()
 
         // Then
         assert(viewModel.state.value.heroList == heroList)

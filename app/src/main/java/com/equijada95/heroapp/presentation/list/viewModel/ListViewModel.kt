@@ -28,13 +28,11 @@ class ListViewModel @Inject constructor(
 
     private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
 
-    fun initTest() {
-        viewModelScope.launch {
-            getHeroes(this, false)
-        }
+    init {
+        initializeViewModel()
     }
 
-    init {
+    fun initializeViewModel() {
         viewModelScope.launch {
             getHeroes(this, false)
         }
