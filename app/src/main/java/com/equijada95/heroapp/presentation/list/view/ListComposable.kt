@@ -28,7 +28,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.equijada95.heroapp.R
 import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.api.model.test.ModelTest
-import com.equijada95.heroapp.domain.result.ApiResult
 import com.equijada95.heroapp.presentation.customViews.LoadingComponent
 import com.equijada95.heroapp.presentation.customViews.SearchBar
 import com.equijada95.heroapp.presentation.list.viewModel.ListViewModel
@@ -43,27 +42,13 @@ fun ListComposable(
 
     val state by viewModel.state.collectAsState()
 
-    @Composable
-    fun showError() {
-        var errorText = ""
-        when (state.error) {
-            ApiResult.ApiError.SERVER_ERROR -> {
-                errorText = stringResource(id = R.string.error_server)
-            }
-            ApiResult.ApiError.NO_CONNECTION_ERROR -> {
-                errorText = stringResource(id = R.string.error_no_connection)
-            }
-        }
-        if (errorText.isNotEmpty()) {
-            Toast.makeText(
-                LocalContext.current,
-                errorText,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+    state.error.messageId?.let { messageId ->
+        Toast.makeText(
+            LocalContext.current,
+            stringResource(id = messageId),
+            Toast.LENGTH_SHORT
+        ).show()
     }
-
-    showError()
     
     ListView(
         state = state,

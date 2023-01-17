@@ -2,11 +2,13 @@ package com.equijada95.heroapp.presentation.list.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.equijada95.heroapp.R
 import com.equijada95.heroapp.data.api.model.HeroModel
 import com.equijada95.heroapp.data.bbdd.models.HeroDbModel
 import com.equijada95.heroapp.domain.repository.HeroRepository
 import com.equijada95.heroapp.domain.result.ApiResult
 import com.equijada95.heroapp.domain.utils.mapToDb
+import com.equijada95.heroapp.presentation.error.UIError
 import com.equijada95.heroapp.presentation.list.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -42,7 +44,7 @@ class ListViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(refreshing = true) }
+            _state.update { it.copy(refreshing = true, error = UIError.NoError()) }
             getHeroes(this, true)
         }
     }
@@ -52,7 +54,7 @@ class ListViewModel @Inject constructor(
         val searchHeros = originalHeroes.value.filter { hero ->
             hero.name.uppercase().contains(searchText.uppercase())
         }
-        _state.update { it.copy(heroList = searchHeros, error = ApiResult.ApiError.NO_ERROR) }
+        _state.update { it.copy(heroList = searchHeros, error = UIError.NoError()) }
     }
 
     private suspend fun getHeroes(scope: CoroutineScope, refresh: Boolean) {
@@ -63,9 +65,18 @@ class ListViewModel @Inject constructor(
                     success(heroes)
                 }
                 is ApiResult.Error -> {
-                    if (result.error == ApiResult.ApiError.NO_ERROR) {
-                        _state.update { it.copy(error = ApiResult.ApiError.NO_ERROR) }
-                        return@onEach
+                    val error: UIError
+                    when (result.error) {
+                        ApiResult.ApiError.SERVER_ERROR -> {
+                            error = UIError.Error(R.string.error_server)
+                        }
+                        ApiResult.ApiError.NO_CONNECTION_ERROR -> {
+                            error = UIError.Error(R.string.error_no_connection)
+                        }
+                        else -> {
+                            _state.update { it.copy(error = UIError.NoError()) }
+                            return@onEach
+                        }
                     }
                     val heroes = result.data ?: emptyList()
                     originalHeroes.update { heroes }
@@ -73,7 +84,7 @@ class ListViewModel @Inject constructor(
                         it.copy(
                             heroList = heroes,
                             loading = false,
-                            error = result.error ?: ApiResult.ApiError.SERVER_ERROR,
+                            error = error,
                             refreshing = false
                         )
                     }
@@ -98,7 +109,7 @@ class ListViewModel @Inject constructor(
             it.copy(
                 heroList = heroes,
                 loading = false,
-                error = ApiResult.ApiError.NO_ERROR,
+                error = UIError.NoError(),
                 refreshing = false
             )
         }
