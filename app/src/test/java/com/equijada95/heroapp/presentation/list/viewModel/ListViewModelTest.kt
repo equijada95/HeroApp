@@ -45,7 +45,7 @@ class ListViewModelTest {
     }
 
     @Test
-    fun `when viewmodel is created, get heros`() = runTest {
+    fun `when view-model is created, get heroes`() = runTest {
         // Given
         val heroList = ModelTest.listHeroTest()
         val apiResult = ApiResult.Success(heroList)
