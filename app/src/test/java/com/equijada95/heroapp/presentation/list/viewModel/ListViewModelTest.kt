@@ -2,7 +2,7 @@ package com.equijada95.heroapp.presentation.list.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.equijada95.heroapp.data.api.model.test.ModelTest
-import com.equijada95.heroapp.domain.repository.HeroRepositoryImpl
+import com.equijada95.heroapp.domain.repository.HeroRepository
 import com.equijada95.heroapp.domain.result.ApiResult
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -20,7 +20,7 @@ import org.junit.*
 class ListViewModelTest {
 
     @RelaxedMockK
-    private lateinit var heroRepository: HeroRepositoryImpl
+    private lateinit var heroRepository: HeroRepository
 
     private lateinit var viewModel: ListViewModel
 
