@@ -98,7 +98,8 @@ class ListViewModel @Inject constructor(
     }
 
     private fun handleError(result: ApiResult<List<HeroModel>>) {
-        val error = when (result.error) {
+        val apiError = result.error ?: return
+        val error = when (apiError) {
             ApiResult.ApiError.SERVER_ERROR -> {
                 UIError.Error(R.string.error_server)
             }
