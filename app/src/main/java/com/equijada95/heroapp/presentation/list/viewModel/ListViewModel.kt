@@ -106,7 +106,7 @@ class ListViewModel @Inject constructor(
                 return
             }
         }
-        val heroes: List<HeroModel> = result.data ?: emptyList()
+        val heroes = result.data ?: emptyList()
         originalHeroes.update { heroes }
         _state.update {
             it.copy(
