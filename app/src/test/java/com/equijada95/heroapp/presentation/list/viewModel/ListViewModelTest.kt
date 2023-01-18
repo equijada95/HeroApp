@@ -55,6 +55,7 @@ class ListViewModelTest {
         viewModel.initializeViewModel()
 
         // Then
+        coVerify(exactly = 2) { heroRepository.getHeroes(any(), false) }
         assert(viewModel.state.value.heroList == heroList)
     }
 }
