@@ -62,31 +62,10 @@ class ListViewModel @Inject constructor(
             when (result) {
                 is ApiResult.Success -> {
                     val heroes = result.data ?: emptyList()
-                    success(heroes)
+                    handleSuccess(heroes)
                 }
                 is ApiResult.Error -> {
-                    val error = when (result.error) {
-                        ApiResult.ApiError.SERVER_ERROR -> {
-                            UIError.Error(R.string.error_server)
-                        }
-                        ApiResult.ApiError.NO_CONNECTION_ERROR -> {
-                            UIError.Error(R.string.error_no_connection)
-                        }
-                        else -> {
-                            _state.update { it.copy(error = UIError.NoError()) }
-                            return@onEach
-                        }
-                    }
-                    val heroes = result.data ?: emptyList()
-                    originalHeroes.update { heroes }
-                    _state.update {
-                        it.copy(
-                            heroList = heroes,
-                            loading = false,
-                            error = error,
-                            refreshing = false
-                        )
-                    }
+                    handleError(result)
                 }
                 is ApiResult.Loading -> {
                     _state.update { it.copy(loading = true) }
@@ -95,7 +74,7 @@ class ListViewModel @Inject constructor(
         }.launchIn(scope)
     }
 
-    private fun success(heroList: List<HeroModel>) {
+    private fun handleSuccess(heroList: List<HeroModel>) {
         var heroes = heroList
         if (_state.value.searchText.isNotEmpty()) {
             heroes = heroes.filter { hero ->
@@ -109,6 +88,31 @@ class ListViewModel @Inject constructor(
                 heroList = heroes,
                 loading = false,
                 error = UIError.NoError(),
+                refreshing = false
+            )
+        }
+    }
+
+    private fun handleError(result: ApiResult<List<HeroModel>>) {
+        val error = when (result.error) {
+            ApiResult.ApiError.SERVER_ERROR -> {
+                UIError.Error(R.string.error_server)
+            }
+            ApiResult.ApiError.NO_CONNECTION_ERROR -> {
+                UIError.Error(R.string.error_no_connection)
+            }
+            else -> {
+                _state.update { it.copy(error = UIError.NoError()) }
+                return
+            }
+        }
+        val heroes = result.data ?: emptyList()
+        originalHeroes.update { heroes }
+        _state.update {
+            it.copy(
+                heroList = heroes,
+                loading = false,
+                error = error,
                 refreshing = false
             )
         }
