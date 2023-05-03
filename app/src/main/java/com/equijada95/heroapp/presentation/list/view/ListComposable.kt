@@ -31,7 +31,7 @@ import com.equijada95.heroapp.data.api.model.test.ModelTest
 import com.equijada95.heroapp.presentation.customViews.LoadingComponent
 import com.equijada95.heroapp.presentation.customViews.SearchBar
 import com.equijada95.heroapp.presentation.list.viewModel.ListViewModel
-import com.equijada95.heroapp.presentation.list.state.ListState
+import com.equijada95.heroapp.presentation.utils.collectInLaunchedEffectWithLifecycle
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -42,12 +42,14 @@ fun ListComposable(
 
     val state by viewModel.state.collectAsState()
 
-    state.error.messageId?.let { messageId ->
-        Toast.makeText(
-            LocalContext.current,
-            stringResource(id = messageId),
-            Toast.LENGTH_SHORT
-        ).show()
+    val context = LocalContext.current
+
+    viewModel.events.collectInLaunchedEffectWithLifecycle { event ->
+        when (event) {
+            is ListViewModel.Event.Error -> {
+                Toast.makeText(context, context.getText(event.error.messageId), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
     
     ListView(
@@ -59,11 +61,10 @@ fun ListComposable(
     )
 }
 
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ListView(
-    state: ListState,
+    state: ListViewModel.State,
     goToDetail: (HeroModel) -> Unit,
     refresh: () -> Unit,
     setFav: (HeroModel) -> Unit,
@@ -181,7 +182,7 @@ private fun ItemView(
 @Preview(showBackground = true)
 @Composable
 fun ListItemsPreview() {
-    ListView(state = ListState(heroList = ModelTest.listHeroTest()),
+    ListView(state = ListViewModel.State(heroList = ModelTest.listHeroTest()),
         goToDetail = {},
         setFav = {},
         refresh = {},

@@ -9,10 +9,10 @@ import com.equijada95.heroapp.domain.repository.HeroRepository
 import com.equijada95.heroapp.domain.result.ApiResult
 import com.equijada95.heroapp.domain.utils.mapToDb
 import com.equijada95.heroapp.presentation.error.UIError
-import com.equijada95.heroapp.presentation.list.state.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,9 +22,11 @@ class ListViewModel @Inject constructor(
     private val repository: HeroRepository
 ) : ViewModel() {
 
-    val state: StateFlow<ListState> get() = _state.asStateFlow()
+    val state: StateFlow<State> get() = _state.asStateFlow()
+    private val _state = MutableStateFlow(State())
 
-    private val _state = MutableStateFlow(ListState())
+    private val _events = Channel<Event>()
+    val events = _events.receiveAsFlow()
 
     private val originalHeroes = MutableStateFlow(emptyList<HeroModel>())
 
@@ -44,7 +46,7 @@ class ListViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(refreshing = true, error = UIError.NoError()) }
+            _state.update { it.copy(refreshing = true) }
             getHeroes(this, true)
         }
     }
@@ -54,7 +56,7 @@ class ListViewModel @Inject constructor(
         val searchHeros = originalHeroes.value.filter { hero ->
             hero.name.uppercase().contains(searchText.uppercase())
         }
-        _state.update { it.copy(heroList = searchHeros, error = UIError.NoError()) }
+        _state.update { it.copy(heroList = searchHeros) }
     }
 
     private suspend fun getHeroes(scope: CoroutineScope, refresh: Boolean) {
@@ -87,13 +89,12 @@ class ListViewModel @Inject constructor(
             it.copy(
                 heroList = heroes,
                 loading = false,
-                error = UIError.NoError(),
                 refreshing = false
             )
         }
     }
 
-    private fun handleError(result: ApiResult<List<HeroModel>>) {
+    private suspend fun handleError(result: ApiResult<List<HeroModel>>) {
         val apiError = result.error ?: return
         val error = when (apiError) {
             ApiResult.ApiError.SERVER_ERROR -> {
@@ -103,17 +104,16 @@ class ListViewModel @Inject constructor(
                 UIError.Error(R.string.error_no_connection)
             }
             else -> {
-                _state.update { it.copy(error = UIError.NoError()) }
                 return
             }
         }
         val heroes = result.data ?: emptyList()
         originalHeroes.update { heroes }
+        _events.send(Event.Error(error))
         _state.update {
             it.copy(
                 heroList = heroes,
                 loading = false,
-                error = error,
                 refreshing = false
             )
         }
@@ -131,4 +131,14 @@ class ListViewModel @Inject constructor(
         }
     }
 
+    data class State (
+        val heroList: List<HeroModel> = emptyList(),
+        val loading: Boolean = false,
+        val refreshing: Boolean = false,
+        val searchText: String = "",
+    )
+
+    sealed interface Event {
+        data class Error(val error: UIError = UIError.Error(R.string.error_server)) : Event
+    }
 }
